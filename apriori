@@ -1,1 +1,63 @@
 #!/bin/bash
+# for University_of_Illinois 2021
+# Michael Neill Hartman
+
+# store the number of lines in dataset
+NUMBER_OF_LINES=$(wc -l dataset | awk '{print $1}')
+NUMBER_OF_LINES=$(($NUMBER_OF_LINES-1))
+
+# generate a list with space IFS from dataset
+THE_SET=$(cat dataset | tr ' ' '_' | tr ';' ' ')
+
+# make a result file
+> result
+
+#generate the correct number of lines in the result file
+ITERATOR=0
+while [[ $ITERATOR -lt $NUMBER_OF_LINES ]]
+do
+echo "\n" >> result
+ITERATOR=$(($ITERATOR+1))
+done ## while [[ $ITERATOR -lt $NUMBER_OF_LINES ]]
+
+# populate result file
+ITERATOR=0
+while [[ $ITERATOR -lt $NUMBER_OF_LINES ]]
+do
+LINE=$(head -$ITERATOR | tail -1)
+for TOKEN in ${LINE}
+do
+
+# no previous token
+[[ `echo ${THE_SET} | grep ${TOKEN}` == "" ]] && {
+SUPPORT=`cat result | grep ${TOKEN} | wc -l | awk '{print $1}'`
+[[ `echo ${SUPPORT}` != "" ]] && SUPPORT=$(($SUPPORT*1))
+#RESULT_SUPPORT_LINE_SUPPORT=`cat result | tr -d ':' | awk '{print $1}' | grep ${SUPPORT}`
+RESULT_SUPPORT_LINE=$(head -$SUPPORT result | tail -1)
+# first category for this support
+[[ ${RESULT_SUPPORT_LINE} == "" ]] && {
+sed -i  '${SUPPORT}i${SUPPORT}:${TOKEN}' result
+} ## [[ ${RESULT_SUPPORT_LINE} == "" ]] && {
+# updating existing support with this category
+[[ ${RESULT_SUPPORT_LINE} != "" ]] && {
+sed -i 's!${RESULT_SUPPORT_LINE}!${RESULT_SUPPORT_LINE};${TOKEN}!g' result
+} ## [[ ${RESULT_SUPPORT_LINE} == "" ]] && {
+} ## [[ `echo ${CATEGORIES} | grep ${TOKEN}` == "" ]] && {
+
+
+
+# previous token
+#[[ `echo ${CATEGORIES} | grep ${TOKEN}` != "" ]] && {
+#LAST=`echo ${CATEGORIES} | grep ${TOKEN} | wc -l | awk '{print $1}'`
+
+#} ## [[ `echo ${CATEGORIES} | grep ${TOKEN}` == "" ]] && {
+
+
+done ## for TOKEN in ${LINE}
+ITERATOR=$(($ITERATOR+1))
+done ## while [[ $ITERATOR -lt $NUMBER_OF_LINES ]]
+
+# remove all unused support lines from result
+sed -i '/^$/d' result
+
+# run with:  time bash apriori
