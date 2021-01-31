@@ -11,7 +11,8 @@ cat dataset | tr ' ' '_' | tr ';' ' ' > modified_dataset
 
 cat modified_dataset | tr ' ' '\n' > token_per_line
 
-
+NUMBER_OF_LINES=$(wc -l token_per_line | awk '{print $1}')
+NUMBER_OF_LINES=$(($NUMBER_OF_LINES))
 
 # make a result file
 > result
@@ -19,24 +20,34 @@ cat modified_dataset | tr ' ' '\n' > token_per_line
 # make a result LIST
 RESULT=""
 
+> wrapped_token_per_line
 ITERATOR=1
 while [[ $ITERATOR -lt $NUMBER_OF_LINES+1 ]]
 do
 LINE=$(head -$ITERATOR token_per_line | tail -1)
-THE_LINE="?`echo ${LINE}`?"
-for TOKEN in ${THE_LINE}
+echo "?${LINE}?" >> wrapped_token_per_line
+ITERATOR=$(($ITERATOR+1))
+done
+
+ITERATOR=1
+while [[ $ITERATOR -lt $NUMBER_OF_LINES+1 ]]
 do
-THIS=$(grep "${TOKEN}" token_per_line | wc -l | awk '{print $1}')
+LINE=$(head -$ITERATOR wrapped_token_per_line | tail -1)
+#echo "?${LINE}?" >> wrapped_token_per_line
+#for TOKEN in ${THE_LINE}
+#do
+THIS=$(grep "${LINE}" wrapped_token_per_line | wc -l | awk '{print $1}')
 ##sed -i 's/${THIS}//g' token_per_line
-[[ `grep "${TOKEN}" result` == "" ]] && {
+[[ `grep "${LINE}" result` == "" ]] && {
 GREATER_THAN_771=$((`echo ${THIS} | tr ':' ' ' | awk '{print $1}'`))
-[[ $GREATER_THAN_771 -gt 771 ]] && echo "${RESULT}!`echo ${THIS}`:`echo ${TOKEN} `" >> result
+[[ $GREATER_THAN_771 -gt 771 ]] && echo "${RESULT}!`echo ${THIS}`:`echo ${LINE} `" >> result
 } ## [[ `echo ${RESULT}| grep "!${THIS}"` == "" ]] && {
-done ## for TOKEN in ${LINE}
-#[[ $(($ITERATOR % 100)) -eq 0 ]] && {
+#done ## for TOKEN in ${LINE}
+
 echo "$ITERATOR/$NUMBER_OF_LINES"
-echo ${RESULT}
-#} ## [[ $(($ITERATOR % 1000)) -eq 0 ]] && {
+[[ $(($ITERATOR % 100)) -eq 0 ]] && {
+cat result | sort -n
+} ## [[ $(($ITERATOR % 1000)) -eq 0 ]] && {
 ITERATOR=$(($ITERATOR+1))
 done ## while [[ $ITERATOR -lt $NUMBER_OF_LINES+1 ]]
 
