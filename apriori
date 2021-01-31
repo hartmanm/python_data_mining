@@ -9,7 +9,7 @@ NUMBER_OF_LINES=$(($NUMBER_OF_LINES))
 # generate a modified_dataset with space IFS from dataset
 cat dataset | tr ' ' '_' | tr ';' ' ' > modified_dataset
 
-cat modified_dataset | tr ' ' '\n' > token_per_line
+cat modified_dataset | tr ' ' '?\n' > token_per_line
 
 
 
@@ -25,11 +25,11 @@ do
 LINE=$(head -$ITERATOR token_per_line | tail -1)
 for TOKEN in ${LINE}
 do
-THIS=$(grep "${TOKEN}\\n" token_per_line | wc -l | awk '{print $1}')
+THIS=$(grep "${TOKEN}?" token_per_line | wc -l | awk '{print $1}')
 ##sed -i 's/${THIS}//g' token_per_line
-[[ `echo ${RESULT}| grep "!${THIS}"` == "" ]] && {
+[[ `echo ${RESULT}| grep "!${THIS}?"` == "" ]] && {
 GREATER_THAN_771=$((`echo ${THIS} | tr ':' ' ' | awk '{print $1}'`))
-[[ $GREATER_THAN_771 -gt 771 ]] && RESULT="${RESULT}!`echo ${THIS}`:`echo ${TOKEN} | tr '_' ' ' `"
+[[ $GREATER_THAN_771 -gt 771 ]] && RESULT="${RESULT}!`echo ${THIS}`:`echo ${TOKEN} | tr '_?' ' ' `"
 } ## [[ `echo ${RESULT}| grep "!${THIS}"` == "" ]] && {
 done ## for TOKEN in ${LINE}
 [[ $(($ITERATOR % 100)) -eq 0 ]] && {
