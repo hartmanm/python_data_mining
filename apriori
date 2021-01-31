@@ -57,6 +57,10 @@ NUMBER_OF_LINES=$(($NUMBER_OF_LINES))
 
 > result2
 
+cat tokens
+
+exec true
+
 TOKENS=$(cat tokens)
 
 for ITEM in ${TOKENS}
@@ -75,9 +79,7 @@ echo "`echo ${THIS}`:`echo ${THIS_PAIR}`" >> result2
 } ## [[ `grep -w "${THIS_PAIR}" result2` == "" ]] && {
 
 echo "$ITERATOR/$NUMBER_OF_LINES"
-[[ $(($ITERATOR % 49)) -eq 0 ]] && {
-cat result2 | sort -n | tr '_' ' ' > patterns.txt 
-} ## [[ $(($ITERATOR % 49)) -eq 0 ]] && {
+cat result2
 
 
 ITERATOR=$(($ITERATOR+1))
