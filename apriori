@@ -62,8 +62,4 @@ done ## while [[ $ITERATOR -lt $NUMBER_OF_LINES ]]
 # remove all unused support lines from result
 sed -i '/^$/d' result
 
-<<<<<<< HEAD
 # run with:  time bash apriori
-=======
-# run with:  time bash apriori
->>>>>>> 492d812dc24c4eeb31ce533e9a4f4030f72cac8d
