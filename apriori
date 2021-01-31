@@ -60,20 +60,21 @@ NUMBER_OF_LINES=$(($NUMBER_OF_LINES))
 
 
 TOKENS=$(cat tokens)
+TOKENS2=$(cat tokens2)
 
 for ITEM in ${TOKENS}
 do
 ITERATOR=2
 while [[ $ITERATOR -lt $NUMBER_OF_LINES+1 ]]
 do
-CURRENT=$(cat tokens2 | awk -v i=$ITERATOR '{print $i}')
+CURRENT=$(echo ${TOKENS2} | awk -v i=$ITERATOR '{print $i}')
 #THIS_PAIR="${ITEM} ${CURRENT}"
 
 echo "${CURRENT}
 
 " 
 
-sleep 2
+
 
 THIS=$(grep -w "${ITEM}" modified_dataset | grep -w "${CURRENT}" | wc -l | awk '{print $1}')
 THIS=$(($THIS*1))
