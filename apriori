@@ -9,12 +9,28 @@ NUMBER_OF_LINES=$(($NUMBER_OF_LINES))
 # generate a modified_dataset with space IFS from dataset
 cat dataset | tr ' ' '_' | tr ';' ' ' > modified_dataset
 
+cat modified_dataset | tr ' ' '\n' > token_per_line
+
+
+
 # make a result file
 > result
 
 # make a result LIST
 RESULT=""
 
+for TOKEN in `cat token_per_line`
+do
+THIS=$(grep "${TOKEN}" test | wc -l | awk '{print $1}'`)
+sed -i 's/${THIS}//g' token_per_line
+[[ `echo ${RESULT} | grep "${THIS}"` == "" ]] && {
+GREATER_THAN_771=$((`echo ${THIS} | tr ':' ' ' | awk '{print $1}'`))
+[[ $GREATER_THAN_771 -gt 771 ]] && RESULT="${RESULT}!`echo ${THIS}`"
+} ## [[ `echo ${RESULT} | grep ${THIS}` == "" ]] && {
+done ## for TOKEN in `cat token_per_line`
+
+
+rr(){
 # populate result file
 ITERATOR=1
 while [[ $ITERATOR -lt $NUMBER_OF_LINES+1 ]]
@@ -35,6 +51,7 @@ echo "$ITERATOR/$NUMBER_OF_LINES"
 } ## [[ $(($ITERATOR % 1000)) -eq 0 ]] && {
 ITERATOR=$(($ITERATOR+1))
 done ## while [[ $ITERATOR -lt $NUMBER_OF_LINES+1 ]]
+} ## rr()
 
 # translate list to file
 echo ${RESULT} | tr '!' '\n' > result
@@ -65,6 +82,7 @@ mv patterns.txt part_1
 # run with:  time bash apriori | tee log
 
 # 92m17.769s
+# 178m48.168s
 
 echo "
 complete; result in: patterns.txt
