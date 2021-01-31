@@ -12,6 +12,9 @@ cat dataset | tr ' ' '_' | tr ';' ' ' > modified_dataset
 # make a result file
 > result
 
+# make a result LIST
+RESULT=""
+
 # populate result file
 ITERATOR=1
 while [[ $ITERATOR -lt $NUMBER_OF_LINES+1 ]]
@@ -20,7 +23,9 @@ LINE=$(head -$ITERATOR modified_dataset | tail -1)
 for TOKEN in ${LINE}
 do
 # exclude instances of token as a sub-token, find instances of token, count instances, format output to first field, translate from single token to original string, write to file
-echo "`grep -v "_${TOKEN}" modified_dataset | grep "${TOKEN}" | wc -l | awk '{print $1}'`:`echo ${TOKEN} | tr '_' ' '`" >> result
+THIS=$(echo "`grep -v "_${TOKEN}" modified_dataset | grep "${TOKEN}" | wc -l | awk '{print $1}'`:`echo ${TOKEN} | tr '_' ' '`")
+GREATER_THAN_771=$((`echo ${THIS} | tr ':' ' ' | awk '{print $1}'`))
+[[ $GREATER_THAN_771 -gt 771 ]] && RESULT="${RESULT}!`echo ${THIS}`"
 done ## for TOKEN in ${LINE}
 
 [[ $(($ITERATOR % 1000)) -eq 0 ]] && {
@@ -29,20 +34,25 @@ echo "$ITERATOR/$NUMBER_OF_LINES"
 ITERATOR=$(($ITERATOR+1))
 done ## while [[ $ITERATOR -lt $NUMBER_OF_LINES+1 ]]
 
+# translate list to file
+echo ${RESULT} | tr '!' '\n' > result
+
 # sort in numerical order then remove duplicates
 sort -n result | uniq > final_result
 
+final_result > patterns.txt 
+
 # remove all blank lines
-perl -i -n -e "print if /\S/" final_result
+#perl -i -n -e "print if /\S/" final_result
 
 # remove all support < 771
-NUMBER_OF_LINES=$(wc -l final_result | awk '{print $1}')
-NUMBER_OF_LINES=$(($NUMBER_OF_LINES))
-FROM_BOTTOM=$(($NUMBER_OF_LINES-771))
-tail -$FROM_BOTTOM final_result > patterns.txt 
+#NUMBER_OF_LINES=$(wc -l final_result | awk '{print $1}')
+#NUMBER_OF_LINES=$(($NUMBER_OF_LINES))
+#FROM_BOTTOM=$(($NUMBER_OF_LINES-771))
+#tail -$FROM_BOTTOM final_result > patterns.txt 
 
 # remove all blank lines
-perl -i -n -e "print if /\S/" patterns.txt 
+#perl -i -n -e "print if /\S/" patterns.txt 
 
 # store submission file
 [[ -d part_1 ]] || mkdir -p part_1
