@@ -35,10 +35,9 @@ sort -n result | uniq > final_result
 # remove all blank lines
 perl -i -n -e "print if /\S/" final_result
 
+# remove all support < 771
 NUMBER_OF_LINES=$(wc -l final_result | awk '{print $1}')
 NUMBER_OF_LINES=$(($NUMBER_OF_LINES))
-
-# remove all support < 771
 FROM_BOTTOM=$(($NUMBER_OF_LINES-771))
 tail -$FROM_BOTTOM final_result > patterns.txt 
 
