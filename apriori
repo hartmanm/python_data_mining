@@ -93,15 +93,21 @@ ITERATOR=$(($ITERATOR+1))
 done ## while [[ $ITERATOR -lt $NUMBER_OF_LINES+1 ]]
 done ## for ITEM in ${TOKENS}
 
-cat result2 | sort -n | tr '_' ' ' > patterns.txt 
+cat result2 | sort -n | tr '_' ' ' > part2
 
-cp patterns.txt part2
+cat part2 >> patterns.txt 
+
+cat patterns.txt | sort -n >> part2
+
+cat part2 > patterns.txt
 
 # store submission file
 [[ -d part_2 ]] || mkdir -p part_2
 mv patterns.txt part_2
 
 # run with:  time bash apriori | tee log
+
+cat part_2/patterns.txt
 
 echo "
 complete; results in: 
