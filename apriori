@@ -86,7 +86,7 @@ done ## for ITEM in ${TOKENS}
 
 cat result2 | sort -n | tr '_' ' ' > part2
 
-part2 > part3
+cat part2 > part3
 
 cat part1 > patterns.txt 
 
@@ -105,8 +105,6 @@ cat next > patterns.txt
 
 cat result2 | tr ' ' '_' | tr ':' ' ' | awk '{print $2}' > tokens
 
-cp tokens tokens2
-
 # determine number of lines
 NUMBER_OF_LINES=$(wc -l tokens | awk '{print $1}')
 NUMBER_OF_LINES=$(($NUMBER_OF_LINES))
@@ -115,7 +113,6 @@ NUMBER_OF_LINES=$(($NUMBER_OF_LINES))
 
 TOKENS=$(cat tokens)
 TOKENS2=$(cat part1)
-TOKENS3=$(cat part1)
 
 for ITEM in ${TOKENS}
 do
@@ -123,7 +120,6 @@ ITERATOR=2
 while [[ $ITERATOR -lt $NUMBER_OF_LINES+1 ]]
 do
 CURRENT=$(echo ${TOKENS2} | awk -v i=$ITERATOR '{print $i}')
-#NEXT=$(echo ${TOKENS3} | awk -v i=$ITERATOR+1 '{print $i}')
 
 THIS=$(grep -w "${ITEM}" modified_dataset | grep -w "${CURRENT}" | wc -l | awk '{print $1}')
 THIS=$(($THIS*1))
