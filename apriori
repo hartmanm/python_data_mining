@@ -123,7 +123,7 @@ while [[ $NEXT_ITR -lt $NUMBER_OF_LINES+1 ]]
 do
 NEXT=$(echo ${TOKENS} | awk -v i=$NEXT_ITR '{print $i}')
 
-THIS=$(grep -w "${ITEM}" modified_dataset | grep -w "${CURRENT}" | grep -w "${NEXT}" | wc -l | awk '{print $1}')
+THIS=$(grep -w "${NEXT}" modified_dataset | grep -w "${CURRENT}" | grep -w "${ITEM}" | wc -l | awk '{print $1}')
 THIS=$(($THIS*1))
 [[ $THIS -gt 0 ]] && {
 THIS_TRIP="${ITEM};${CURRENT};${NEXT}"
