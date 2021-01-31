@@ -67,9 +67,9 @@ echo "${SUPPORT}:`echo ${TOKEN} | tr '_' ' '`" >> result
 
 done ## for TOKEN in ${LINE}
 
-[[ $(($ITERATOR % 100)) -eq 0 ]] && {
-echo "$ITERATOR/$NUMBER_OF_LINES    ${NEW_LINE}"
-} ## [[ $(($ITERATOR % 100)) -eq 0 ]] && {
+#[[ $(($ITERATOR % 100)) -eq 0 ]] && {
+echo "$ITERATOR/$NUMBER_OF_LINES"
+#} ## [[ $(($ITERATOR % 100)) -eq 0 ]] && {
 ITERATOR=$(($ITERATOR+1))
 done ## while [[ $ITERATOR -lt $NUMBER_OF_LINES+1 ]]
 
