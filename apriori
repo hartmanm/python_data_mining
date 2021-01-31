@@ -44,6 +44,12 @@ tail -$FROM_BOTTOM final_result > patterns.txt
 # remove all blank lines
 perl -i -n -e "print if /\S/" patterns.txt 
 
+# store submission file
+[[ -d part_1 ]] || mkdir -p part_1
+mv patterns.txt part_1
+
+
+
 # run with:  time bash apriori | tee log
 
 # 92m17.769s
