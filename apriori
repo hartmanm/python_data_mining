@@ -75,6 +75,8 @@ tail -$FROM_BOTTOM result > final_result
 
 # run with:  time bash apriori
 
+# 92m17.769s
+
 echo "
 complete
 "
