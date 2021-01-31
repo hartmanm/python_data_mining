@@ -28,8 +28,8 @@ do
 THIS=$(grep "${TOKEN}" token_per_line | wc -l | awk '{print $1}')
 ##sed -i 's/${THIS}//g' token_per_line
 [[ `echo ${RESULT} | grep "${THIS}"` == "" ]] && {
-GREATER_THAN_771=$((echo ${THIS} | tr ':' ' ' | awk '{print $1}'))
-[[ $GREATER_THAN_771 -gt 771 ]] && RESULT="${RESULT}!`echo ${THIS} | tr '_' ' '`"
+GREATER_THAN_771=$((`echo ${THIS} | tr ':' ' ' | awk '{print $1}'`))
+[[ $GREATER_THAN_771 -gt 771 ]] && RESULT="${RESULT}!`echo ${THIS} | tr '_' ' ' `"
 } ## [[ `echo ${RESULT} | grep ${THIS}` == "" ]] && {
 done ## for TOKEN in ${LINE}
 [[ $(($ITERATOR % 100)) -eq 0 ]] && {
