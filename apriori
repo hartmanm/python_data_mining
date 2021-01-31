@@ -114,8 +114,8 @@ NUMBER_OF_LINES=$(($NUMBER_OF_LINES))
 > result2
 
 TOKENS=$(cat tokens)
-TOKENS2=$(cat tokens2)
-TOKENS3=$(cat tokens3)
+TOKENS2=$(cat part1)
+TOKENS3=$(cat part1)
 
 for ITEM in ${TOKENS}
 do
