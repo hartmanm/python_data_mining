@@ -76,7 +76,7 @@ tail -$FROM_BOTTOM result > final_result
 sed -r '/^\s*$/d' final_result > patterns.txt
 
 # remove all blank lines from final
-sed -i '/^$/d' patterns.txt
+#sed -i '/^$/d' patterns.txt
 
 rm bottom top final_result 
 
