@@ -12,14 +12,6 @@ cat dataset | tr ' ' '_' | tr ';' ' ' > modified_dataset
 # make a result file
 > result
 
-#generate the correct number of lines in the result file
-#ITERATOR=1
-#while [[ $ITERATOR -lt $NUMBER_OF_LINES+1 ]]
-#do
-#echo " " >> result
-#ITERATOR=$(($ITERATOR+1))
-#done ## while [[ $ITERATOR -lt $NUMBER_OF_LINES+1 ]]
-
 # populate result file
 ITERATOR=1
 while [[ $ITERATOR -lt $NUMBER_OF_LINES+1 ]]
@@ -27,65 +19,26 @@ do
 LINE=$(head -$ITERATOR modified_dataset | tail -1)
 for TOKEN in ${LINE}
 do
-#RESULT_SUPPORT_LINE=""
 SUPPORT=""
-#NEW_LINE=""
-#TOKEN=$(echo ${TOKEN} | tr '_' ' ')
-
 SUPPORT=`grep -v "_${TOKEN}" modified_dataset | grep "${TOKEN}" | wc -l | awk '{print $1}'`
 [[ `echo ${SUPPORT}` != "" ]] && SUPPORT=$(($SUPPORT*1))
-#RESULT_SUPPORT_LINE=$(head -$SUPPORT result | tail -1 | tr -d ' ')
-
-# first category for this support
-#[[ ${RESULT_SUPPORT_LINE} == "" ]] && {
-#TOKEN=$(echo ${TOKEN} | tr '_' ' ')
-#NEW_LINE="${SUPPORT}:`echo ${TOKEN} | tr '_' ' '`"
-#HEAD_SUPPORT=$(($SUPPORT-1))
-#head -$HEAD_SUPPORT result > top
-#FROM_BOTTOM=$(($NUMBER_OF_LINES-$SUPPORT))
-#tail -$FROM_BOTTOM result > bottom
-#cat top > result 
 echo "${SUPPORT}:`echo ${TOKEN} | tr '_' ' '`" >> result
-#cat bottom >> result 
-#} ## [[ ${RESULT_SUPPORT_LINE} == "" ]] && {
-
-#e(){
-# updating existing support with this category
-#[[ ${RESULT_SUPPORT_LINE} != "" ]] && {
-#[[ `echo "${RESULT_SUPPORT_LINE}" | grep "${TOKEN};"` != "" && `echo "${RESULT_SUPPORT_LINE}" | grep " ${TOKEN};"` = "" ]] && {
-#NEW_LINE="${SUPPORT}:${TOKEN}"
-#HEAD_SUPPORT=$(($SUPPORT-1))
-#head -$HEAD_SUPPORT result > top
-#FROM_BOTTOM=$(($NUMBER_OF_LINES-$SUPPORT))
-#tail -$FROM_BOTTOM result > bottom
-#cat top > result 
-#echo "${RESULT_SUPPORT_LINE};${TOKEN}" >> result
-#cat bottom >> result 
-#} ## [[ `echo "${RESULT_SUPPORT_LINE}" | grep "${TOKEN};"` != "" ]] && {
-#} ## [[ ${RESULT_SUPPORT_LINE} != "" ]] && {
-#} ## e(){
-
 done ## for TOKEN in ${LINE}
 
-#[[ $(($ITERATOR % 100)) -eq 0 ]] && {
+[[ $(($ITERATOR % 1000)) -eq 0 ]] && {
 echo "$ITERATOR/$NUMBER_OF_LINES"
-echo "${SUPPORT}:`echo ${TOKEN} | tr '_' ' '`"
-#} ## [[ $(($ITERATOR % 100)) -eq 0 ]] && {
+} ## [[ $(($ITERATOR % 1000)) -eq 0 ]] && {
 ITERATOR=$(($ITERATOR+1))
 done ## while [[ $ITERATOR -lt $NUMBER_OF_LINES+1 ]]
 
-#FROM_BOTTOM=$(($NUMBER_OF_LINES-771))
-#tail -$FROM_BOTTOM result > final_result
-
+# remove duplicates
 sort -n result | uniq > patterns.txt 
 
 # remove all unused support lines from final_result
-sed -r '/^\s*$/d' final_result > patterns.txt
+#sed -r '/^\s*$/d' final_result > patterns.txt
 
 # remove all blank lines from final
-perl -i -n -e "print if /\S/" patterns.txt
-
-rm bottom top final_result 
+perl -i -n -e "print if /\S/" patterns.txt 
 
 # run with:  time bash apriori | tee log
 
