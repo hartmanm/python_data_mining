@@ -32,7 +32,7 @@ SUPPORT=""
 #NEW_LINE=""
 #TOKEN=$(echo ${TOKEN} | tr '_' ' ')
 
-SUPPORT=`grep -v "_${TOKEN}" modified_dataset | grep -n "${TOKEN}" | tr ':' ' ' | awk '{print $1}'`
+SUPPORT=`grep -v "_${TOKEN}" modified_dataset | grep "${TOKEN}" | wc -l | awk '{print $1}'`
 [[ `echo ${SUPPORT}` != "" ]] && SUPPORT=$(($SUPPORT*1))
 #RESULT_SUPPORT_LINE=$(head -$SUPPORT result | tail -1 | tr -d ' ')
 
