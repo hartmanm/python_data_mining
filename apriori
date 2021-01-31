@@ -76,7 +76,7 @@ done ## while [[ $ITERATOR -lt $NUMBER_OF_LINES+1 ]]
 #FROM_BOTTOM=$(($NUMBER_OF_LINES-771))
 #tail -$FROM_BOTTOM result > final_result
 
-sort -n result > patterns.txt
+sort -n result | uniq > patterns.txt 
 
 # remove all unused support lines from final_result
 sed -r '/^\s*$/d' final_result > patterns.txt
