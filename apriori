@@ -67,16 +67,21 @@ echo "$ITERATOR/$NUMBER_OF_LINES    ${TOKEN}"
 } ## [[ `$ITERATOR % 100` -eq 0 ]] && {
 done ## while [[ $ITERATOR -lt $NUMBER_OF_LINES+1 ]]
 
-# remove all unused support lines from result
-#sed -i '/^$/d' result
-
 FROM_BOTTOM=$(($NUMBER_OF_LINES-771))
 tail -$FROM_BOTTOM result > final_result
+
+# remove all unused support lines from final_result
+sed -r '/^\s*$/d' final_result > patterns.txt
+
+# remove all blank lines from final
+sed -i '/^$/d' patterns.txt
+
+rm bottom top final_result 
 
 # run with:  time bash apriori
 
 # 92m17.769s
 
 echo "
-complete
+complete; result in: patterns.txt
 "
