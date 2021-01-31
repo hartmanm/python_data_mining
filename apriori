@@ -166,7 +166,7 @@ $THIS2
 $THIS3
 "
 
-[[ $THIS -gt 0 ]] && {
+[[ $THIS -gt 0 || $THIS2 -gt 0 || $THIS3 -gt 0 ]] && {
 THIS_TRIP="${ITEM};${CURRENT};${NEXT}"
 [[ `grep -w "${ITEM}" result2 | grep -w "${CURRENT}" | grep -w "${NEXT}"` == "" && ${CURRENT} != ${ITEM} && ${CURRENT} != ${NEXT} && ${NEXT} != ${ITEM} ]] && {
 #GREATER_THAN_771=$((`echo ${THIS} | tr ':' ' ' | awk '{print $1}'`))
@@ -174,7 +174,7 @@ THIS_TRIP="${ITEM};${CURRENT};${NEXT}"
 echo "`echo ${THIS}`:`echo ${THIS_TRIP}`" >> result2
 #} ## [[ $GREATER_THAN_771 -gt 771 ]] && {
 } ## [[ `grep -w "${ITEM}" result2 | grep -w "${CURRENT}" | grep -w "${NEXT}"` == "" && ${CURRENT} != ${ITEM} && ${CURRENT} != ${NEXT} && ${NEXT} != ${ITEM} ]] && {
-} ## [[ $THIS -gt 0 ]] && {
+} ## [[ $THIS -gt 0 || $THIS2 -gt 0 || $THIS3 -gt 0 ]] && {
 done ## for ITEM,CURRENT,NEXT in ${TOKENS}
  
 
