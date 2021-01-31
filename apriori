@@ -72,7 +72,7 @@ echo "`echo ${THIS}`:`echo ${THIS_PAIR}`" >> result2
 } ## [[ `echo ${RESULT}| grep "!${THIS}"` == "" ]] && {
 
 echo "$ITERATOR/$NUMBER_OF_LINES"
-[[ $(($ITERATOR % 100)) -eq 0 ]] && {
+[[ $(($ITERATOR % 50)) -eq 0 ]] && {
 cat result2 | sort -n | tr '_' ' ' > patterns.txt 
 } ## [[ $(($ITERATOR % 100)) -eq 0 ]] && {
 
@@ -81,7 +81,7 @@ ITERATOR=$(($ITERATOR+1))
 done ## while [[ $ITERATOR -lt $NUMBER_OF_LINES+1 ]]
 done ## for ITEM in `cat tokens`
 
-cat result | sort -n | tr '_' ' ' > patterns.txt 
+cat result2 | sort -n | tr '_' ' ' > patterns.txt 
 
 cp patterns.txt part2
 
