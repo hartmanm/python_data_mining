@@ -13,12 +13,12 @@ cat dataset | tr ' ' '_' | tr ';' ' ' > modified_dataset
 > result
 
 #generate the correct number of lines in the result file
-ITERATOR=1
-while [[ $ITERATOR -lt $NUMBER_OF_LINES+1 ]]
-do
-echo " " >> result
-ITERATOR=$(($ITERATOR+1))
-done ## while [[ $ITERATOR -lt $NUMBER_OF_LINES+1 ]]
+#ITERATOR=1
+#while [[ $ITERATOR -lt $NUMBER_OF_LINES+1 ]]
+#do
+#echo " " >> result
+#ITERATOR=$(($ITERATOR+1))
+#done ## while [[ $ITERATOR -lt $NUMBER_OF_LINES+1 ]]
 
 # populate result file
 ITERATOR=1
@@ -39,12 +39,12 @@ RESULT_SUPPORT_LINE=$(head -$SUPPORT result | tail -1 | tr -d ' ')
 TOKEN=$(echo ${TOKEN} | tr '_' ' ')
 NEW_LINE="${SUPPORT}:${TOKEN}"
 HEAD_SUPPORT=$(($SUPPORT-1))
-head -$HEAD_SUPPORT result > top
-FROM_BOTTOM=$(($NUMBER_OF_LINES-$SUPPORT))
-tail -$FROM_BOTTOM result > bottom
-cat top > result 
+#head -$HEAD_SUPPORT result > top
+#FROM_BOTTOM=$(($NUMBER_OF_LINES-$SUPPORT))
+#tail -$FROM_BOTTOM result > bottom
+#cat top > result 
 echo "${NEW_LINE}" >> result
-cat bottom >> result 
+#cat bottom >> result 
 } ## [[ ${RESULT_SUPPORT_LINE} == "" ]] && {
 
 e(){
@@ -70,8 +70,10 @@ echo "$ITERATOR/$NUMBER_OF_LINES    ${NEW_LINE}"
 } ## [[ $(($ITERATOR % 100)) -eq 0 ]] && {
 done ## while [[ $ITERATOR -lt $NUMBER_OF_LINES+1 ]]
 
-FROM_BOTTOM=$(($NUMBER_OF_LINES-771))
-tail -$FROM_BOTTOM result > final_result
+#FROM_BOTTOM=$(($NUMBER_OF_LINES-771))
+#tail -$FROM_BOTTOM result > final_result
+
+sort -n result > patterns.txt
 
 # remove all unused support lines from final_result
 sed -r '/^\s*$/d' final_result > patterns.txt
