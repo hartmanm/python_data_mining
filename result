@@ -63,7 +63,7 @@
  
 64:Recreation Centers
 65:Car Stereo Installation
-66:Cheesesteaks
+66:Resorts
 67:Brasseries
 68:Arcades
 69:Portuguese
@@ -208,7 +208,7 @@
 208:Auto Detailing
  
  
-211:Real Estate Services
+211:Tanning
  
 213:Vape Shops
  
@@ -217,14 +217,14 @@
  
 218:Movers
  
-220:Insurance
+ 
 221:Hobby Shops
-222:Korean
+222:Golf
 223:Canadian (New)
  
 225:Hair Extensions
 226:Religious Organizations
-227:Tours
+ 
  
 229:Bikes
  
@@ -274,7 +274,7 @@
  
  
 276:Food Trucks
- 
+277:Transportation
  
 279:Photographers
  
@@ -294,7 +294,7 @@
 294:Florists
  
  
-297:Tanning
+ 
 298:Donuts
  
  
@@ -334,10 +334,10 @@
  
  
  
-337:Transportation
+ 
  
 339:Wine Bars
- 
+340:Parks
 341:Eyewear & Opticians
  
  
@@ -553,7 +553,6 @@
  
  
  
-556:Parks
  
  
  
@@ -567,6 +566,7 @@
  
  
  
+569:Hair Removal
 570:Dry Cleaning & Laundry
 571:Mediterranean
 572:Department Stores
@@ -596,7 +596,7 @@
  
  
 598:Steakhouses
-599:Jewelry
+599:Lounges
  
  
  
@@ -608,7 +608,15 @@
  
  
  
-611:Lounges
+611:Flowers & Gifts
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+619:Dentists
  
  
  
@@ -620,15 +628,7 @@
  
  
  
- 
- 
- 
- 
- 
- 
- 
- 
- 
+631:Accessories
  
 633:Tires
  
@@ -637,7 +637,7 @@
  
  
  
-640:Accessories
+ 
  
  
  
@@ -669,7 +669,7 @@
  
  
  
-672:Hair Removal
+ 
  
  
  
@@ -711,7 +711,7 @@
  
 712:Seafood
  
- 
+714:Education
  
  
  
@@ -747,7 +747,7 @@
  
  
  
-750:Education
+ 
  
  
  
@@ -995,7 +995,7 @@
  
  
  
- 
+998:Cafes
  
  
  
@@ -1022,7 +1022,7 @@
  
  
  
-1025:Cafes
+1025:Professional Services
  
  
  
@@ -1192,7 +1192,7 @@
  
  
  
-1195:Dentists
+ 
  
  
  
@@ -1421,11 +1421,11 @@
  
  
  
+1424:Grocery
  
  
  
- 
-1428:Grocery
+1428:Real Estate
  
  
  
@@ -1441,7 +1441,7 @@
  
 1442:Fitness & Instruction
  
-1444:Real Estate
+ 
  
  
  
@@ -1626,6 +1626,7 @@
  
  
  
+1629:Chinese
  
  
  
@@ -1656,7 +1657,6 @@
  
  
  
-1659:Chinese
  
  
  
@@ -1996,6 +1996,7 @@
  
  
  
+1999:Hair Salons
  
  
  
@@ -2088,7 +2089,6 @@
  
  
  
-2091:Hair Salons
  
  
  
@@ -2524,7 +2524,7 @@
  
  
  
- 
+2527:Bars
  
  
  
@@ -3054,6 +3054,7 @@
  
  
  
+3057:Fashion
  
  
  
@@ -3075,7 +3076,6 @@
  
  
  
-3078:Fashion
  
  
  
@@ -5611,7 +5611,7 @@
  
  
  
-5614:Bars
+ 
  
  
  
@@ -8027,6 +8027,7 @@
  
  
  
+8030:Food
  
  
  
@@ -11218,6 +11219,7 @@
  
  
  
+11222:Shopping
  
  
  
@@ -11230,7 +11232,6 @@
  
  
  
-11233:Shopping
  
  
  
@@ -12261,7 +12262,6 @@
  
  
  
-12264:Food
  
  
  
