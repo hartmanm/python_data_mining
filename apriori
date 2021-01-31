@@ -23,7 +23,7 @@ ITERATOR=1
 while [[ $ITERATOR -lt $NUMBER_OF_LINES+1 ]]
 do
 LINE=$(head -$ITERATOR token_per_line | tail -1)
-LINE=$("?`echo ${LINE}`?")
+LINE="?`echo ${LINE}`?"
 for TOKEN in ${LINE}
 do
 THIS=$(grep "?${TOKEN}?" token_per_line | wc -l | awk '{print $1}')
