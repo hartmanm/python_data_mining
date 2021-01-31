@@ -28,9 +28,9 @@ for TOKEN in ${THE_LINE}
 do
 THIS=$(grep "${TOKEN}" token_per_line | wc -l | awk '{print $1}')
 ##sed -i 's/${THIS}//g' token_per_line
-[[ `echo ${RESULT} | grep "${TOKEN}"` == "" ]] && {
+[[ `grep "${TOKEN}" result` == "" ]] && {
 GREATER_THAN_771=$((`echo ${THIS} | tr ':' ' ' | awk '{print $1}'`))
-[[ $GREATER_THAN_771 -gt 771 ]] && RESULT="${RESULT}!`echo ${THIS}`:`echo ${TOKEN} `"
+[[ $GREATER_THAN_771 -gt 771 ]] && echo "${RESULT}!`echo ${THIS}`:`echo ${TOKEN} `" >> result
 } ## [[ `echo ${RESULT}| grep "!${THIS}"` == "" ]] && {
 done ## for TOKEN in ${LINE}
 #[[ $(($ITERATOR % 100)) -eq 0 ]] && {
@@ -42,13 +42,16 @@ done ## while [[ $ITERATOR -lt $NUMBER_OF_LINES+1 ]]
 
 
 # translate list to file
-RESULT=$(echo ${RESULT} | tr '_?' ' ')
-echo ${RESULT} | tr '!' '\n' > result
+#RESULT=$(echo ${RESULT} | tr '_?' ' ')
+#echo ${RESULT} | tr '!' '\n' > result
+cat result | tr '_?' ' ' | tr '!' '\n' > final_result
+#echo ${RESULT} | tr '!' '\n' > result
+
 
 # sort in numerical order then remove duplicates
-sort -n result | uniq > final_result
+sort -n result | uniq > result
 
-final_result > patterns.txt 
+result > patterns.txt 
 
 # remove all blank lines
 #perl -i -n -e "print if /\S/" final_result
