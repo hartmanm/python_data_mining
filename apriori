@@ -80,7 +80,7 @@ sed -i '/^$/d' patterns.txt
 
 rm bottom top final_result 
 
-# run with:  time bash apriori > log
+# run with:  time bash apriori | tee log
 
 # 92m17.769s
 
