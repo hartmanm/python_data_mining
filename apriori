@@ -16,7 +16,7 @@ THE_SET=$(cat dataset | tr ' ' '_' | tr ';' ' ')
 ITERATOR=0
 while [[ $ITERATOR -lt $NUMBER_OF_LINES ]]
 do
-echo "\n" >> result
+echo " " >> result
 ITERATOR=$(($ITERATOR+1))
 done ## while [[ $ITERATOR -lt $NUMBER_OF_LINES ]]
 
@@ -36,10 +36,12 @@ SUPPORT=`cat result | grep ${TOKEN} | wc -l | awk '{print $1}'`
 RESULT_SUPPORT_LINE=$(head -$SUPPORT result | tail -1)
 # first category for this support
 [[ ${RESULT_SUPPORT_LINE} == "" ]] && {
+TOKEN=$(echo ${TOKEN} | tr '_' ' ')
 sed -i  '${SUPPORT}i${SUPPORT}:${TOKEN}' result
 } ## [[ ${RESULT_SUPPORT_LINE} == "" ]] && {
 # updating existing support with this category
 [[ ${RESULT_SUPPORT_LINE} != "" ]] && {
+TOKEN=$(echo ${TOKEN} | tr '_' ' ')
 sed -i 's!${RESULT_SUPPORT_LINE}!${RESULT_SUPPORT_LINE};${TOKEN}!g' result
 } ## [[ ${RESULT_SUPPORT_LINE} == "" ]] && {
 } ## [[ `echo ${CATEGORIES} | grep ${TOKEN}` == "" ]] && {
@@ -60,4 +62,8 @@ done ## while [[ $ITERATOR -lt $NUMBER_OF_LINES ]]
 # remove all unused support lines from result
 sed -i '/^$/d' result
 
+<<<<<<< HEAD
 # run with:  time bash apriori
+=======
+# run with:  time bash apriori
+>>>>>>> 492d812dc24c4eeb31ce533e9a4f4030f72cac8d
