@@ -127,12 +127,12 @@ THIS=$(grep -w "${NEXT}" modified_dataset | grep -w "${CURRENT}" | grep -w "${IT
 THIS=$(($THIS*1))
 [[ $THIS -gt 0 ]] && {
 THIS_TRIP="${ITEM};${CURRENT};${NEXT}"
-[[ `grep -w "${ITEM}" result2 | grep -w "${CURRENT}" | grep -w "${NEXT}"`` == "" && ${CURRENT} != ${ITEM} && ${CURRENT} != ${NEXT} && ${NEXT} != ${ITEM} ]] && {
+[[ `grep -w "${ITEM}" result2 | grep -w "${CURRENT}" | grep -w "${NEXT}"` == "" && ${CURRENT} != ${ITEM} && ${CURRENT} != ${NEXT} && ${NEXT} != ${ITEM} ]] && {
 GREATER_THAN_771=$((`echo ${THIS} | tr ':' ' ' | awk '{print $1}'`))
 [[ $GREATER_THAN_771 -gt 771 ]] && {
 echo "`echo ${THIS}`:`echo ${THIS_TRIP}`" >> result2
 } ## [[ $GREATER_THAN_771 -gt 771 ]] && {
-} ## [[ `grep -w "${ITEM}" result2 | grep -w "${CURRENT}" | grep -w "${NEXT}"`` == "" && ${CURRENT} != ${ITEM} && ${CURRENT} != ${NEXT} && ${NEXT} != ${ITEM} ]] && {
+} ## [[ `grep -w "${ITEM}" result2 | grep -w "${CURRENT}" | grep -w "${NEXT}"` == "" && ${CURRENT} != ${ITEM} && ${CURRENT} != ${NEXT} && ${NEXT} != ${ITEM} ]] && {
 
 echo "$ITERATOR/$NUMBER_OF_LINES"
 cat result2
@@ -171,12 +171,12 @@ THIS=$(echo ${MULTI} | grep -w "${NEXT}" | grep -w "${CURRENT}" | grep -w "${ITE
 
 [[ $THIS -gt 0 ]] && {
 THIS_TRIP="${ITEM};${CURRENT};${NEXT}"
-[[ `grep -w "${ITEM}" result2 | grep -w "${CURRENT}" | grep -w "${NEXT}"`` == "" && ${CURRENT} != ${ITEM} && ${CURRENT} != ${NEXT} && ${NEXT} != ${ITEM} ]] && {
+[[ `grep -w "${ITEM}" result2 | grep -w "${CURRENT}" | grep -w "${NEXT}"` == "" && ${CURRENT} != ${ITEM} && ${CURRENT} != ${NEXT} && ${NEXT} != ${ITEM} ]] && {
 #GREATER_THAN_771=$((`echo ${THIS} | tr ':' ' ' | awk '{print $1}'`))
 #[[ $GREATER_THAN_771 -gt 771 ]] && {
 echo "`echo ${THIS}`:`echo ${THIS_TRIP}`" >> result2
 #} ## [[ $GREATER_THAN_771 -gt 771 ]] && {
-} ## [[ `grep -w "${ITEM}" result2 | grep -w "${CURRENT}" | grep -w "${NEXT}"`` == "" && ${CURRENT} != ${ITEM} && ${CURRENT} != ${NEXT} && ${NEXT} != ${ITEM} ]] && {
+} ## [[ `grep -w "${ITEM}" result2 | grep -w "${CURRENT}" | grep -w "${NEXT}"` == "" && ${CURRENT} != ${ITEM} && ${CURRENT} != ${NEXT} && ${NEXT} != ${ITEM} ]] && {
 
 done ## for ITEM,CURRENT,NEXT in ${TOKENS}
  
