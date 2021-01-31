@@ -134,7 +134,7 @@ echo "`echo ${THIS}`:`echo ${THIS_TRIP}`" >> result2
 } ## [[ $GREATER_THAN_771 -gt 771 ]] && {
 } ## [[ `grep -w "${ITEM}" result2 | grep -w "${CURRENT}" | grep -w "${NEXT}"` == "" && ${CURRENT} != ${ITEM} && ${CURRENT} != ${NEXT} && ${NEXT} != ${ITEM} ]] && {
 
-echo "$ITERATOR/$NUMBER_OF_LINES"
+echo "$NEXT_ITR/$NUMBER_OF_LINES"
 cat result2
 } ## [[ $THIS -gt 0 ]] && {
 
