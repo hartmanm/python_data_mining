@@ -63,17 +63,17 @@ ITERATOR=2
 while [[ $ITERATOR -lt $NUMBER_OF_LINES+1 ]]
 do
 CURRENT=$(cat tokens2 | awk -v i=$ITERATOR '{print $i}')
-THIS_PAIR="${ITEM} ${CURRENT}"
+THIS_PAIR="${ITEM};${CURRENT}"
 
 
 THIS=$(grep -w "${THIS_PAIR}" modified_dataset | wc -l | awk '{print $1}')
 [[ `grep -w "${LINE}" result2` == "" ]] && {
-echo "`echo ${THIS}`:`echo ${LINE}`" >> result
+echo "`echo ${THIS}`:`echo ${THIS_PAIR}`" >> result2
 } ## [[ `echo ${RESULT}| grep "!${THIS}"` == "" ]] && {
 
 echo "$ITERATOR/$NUMBER_OF_LINES"
 [[ $(($ITERATOR % 100)) -eq 0 ]] && {
-cat result | sort -n | tr '_' ' ' > patterns.txt 
+cat result2 | sort -n | tr '_' ' ' > patterns.txt 
 } ## [[ $(($ITERATOR % 100)) -eq 0 ]] && {
 
 
@@ -81,7 +81,13 @@ ITERATOR=$(($ITERATOR+1))
 done ## while [[ $ITERATOR -lt $NUMBER_OF_LINES+1 ]]
 done ## for ITEM in tokens
 
+cat result | sort -n | tr '_' ' ' > patterns.txt 
 
+cp patterns.txt part2
+
+# store submission file
+[[ -d part_2 ]] || mkdir -p part_2
+mv patterns.txt part_2
 
 # run with:  time bash apriori | tee log
 
