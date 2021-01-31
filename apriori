@@ -6,8 +6,8 @@
 NUMBER_OF_LINES=$(wc -l dataset | awk '{print $1}')
 NUMBER_OF_LINES=$(($NUMBER_OF_LINES-1))
 
-# generate a list with space IFS from dataset
-THE_SET=$(cat dataset | tr ' ' '_' | tr ';' ' ')
+# generate a modified_dataset with space IFS from dataset
+cat dataset | tr ' ' '_' | tr ';' ' ' > modified_dataset
 
 # make a result file
 > result
@@ -20,46 +20,71 @@ echo " " >> result
 ITERATOR=$(($ITERATOR+1))
 done ## while [[ $ITERATOR -lt $NUMBER_OF_LINES ]]
 
+echo "
+result line index complete
+"
+
 # populate result file
-ITERATOR=0
-while [[ $ITERATOR -lt $NUMBER_OF_LINES ]]
+ITERATOR=1
+while [[ $ITERATOR -lt $NUMBER_OF_LINES+1 ]]
 do
-LINE=$(head -$ITERATOR | tail -1)
+LINE=$(head -$ITERATOR modified_dataset | tail -1)
 for TOKEN in ${LINE}
 do
-
+TOKEN=$(echo ${TOKEN} | tr '_' ' ')
 # no previous token
-[[ `echo ${THE_SET} | grep ${TOKEN}` == "" ]] && {
-SUPPORT=`cat result | grep ${TOKEN} | wc -l | awk '{print $1}'`
+#[[ `grep ${TOKEN} modified_dataset` != "" ]] && {
+SUPPORT=`cat dataset | grep "${TOKEN}" | wc -l | awk '{print $1}'`
 [[ `echo ${SUPPORT}` != "" ]] && SUPPORT=$(($SUPPORT*1))
 #RESULT_SUPPORT_LINE_SUPPORT=`cat result | tr -d ':' | awk '{print $1}' | grep ${SUPPORT}`
-RESULT_SUPPORT_LINE=$(head -$SUPPORT result | tail -1)
+RESULT_SUPPORT_LINE=$(head -$SUPPORT result | tail -1 | tr -d ' ')
+
+echo "
+${SUPPORT}
+${LINE}
+${TOKEN}
+!${RESULT_SUPPORT_LINE}!
+"
+sleep 3
+
 # first category for this support
 [[ ${RESULT_SUPPORT_LINE} == "" ]] && {
-TOKEN=$(echo ${TOKEN} | tr '_' ' ')
-sed -i  '${SUPPORT}i${SUPPORT}:${TOKEN}' result
+NEW_LINE="${SUPPORT}:${TOKEN}"
+#sed -i '${SED_LINE}' result
+HEAD_SUPPORT=$(($SUPPORT-1))
+head -$HEAD_SUPPORT result > top
+FROM_BOTTOM=$(($NUMBER_OF_LINES-$SUPPORT))
+tail -$FROM_BOTTOM result > bottom
+cat top > result 
+echo "${NEW_LINE}" >> result
+cat bottom >> result 
+#awk -v s="${SUPPORT}" -v r="${NEW_LINE}" 'NR==s {$0="r"}1' result
+#'NR==4 {$0="different"} 1
+#echo "
+#awk -v s="${SUPPORT}" -v r="${NEW_LINE}" 'NR==s {$0="r"}1' result
+#"
+#awk -v s="2" -v r="test a" 'NR==$s {$0="$r"}1' result
+
 } ## [[ ${RESULT_SUPPORT_LINE} == "" ]] && {
 # updating existing support with this category
 [[ ${RESULT_SUPPORT_LINE} != "" ]] && {
-TOKEN=$(echo ${TOKEN} | tr '_' ' ')
-sed -i 's!${RESULT_SUPPORT_LINE}!${RESULT_SUPPORT_LINE};${TOKEN}!g' result
-} ## [[ ${RESULT_SUPPORT_LINE} == "" ]] && {
-} ## [[ `echo ${CATEGORIES} | grep ${TOKEN}` == "" ]] && {
+SED_LINE="s!${RESULT_SUPPORT_LINE}!${RESULT_SUPPORT_LINE};${TOKEN}!"
+sed -i '${SED_LINE}' result
+} ## [[ ${RESULT_SUPPORT_LINE} != "" ]] && {
+#} ## [[ `grep ${TOKEN} modified_dataset` == "" ]] && {
 
 
-
-# previous token
-#[[ `echo ${CATEGORIES} | grep ${TOKEN}` != "" ]] && {
-#LAST=`echo ${CATEGORIES} | grep ${TOKEN} | wc -l | awk '{print $1}'`
-
-#} ## [[ `echo ${CATEGORIES} | grep ${TOKEN}` == "" ]] && {
-
-
+echo "line is:"
+head -$SUPPORT result | tail -1
 done ## for TOKEN in ${LINE}
 ITERATOR=$(($ITERATOR+1))
-done ## while [[ $ITERATOR -lt $NUMBER_OF_LINES ]]
+done ## while [[ $ITERATOR -lt $NUMBER_OF_LINES+1 ]]
 
 # remove all unused support lines from result
 sed -i '/^$/d' result
 
 # run with:  time bash apriori
+
+echo "
+complete
+"
