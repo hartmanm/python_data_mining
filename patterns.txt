@@ -3,6 +3,7 @@
 823:General Dentistry
 848:Japanese
 870:Massage
+870:Pet Services
 874:Pubs
 875:Financial Services
 998:Cafes
@@ -29,6 +30,7 @@
 2271:Arts & Entertainment
 2364:Sandwiches
 2416:American (Traditional)
+2495:Hotels
 2495:Hotels & Travel
 2515:Mexican
 2527:Bars
