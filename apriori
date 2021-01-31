@@ -4,7 +4,7 @@
 
 ## MAGIC_BOOLS
 PART_1=0
-PART_2=1
+PART_2=0
 
 [[ $PART_1 -eq 1 ]] && {
 # generate a modified_dataset with space IFS from dataset
