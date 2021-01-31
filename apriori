@@ -13,7 +13,7 @@ cat dataset | tr ' ' '_' | tr ';' ' ' > modified_dataset
 > result
 
 #generate the correct number of lines in the result file
-ITERATOR=0
+ITERATOR=1
 while [[ $ITERATOR -lt $NUMBER_OF_LINES+1 ]]
 do
 echo " " >> result
@@ -30,7 +30,7 @@ do
 RESULT_SUPPORT_LINE=""
 #TOKEN=$(echo ${TOKEN} | tr '_' ' ')
 
-SUPPORT=`cat modified_dataset | grep "${TOKEN}" | grep -v " ${TOKEN}" | wc -l | awk '{print $1}'`
+SUPPORT=`cat modified_dataset | grep "${TOKEN}" | grep -v "_${TOKEN}" | wc -l | awk '{print $1}'`
 [[ `echo ${SUPPORT}` != "" ]] && SUPPORT=$(($SUPPORT*1))
 RESULT_SUPPORT_LINE=$(head -$SUPPORT result | tail -1 | tr -d ' ')
 
