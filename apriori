@@ -29,37 +29,15 @@ THIS=$(grep "${TOKEN}" token_per_line | wc -l | awk '{print $1}'`)
 ##sed -i 's/${THIS}//g' token_per_line
 [[ `echo ${RESULT} | grep "${THIS}"` == "" ]] && {
 GREATER_THAN_771=$((`echo ${THIS} | tr ':' ' ' | awk '{print $1}'`))
-[[ $GREATER_THAN_771 -gt 771 ]] && RESULT="${RESULT}!`echo ${THIS}`"
+[[ $GREATER_THAN_771 -gt 771 ]] && RESULT="${RESULT}!`echo ${THIS} | tr '_' ' '`"
 } ## [[ `echo ${RESULT} | grep ${THIS}` == "" ]] && {
-done ## for TOKEN in `cat token_per_line`
+done ## for TOKEN in ${LINE}
 [[ $(($ITERATOR % 100)) -eq 0 ]] && {
 echo "$ITERATOR/$NUMBER_OF_LINES"
 } ## [[ $(($ITERATOR % 1000)) -eq 0 ]] && {
 ITERATOR=$(($ITERATOR+1))
 done ## while [[ $ITERATOR -lt $NUMBER_OF_LINES+1 ]]
 
-rr(){
-# populate result file
-ITERATOR=1
-while [[ $ITERATOR -lt $NUMBER_OF_LINES+1 ]]
-do
-LINE=$(head -$ITERATOR modified_dataset | tail -1)
-for TOKEN in ${LINE}
-do
-# exclude instances of token as a sub-token, find instances of token, count instances, format output to first field, translate from single token to original string, write to file
-THIS=$(echo "`grep -v "_${TOKEN}" modified_dataset | grep "${TOKEN}" | wc -l | awk '{print $1}'`:`echo ${TOKEN} | tr '_' ' '`")
-[[ `echo ${RESULT} | grep "${THIS}"` == "" ]] && {
-GREATER_THAN_771=$((`echo ${THIS} | tr ':' ' ' | awk '{print $1}'`))
-[[ $GREATER_THAN_771 -gt 771 ]] && RESULT="${RESULT}!`echo ${THIS}`"
-} ## [[ `echo ${RESULT} | grep ${THIS}` == "" ]] && {
-done ## for TOKEN in ${LINE}
-
-[[ $(($ITERATOR % 1000)) -eq 0 ]] && {
-echo "$ITERATOR/$NUMBER_OF_LINES"
-} ## [[ $(($ITERATOR % 1000)) -eq 0 ]] && {
-ITERATOR=$(($ITERATOR+1))
-done ## while [[ $ITERATOR -lt $NUMBER_OF_LINES+1 ]]
-} ## rr()
 
 # translate list to file
 echo ${RESULT} | tr '!' '\n' > result
