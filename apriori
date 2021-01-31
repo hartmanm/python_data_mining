@@ -30,7 +30,7 @@ do
 RESULT_SUPPORT_LINE=""
 #TOKEN=$(echo ${TOKEN} | tr '_' ' ')
 
-SUPPORT=`cat modified_dataset | grep "${TOKEN}" | grep -v "_${TOKEN}" | wc -l | awk '{print $1}'`
+SUPPORT=`cat modified_dataset | grep -v "_${TOKEN}" | grep "${TOKEN}" | wc -l | awk '{print $1}'`
 [[ `echo ${SUPPORT}` != "" ]] && SUPPORT=$(($SUPPORT*1))
 RESULT_SUPPORT_LINE=$(head -$SUPPORT result | tail -1 | tr -d ' ')
 
