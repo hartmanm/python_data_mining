@@ -57,7 +57,7 @@ NUMBER_OF_LINES=$(($NUMBER_OF_LINES))
 
 > result2
 
-for ITEM in tokens
+for ITEM in `cat tokens`
 do
 ITERATOR=2
 while [[ $ITERATOR -lt $NUMBER_OF_LINES+1 ]]
@@ -79,7 +79,7 @@ cat result2 | sort -n | tr '_' ' ' > patterns.txt
 
 ITERATOR=$(($ITERATOR+1))
 done ## while [[ $ITERATOR -lt $NUMBER_OF_LINES+1 ]]
-done ## for ITEM in tokens
+done ## for ITEM in `cat tokens`
 
 cat result | sort -n | tr '_' ' ' > patterns.txt 
 
