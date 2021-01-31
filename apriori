@@ -46,9 +46,41 @@ mv patterns.txt part_1
 } ## [[ $PART_1 -eq 1 ]] && {
 
 
-cat part1 | tr ' ' '_' | tr ':' ' ' | awk 'NF==2' > tokens
 
-cat tokens
+cat part1 | tr ' ' '_' | tr ':' ' ' | awk '{print $2}' > tokens
+
+cp tokens > tokens2
+
+# determine number of lines
+NUMBER_OF_LINES=$(wc -l tokens | awk '{print $1}')
+NUMBER_OF_LINES=$(($NUMBER_OF_LINES))
+
+> result2
+
+for ITEM in tokens
+do
+ITERATOR=2
+while [[ $ITERATOR -lt $NUMBER_OF_LINES+1 ]]
+do
+CURRENT=$(cat tokens2 | awk -v i=$ITERATOR '{print $i}')
+THIS_PAIR="${ITEM} ${CURRENT}"
+
+
+THIS=$(grep -w "${THIS_PAIR}" modified_dataset | wc -l | awk '{print $1}')
+[[ `grep -w "${LINE}" result2` == "" ]] && {
+echo "`echo ${THIS}`:`echo ${LINE}`" >> result
+} ## [[ `echo ${RESULT}| grep "!${THIS}"` == "" ]] && {
+
+echo "$ITERATOR/$NUMBER_OF_LINES"
+[[ $(($ITERATOR % 100)) -eq 0 ]] && {
+cat result | sort -n | tr '_' ' ' > patterns.txt 
+} ## [[ $(($ITERATOR % 100)) -eq 0 ]] && {
+
+
+ITERATOR=$(($ITERATOR+1))
+done ## while [[ $ITERATOR -lt $NUMBER_OF_LINES+1 ]]
+done ## for ITEM in tokens
+
 
 
 # run with:  time bash apriori | tee log
