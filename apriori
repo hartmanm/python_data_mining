@@ -30,7 +30,7 @@ do
 RESULT_SUPPORT_LINE=""
 TOKEN=$(echo ${TOKEN} | tr '_' ' ')
 
-SUPPORT=`cat dataset | grep "${TOKEN}" | wc -l | awk '{print $1}'`
+SUPPORT=`cat dataset | grep "${TOKEN}" | grep -v " ${TOKEN}" | wc -l | awk '{print $1}'`
 [[ `echo ${SUPPORT}` != "" ]] && SUPPORT=$(($SUPPORT*1))
 RESULT_SUPPORT_LINE=$(head -$SUPPORT result | tail -1 | tr -d ' ')
 
@@ -46,9 +46,10 @@ echo "${NEW_LINE}" >> result
 cat bottom >> result 
 } ## [[ ${RESULT_SUPPORT_LINE} == "" ]] && {
 
+e(){
 # updating existing support with this category
 [[ ${RESULT_SUPPORT_LINE} != "" ]] && {
-[[ `echo "${RESULT_SUPPORT_LINE}" | grep "${TOKEN};"` != "" ]] && {
+[[ `echo "${RESULT_SUPPORT_LINE}" | grep "${TOKEN};"` != "" && `echo "${RESULT_SUPPORT_LINE}" | grep " ${TOKEN};"` = "" ]] && {
 NEW_LINE="${SUPPORT}:${TOKEN}"
 HEAD_SUPPORT=$(($SUPPORT-1))
 head -$HEAD_SUPPORT result > top
@@ -59,7 +60,8 @@ echo "${RESULT_SUPPORT_LINE};${TOKEN}" >> result
 cat bottom >> result 
 } ## [[ `echo "${RESULT_SUPPORT_LINE}" | grep "${TOKEN};"` != "" ]] && {
 } ## [[ ${RESULT_SUPPORT_LINE} != "" ]] && {
-#} ## [[ `grep ${TOKEN} modified_dataset` == "" ]] && {
+} ## e(){
+
 done ## for TOKEN in ${LINE}
 ITERATOR=$(($ITERATOR+1))
 [[ `$ITERATOR % 100` -eq 0 ]] && {
