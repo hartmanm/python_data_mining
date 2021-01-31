@@ -28,6 +28,8 @@ LINE=$(head -$ITERATOR modified_dataset | tail -1)
 for TOKEN in ${LINE}
 do
 RESULT_SUPPORT_LINE=""
+SUPPORT=""
+NEW_LINE=""
 #TOKEN=$(echo ${TOKEN} | tr '_' ' ')
 
 SUPPORT=`cat modified_dataset | grep -v "_${TOKEN}" | grep "${TOKEN}" | wc -l | awk '{print $1}'`
@@ -35,17 +37,17 @@ SUPPORT=`cat modified_dataset | grep -v "_${TOKEN}" | grep "${TOKEN}" | wc -l | 
 RESULT_SUPPORT_LINE=$(head -$SUPPORT result | tail -1 | tr -d ' ')
 
 # first category for this support
-[[ ${RESULT_SUPPORT_LINE} == "" ]] && {
+#[[ ${RESULT_SUPPORT_LINE} == "" ]] && {
 TOKEN=$(echo ${TOKEN} | tr '_' ' ')
 NEW_LINE="${SUPPORT}:${TOKEN}"
-HEAD_SUPPORT=$(($SUPPORT-1))
+#HEAD_SUPPORT=$(($SUPPORT-1))
 #head -$HEAD_SUPPORT result > top
 #FROM_BOTTOM=$(($NUMBER_OF_LINES-$SUPPORT))
 #tail -$FROM_BOTTOM result > bottom
 #cat top > result 
 echo "${NEW_LINE}" >> result
 #cat bottom >> result 
-} ## [[ ${RESULT_SUPPORT_LINE} == "" ]] && {
+#} ## [[ ${RESULT_SUPPORT_LINE} == "" ]] && {
 
 e(){
 # updating existing support with this category
@@ -64,10 +66,11 @@ cat bottom >> result
 } ## e(){
 
 done ## for TOKEN in ${LINE}
-ITERATOR=$(($ITERATOR+1))
+
 #[[ $(($ITERATOR % 10)) -eq 0 ]] && {
 echo "$ITERATOR/$NUMBER_OF_LINES    ${NEW_LINE}"
 #} ## [[ $(($ITERATOR % 100)) -eq 0 ]] && {
+ITERATOR=$(($ITERATOR+1))
 done ## while [[ $ITERATOR -lt $NUMBER_OF_LINES+1 ]]
 
 #FROM_BOTTOM=$(($NUMBER_OF_LINES-771))
