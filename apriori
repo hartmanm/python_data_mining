@@ -81,9 +81,9 @@ THIS=$(($THIS*1))
 [[ $THIS -gt 0 ]] && {
 THIS_PAIR="${ITEM};${CURRENT}"
 OTHER_PAIR="${CURRENT};${ITEM}"
-[[ `grep -w "${THIS_PAIR}" result2` == "" && `grep -w "${OTHER_PAIR}" result2` == "" && `grep -w "${CURRENT};${CURRENT}" result2` == "" && `grep -w "${ITEM};${ITEM}" result2` == "" ]] && {
+[[ `grep -w "${THIS_PAIR}" result2` == "" && `grep -w "${OTHER_PAIR}" result2` == "" && ${CURRENT} != ${ITEM} ]] && {
 echo "`echo ${THIS}`:`echo ${THIS_PAIR}`" >> result2
-} ## [[ `grep -w "${THIS_PAIR}" result2` == "" && `grep -w "${OTHER_PAIR}" result2` == "" && `grep -w "${CURRENT};${CURRENT}" result2` == "" && `grep -w "${ITEM};${ITEM}" result2` == "" ]] && {
+} ## [[ `grep -w "${THIS_PAIR}" result2` == "" && `grep -w "${OTHER_PAIR}" result2` == "" && ${CURRENT} != ${ITEM} ]] && {
 
 echo "$ITERATOR/$NUMBER_OF_LINES"
 cat result2
