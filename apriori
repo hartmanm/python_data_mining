@@ -69,10 +69,10 @@ ITERATOR=2
 while [[ $ITERATOR -lt $NUMBER_OF_LINES+1 ]]
 do
 CURRENT=$(cat tokens2 | awk -v i=$ITERATOR '{print $i}')
-THIS_PAIR="${ITEM} ${CURRENT}"
+#THIS_PAIR="${ITEM} ${CURRENT}"
 
 
-THIS=$(grep -w "${THIS_PAIR}" modified_dataset | wc -l | awk '{print $1}')
+THIS=$(grep -w "${ITEM}" modified_dataset | grep -w "${CURRENT}" | wc -l | awk '{print $1}')
 THIS_PAIR="${ITEM};${CURRENT}"
 [[ `grep -w "${THIS_PAIR}" result2` == "" ]] && {
 echo "`echo ${THIS}`:`echo ${THIS_PAIR}`" >> result2
