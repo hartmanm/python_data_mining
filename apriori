@@ -4,7 +4,7 @@
 
 ## MAGIC_BOOLS
 PART_1=0
-PART_2=0
+PART_2=1
 
 [[ $PART_1 -eq 1 ]] && {
 # generate a modified_dataset with space IFS from dataset
@@ -86,10 +86,12 @@ ITERATOR=$(($ITERATOR+1))
 done ## while [[ $ITERATOR -lt $NUMBER_OF_LINES+1 ]]
 done ## for ITEM in ${TOKENS}
 
+cat result2 | sort -n | tr '_' ' ' > part2
+
 } ## [[ $PART_2 -eq 1 ]] && {
 
 
-cat result2 | sort -n | tr '_' ' ' > part2
+
 
 cat part2 > part3
 
