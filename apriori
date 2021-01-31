@@ -25,7 +25,7 @@ do
 LINE=$(head -$ITERATOR token_per_line | tail -1)
 for TOKEN in ${LINE}
 do
-THIS=$(grep "${TOKEN}\n" token_per_line | wc -l | awk '{print $1}')
+THIS=$(grep "${TOKEN}\\n" token_per_line | wc -l | awk '{print $1}')
 ##sed -i 's/${THIS}//g' token_per_line
 [[ `echo ${RESULT}| grep "!${THIS}"` == "" ]] && {
 GREATER_THAN_771=$((`echo ${THIS} | tr ':' ' ' | awk '{print $1}'`))
