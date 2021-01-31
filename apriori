@@ -9,75 +9,43 @@ NUMBER_OF_LINES=$(($NUMBER_OF_LINES))
 # generate a modified_dataset with space IFS from dataset
 cat dataset | tr ' ' '_' | tr ';' ' ' > modified_dataset
 
+# translate to one token per line
 cat modified_dataset | tr ' ' '\n' > token_per_line
 
+# determine number of lines
 NUMBER_OF_LINES=$(wc -l token_per_line | awk '{print $1}')
 NUMBER_OF_LINES=$(($NUMBER_OF_LINES))
 
 # make a result file
 > result
 
-# make a result LIST
-RESULT=""
-
-
 ITERATOR=1
 while [[ $ITERATOR -lt $NUMBER_OF_LINES+1 ]]
 do
 LINE=$(head -$ITERATOR token_per_line | tail -1)
-#echo "?${LINE}?" >> wrapped_token_per_line
-#for TOKEN in ${THE_LINE}
-#do
 THIS=$(grep -w "${LINE}" token_per_line | wc -l | awk '{print $1}')
-##sed -i 's/${THIS}//g' token_per_line
 [[ `grep -w "${LINE}" result` == "" ]] && {
 GREATER_THAN_771=$((`echo ${THIS} | tr ':' ' ' | awk '{print $1}'`))
 [[ $GREATER_THAN_771 -gt 771 ]] && echo "`echo ${THIS}`:`echo ${LINE}`" >> result
 } ## [[ `echo ${RESULT}| grep "!${THIS}"` == "" ]] && {
-#done ## for TOKEN in ${LINE}
 
 echo "$ITERATOR/$NUMBER_OF_LINES"
 [[ $(($ITERATOR % 100)) -eq 0 ]] && {
-cat result | sort -n
-} ## [[ $(($ITERATOR % 1000)) -eq 0 ]] && {
+cat result | sort -n | tr '_' ' ' > patterns.txt 
+} ## [[ $(($ITERATOR % 100)) -eq 0 ]] && {
 ITERATOR=$(($ITERATOR+1))
 done ## while [[ $ITERATOR -lt $NUMBER_OF_LINES+1 ]]
 
-
-# translate list to file
-#RESULT=$(echo ${RESULT} | tr '_?' ' ')
-#echo ${RESULT} | tr '!' '\n' > result
-cat result | tr '_' ' ' > final_result
-#echo ${RESULT} | tr '!' '\n' > result
-
-
-# sort in numerical order then remove duplicates
-sort -n result | uniq > result
-
-result > patterns.txt 
-
-# remove all blank lines
-#perl -i -n -e "print if /\S/" final_result
-
-# remove all support < 771
-#NUMBER_OF_LINES=$(wc -l final_result | awk '{print $1}')
-#NUMBER_OF_LINES=$(($NUMBER_OF_LINES))
-#FROM_BOTTOM=$(($NUMBER_OF_LINES-771))
-#tail -$FROM_BOTTOM final_result > patterns.txt 
-
-# remove all blank lines
-#perl -i -n -e "print if /\S/" patterns.txt 
+cat result | sort -n | tr '_' ' ' > patterns.txt 
 
 # store submission file
 [[ -d part_1 ]] || mkdir -p part_1
 mv patterns.txt part_1
 
 
-
 # run with:  time bash apriori | tee log
 
-# 92m17.769s
-# 178m48.168s
+
 
 echo "
 complete; result in: patterns.txt
