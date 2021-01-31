@@ -57,7 +57,9 @@ NUMBER_OF_LINES=$(($NUMBER_OF_LINES))
 
 > result2
 
-for ITEM in `cat tokens`
+TOKENS=$(cat tokens)
+
+for ITEM in ${TOKENS}
 do
 ITERATOR=2
 while [[ $ITERATOR -lt $NUMBER_OF_LINES+1 ]]
@@ -69,17 +71,17 @@ THIS_PAIR="${ITEM};${CURRENT}"
 THIS=$(grep -w "${THIS_PAIR}" modified_dataset | wc -l | awk '{print $1}')
 [[ `grep -w "${THIS_PAIR}" result2` == "" ]] && {
 echo "`echo ${THIS}`:`echo ${THIS_PAIR}`" >> result2
-} ## [[ `echo ${RESULT}| grep "!${THIS}"` == "" ]] && {
+} ## [[ `grep -w "${THIS_PAIR}" result2` == "" ]] && {
 
 echo "$ITERATOR/$NUMBER_OF_LINES"
-[[ $(($ITERATOR % 50)) -eq 0 ]] && {
+[[ $(($ITERATOR % 49)) -eq 0 ]] && {
 cat result2 | sort -n | tr '_' ' ' > patterns.txt 
-} ## [[ $(($ITERATOR % 100)) -eq 0 ]] && {
+} ## [[ $(($ITERATOR % 49)) -eq 0 ]] && {
 
 
 ITERATOR=$(($ITERATOR+1))
 done ## while [[ $ITERATOR -lt $NUMBER_OF_LINES+1 ]]
-done ## for ITEM in `cat tokens`
+done ## for ITEM in ${TOKENS}
 
 cat result2 | sort -n | tr '_' ' ' > patterns.txt 
 
