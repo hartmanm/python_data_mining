@@ -20,25 +20,17 @@ NUMBER_OF_LINES=$(($NUMBER_OF_LINES))
 # make a result LIST
 RESULT=""
 
-> wrapped_token_per_line
-ITERATOR=1
-while [[ $ITERATOR -lt $NUMBER_OF_LINES+1 ]]
-do
-LINE=$(head -$ITERATOR token_per_line | tail -1)
-echo "?${LINE}?" >> wrapped_token_per_line
-ITERATOR=$(($ITERATOR+1))
-done
 
 ITERATOR=1
 while [[ $ITERATOR -lt $NUMBER_OF_LINES+1 ]]
 do
-LINE=$(head -$ITERATOR wrapped_token_per_line | tail -1)
+LINE=$(head -$ITERATOR token_per_line | tail -1)
 #echo "?${LINE}?" >> wrapped_token_per_line
 #for TOKEN in ${THE_LINE}
 #do
-THIS=$(grep "${LINE}" wrapped_token_per_line | wc -l | awk '{print $1}')
+THIS=$(grep -w "${LINE}" token_per_line | wc -l | awk '{print $1}')
 ##sed -i 's/${THIS}//g' token_per_line
-[[ `grep "${LINE}" result` == "" ]] && {
+[[ `grep -w "${LINE}" result` == "" ]] && {
 GREATER_THAN_771=$((`echo ${THIS} | tr ':' ' ' | awk '{print $1}'`))
 [[ $GREATER_THAN_771 -gt 771 ]] && echo "${RESULT}!`echo ${THIS}`:`echo ${LINE} `" >> result
 } ## [[ `echo ${RESULT}| grep "!${THIS}"` == "" ]] && {
@@ -55,7 +47,7 @@ done ## while [[ $ITERATOR -lt $NUMBER_OF_LINES+1 ]]
 # translate list to file
 #RESULT=$(echo ${RESULT} | tr '_?' ' ')
 #echo ${RESULT} | tr '!' '\n' > result
-cat result | tr '_?' ' ' | tr '!' '\n' > final_result
+cat result | tr '_' ' ' | tr '!' '\n' > final_result
 #echo ${RESULT} | tr '!' '\n' > result
 
 
