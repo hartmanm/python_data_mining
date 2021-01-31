@@ -57,9 +57,7 @@ NUMBER_OF_LINES=$(($NUMBER_OF_LINES))
 
 > result2
 
-cat tokens
 
-exec true
 
 TOKENS=$(cat tokens)
 
