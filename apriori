@@ -112,16 +112,17 @@ NUMBER_OF_LINES=$(($NUMBER_OF_LINES))
 > result2
 
 TOKENS=$(cat part1)
-TOKENS2=$(cat part1)
 
 for ITEM in ${TOKENS}
 do
 ITERATOR=2
 while [[ $ITERATOR -lt $NUMBER_OF_LINES+1 ]]
 do
-NEXT_ITR=$(($NUMBER_OF_LINES-$ITERATOR))
-CURRENT=$(echo ${TOKENS2} | awk -v i=$ITERATOR '{print $i}')
-NEXT=$(echo ${TOKENS2} | awk -v i=$NEXT_ITR '{print $i}')
+CURRENT=$(echo ${TOKENS} | awk -v i=$ITERATOR '{print $i}')
+NEXT_ITR=2
+while [[ $NEXT_ITR -lt $NUMBER_OF_LINES+1 ]]
+do
+NEXT=$(echo ${TOKENS} | awk -v i=$NEXT_ITR '{print $i}')
 
 THIS=$(grep -w "${ITEM}" modified_dataset | grep -w "${CURRENT}" | grep -w "${NEXT}" | wc -l | awk '{print $1}')
 THIS=$(($THIS*1))
@@ -136,6 +137,8 @@ echo "$ITERATOR/$NUMBER_OF_LINES"
 cat result2
 } ## [[ $THIS -gt 0 ]] && {
 
+NEXT_ITR=$(($NEXT_ITR+1))
+done ## while [[ $ITERATOR -lt $NUMBER_OF_LINES+1 ]]
 ITERATOR=$(($ITERATOR+1))
 done ## while [[ $ITERATOR -lt $NUMBER_OF_LINES+1 ]]
 done ## for ITEM in ${TOKENS}
