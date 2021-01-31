@@ -28,7 +28,7 @@ echo "$ITERATOR/$NUMBER_OF_LINES"
 ITERATOR=$(($ITERATOR+1))
 done ## while [[ $ITERATOR -lt $NUMBER_OF_LINES+1 ]]
 
-# remove duplicates
+# sort in numerical order then remove duplicates
 sort -n result | uniq > final_result
 
 # remove all blank lines
