@@ -4,7 +4,7 @@
 
 # store the number of lines in dataset
 NUMBER_OF_LINES=$(wc -l dataset | awk '{print $1}')
-NUMBER_OF_LINES=$(($NUMBER_OF_LINES-1))
+NUMBER_OF_LINES=$(($NUMBER_OF_LINES))
 
 # generate a modified_dataset with space IFS from dataset
 cat dataset | tr ' ' '_' | tr ';' ' ' > modified_dataset
@@ -28,14 +28,15 @@ LINE=$(head -$ITERATOR modified_dataset | tail -1)
 for TOKEN in ${LINE}
 do
 RESULT_SUPPORT_LINE=""
-TOKEN=$(echo ${TOKEN} | tr '_' ' ')
+#TOKEN=$(echo ${TOKEN} | tr '_' ' ')
 
-SUPPORT=`cat dataset | grep "${TOKEN}" | grep -v " ${TOKEN}" | wc -l | awk '{print $1}'`
+SUPPORT=`cat modified_dataset | grep "${TOKEN}" | grep -v " ${TOKEN}" | wc -l | awk '{print $1}'`
 [[ `echo ${SUPPORT}` != "" ]] && SUPPORT=$(($SUPPORT*1))
 RESULT_SUPPORT_LINE=$(head -$SUPPORT result | tail -1 | tr -d ' ')
 
 # first category for this support
 [[ ${RESULT_SUPPORT_LINE} == "" ]] && {
+TOKEN=$(echo ${TOKEN} | tr '_' ' ')
 NEW_LINE="${SUPPORT}:${TOKEN}"
 HEAD_SUPPORT=$(($SUPPORT-1))
 head -$HEAD_SUPPORT result > top
@@ -64,8 +65,8 @@ cat bottom >> result
 
 done ## for TOKEN in ${LINE}
 ITERATOR=$(($ITERATOR+1))
-[[ $(($ITERATOR % 100)) -eq 0 ]] && {
-echo "$ITERATOR/$NUMBER_OF_LINES    ${TOKEN}"
+[[ $(($ITERATOR % 10)) -eq 0 ]] && {
+echo "$ITERATOR/$NUMBER_OF_LINES    ${NEW_LINE}"
 } ## [[ $(($ITERATOR % 100)) -eq 0 ]] && {
 done ## while [[ $ITERATOR -lt $NUMBER_OF_LINES+1 ]]
 
@@ -76,7 +77,6 @@ tail -$FROM_BOTTOM result > final_result
 sed -r '/^\s*$/d' final_result > patterns.txt
 
 # remove all blank lines from final
-#sed -i '/^$/d' patterns.txt
 perl -i -n -e "print if /\S/" patterns.txt
 
 rm bottom top final_result 
