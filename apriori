@@ -68,7 +68,7 @@ echo "$ITERATOR/$NUMBER_OF_LINES    ${TOKEN}"
 done ## while [[ $ITERATOR -lt $NUMBER_OF_LINES+1 ]]
 
 # remove all unused support lines from result
-sed -i '/^$/d' result
+#sed -i '/^$/d' result
 
 FROM_BOTTOM=$(($NUMBER_OF_LINES-771))
 tail -$FROM_BOTTOM result > final_result
