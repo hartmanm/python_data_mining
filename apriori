@@ -145,6 +145,8 @@ done ## while [[ $ITERATOR -lt $NUMBER_OF_LINES+1 ]]
 done ## for ITEM in ${TOKENS}
 
 
+yyy(){
+
 TOKENS=$(cat part1)
 MULTI_PATHS=$(awk -F, 'NF>2 && $NF!=""' modified_dataset)
 
@@ -178,7 +180,7 @@ echo "`echo ${THIS}`:`echo ${THIS_TRIP}`" >> result2
 done ## for ITEM,CURRENT,NEXT in ${TOKENS}
  
 
-
+} ## yyy
 
 
 
