@@ -24,8 +24,10 @@ for TOKEN in ${LINE}
 do
 # exclude instances of token as a sub-token, find instances of token, count instances, format output to first field, translate from single token to original string, write to file
 THIS=$(echo "`grep -v "_${TOKEN}" modified_dataset | grep "${TOKEN}" | wc -l | awk '{print $1}'`:`echo ${TOKEN} | tr '_' ' '`")
+[[ `echo ${RESULT} | grep ${THIS}` == "" ]] && {
 GREATER_THAN_771=$((`echo ${THIS} | tr ':' ' ' | awk '{print $1}'`))
 [[ $GREATER_THAN_771 -gt 771 ]] && RESULT="${RESULT}!`echo ${THIS}`"
+} ## [[ `echo ${RESULT} | grep ${THIS}` == "" ]] && {
 done ## for TOKEN in ${LINE}
 
 [[ $(($ITERATOR % 1000)) -eq 0 ]] && {
