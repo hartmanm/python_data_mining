@@ -62,9 +62,9 @@ cat bottom >> result
 #} ## [[ `grep ${TOKEN} modified_dataset` == "" ]] && {
 done ## for TOKEN in ${LINE}
 ITERATOR=$(($ITERATOR+1))
-[[ $ITERATOR % 1000 -eq 0 ]] && {
+[[ `$ITERATOR % 100` -eq 0 ]] && {
 echo "$ITERATOR/$NUMBER_OF_LINES    ${TOKEN}"
-} ## [[ $ITERATOR % 1000 -eq 0 ]] && {
+} ## [[ `$ITERATOR % 100` -eq 0 ]] && {
 done ## while [[ $ITERATOR -lt $NUMBER_OF_LINES+1 ]]
 
 # remove all unused support lines from result
