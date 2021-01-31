@@ -148,11 +148,27 @@ done ## for ITEM in ${TOKENS}
 TOKENS=$(cat part1)
 MULTI_PATHS=$(awk -F, 'NF>2 && $NF!=""' modified_dataset)
 
-for ITEM,CURRENT,NEXT in ${TOKENS}
+for ITEM in ${TOKENS}
 do
+MULTI=$(echo ${MULTI_PATHS} | awk -v i=$ITERATOR '{print $i}')
+NEXT=$(echo ${TOKENS} | awk -v i=$ITERATOR '{print $i}')
+CURRENT=$(echo ${TOKENS} | awk -v i=$ITERATOR '{print $i}')
 
-THIS=$(echo ${MULTI_PATHS} | grep -w "${NEXT}" | grep -w "${CURRENT}" | grep -w "${ITEM}" | wc -l | awk '{print $1}')
+THIS=$(echo ${MULTI} | grep "${NEXT}" | grep "${CURRENT}" | grep "${ITEM}" | wc -l | awk '{print $1}')
+THIS2=$(echo ${MULTI} | grep "${NEXT}" | grep "${CURRENT}" | grep "${ITEM}" | wc -l | awk '{print $1}')
+THIS3=$(echo ${MULTI} | grep "${CURRENT}" | grep "${CURRENT}" | grep "${ITEM}" | wc -l | awk '{print $1}')
 THIS=$(($THIS*1))
+THIS2=$(($THIS2*1))
+THIS3=$(($THIS3*1))
+echo "
+$THIS
+$THIS2
+$THIS3
+"
+
+[[ $THIS --eq 0 ]] && {
+THIS=$(echo ${MULTI} | grep -w "${NEXT}" | grep -w "${CURRENT}" | grep -w "${ITEM}" | wc -l | awk '{print $1}')
+
 [[ $THIS -gt 0 ]] && {
 THIS_TRIP="${ITEM};${CURRENT};${NEXT}"
 [[ `grep -w "${ITEM}" result2 | grep -w "${CURRENT}" | grep -w "${NEXT}"`` == "" && ${CURRENT} != ${ITEM} && ${CURRENT} != ${NEXT} && ${NEXT} != ${ITEM} ]] && {
