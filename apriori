@@ -47,7 +47,7 @@ done ## while [[ $ITERATOR -lt $NUMBER_OF_LINES+1 ]]
 # translate list to file
 #RESULT=$(echo ${RESULT} | tr '_?' ' ')
 #echo ${RESULT} | tr '!' '\n' > result
-cat result | tr '_' ' ' | tr '!' '\n' > final_result
+cat result | tr '_' ' ' > final_result
 #echo ${RESULT} | tr '!' '\n' > result
 
 
