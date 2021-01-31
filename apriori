@@ -21,7 +21,7 @@ RESULT=""
 
 for TOKEN in `cat token_per_line`
 do
-THIS=$(grep "${TOKEN}" test | wc -l | awk '{print $1}'`)
+THIS=$(grep "${TOKEN}" token_per_line | wc -l | awk '{print $1}'`)
 sed -i 's/${THIS}//g' token_per_line
 [[ `echo ${RESULT} | grep "${THIS}"` == "" ]] && {
 GREATER_THAN_771=$((`echo ${THIS} | tr ':' ' ' | awk '{print $1}'`))
