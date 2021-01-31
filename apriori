@@ -123,21 +123,16 @@ ITERATOR=2
 while [[ $ITERATOR -lt $NUMBER_OF_LINES+1 ]]
 do
 CURRENT=$(echo ${TOKENS2} | awk -v i=$ITERATOR '{print $i}')
-NEXT=$(echo ${TOKENS3} | awk -v i=$ITERATOR+1 '{print $i}')
+#NEXT=$(echo ${TOKENS3} | awk -v i=$ITERATOR+1 '{print $i}')
 
-echo "
-$CURRENT
-$NEXT
-"
-
-THIS=$(grep -w "${ITEM}" modified_dataset | grep -w "${CURRENT}" | grep -w "${NEXT}" | wc -l | awk '{print $1}')
+THIS=$(grep -w "${ITEM}" modified_dataset | grep -w "${CURRENT}" | wc -l | awk '{print $1}')
 THIS=$(($THIS*1))
 [[ $THIS -gt 0 ]] && {
-THIS_TRIP="${ITEM};${CURRENT};${NEXT}"
-[[ `grep -w "${ITEM}" result2 | grep -w "${CURRENT}" | grep -w "${NEXT}"` == "" && ${CURRENT} != ${ITEM} && ${CURRENT} != ${NEXT} && ${NEXT} != ${ITEM} ]] && {
+THIS_TRIP="${ITEM};${CURRENT}"
+[[ `grep -w "${ITEM}" result2 | grep -w "${CURRENT}"` == "" && ${CURRENT} != ${ITEM} ]] && {
 GREATER_THAN_771=$((`echo ${THIS} | tr ':' ' ' | awk '{print $1}'`))
 [[ $GREATER_THAN_771 -gt 771 ]] && echo "`echo ${THIS}`:`echo ${THIS_TRIP}`" >> result2
-} ## [[ `grep -w "${ITEM}" result2 | grep -w "${CURRENT}" | grep -w "${NEXT}"` == "" && ${CURRENT} != ${ITEM} && ${CURRENT} != ${NEXT} && ${NEXT} != ${ITEM} ]] && {
+} ## [[ `grep -w "${ITEM}" result2 | grep -w "${CURRENT}"` == "" && ${CURRENT} != ${ITEM} ]] && {
 
 echo "$ITERATOR/$NUMBER_OF_LINES"
 cat result2
