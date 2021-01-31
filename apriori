@@ -30,7 +30,7 @@ THIS=$(grep -v "_${TOKEN}" | grep "${TOKEN}" token_per_line | wc -l | awk '{prin
 [[ `echo ${RESULT} | grep " ${THIS}"` == "" ]] && {
 GREATER_THAN_771=$((`echo ${THIS} | tr ':' ' ' | awk '{print $1}'`))
 [[ $GREATER_THAN_771 -gt 771 ]] && RESULT="${RESULT}!`echo ${THIS}`:`echo ${TOKEN} | tr '_' ' ' `"
-} ## [[ `echo ${RESULT} | grep ${THIS}` == "" ]] && {
+} ## [[ `echo ${RESULT} | grep " ${THIS}"` == "" ]] && {
 done ## for TOKEN in ${LINE}
 [[ $(($ITERATOR % 100)) -eq 0 ]] && {
 echo "$ITERATOR/$NUMBER_OF_LINES"
