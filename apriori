@@ -119,8 +119,9 @@ do
 ITERATOR=2
 while [[ $ITERATOR -lt $NUMBER_OF_LINES+1 ]]
 do
+NEXT_ITR=$(($NUMBER_OF_LINES-$ITERATOR))
 CURRENT=$(echo ${TOKENS2} | awk -v i=$ITERATOR '{print $i}')
-NEXT=$(echo ${TOKENS2} | awk -v i=$ITERATOR+1 '{print $i}')
+NEXT=$(echo ${TOKENS2} | awk -v i=$NEXT_ITR '{print $i}')
 
 THIS=$(grep -w "${ITEM}" modified_dataset | grep -w "${CURRENT}" | grep -w "${NEXT}" | wc -l | awk '{print $1}')
 THIS=$(($THIS*1))
