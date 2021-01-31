@@ -14,11 +14,11 @@ cat dataset | tr ' ' '_' | tr ';' ' ' > modified_dataset
 
 #generate the correct number of lines in the result file
 ITERATOR=0
-while [[ $ITERATOR -lt $NUMBER_OF_LINES ]]
+while [[ $ITERATOR -lt $NUMBER_OF_LINES+1 ]]
 do
 echo " " >> result
 ITERATOR=$(($ITERATOR+1))
-done ## while [[ $ITERATOR -lt $NUMBER_OF_LINES ]]
+done ## while [[ $ITERATOR -lt $NUMBER_OF_LINES+1 ]]
 
 # populate result file
 ITERATOR=1
