@@ -32,7 +32,7 @@ SUPPORT=""
 #NEW_LINE=""
 #TOKEN=$(echo ${TOKEN} | tr '_' ' ')
 
-SUPPORT=`cat modified_dataset | grep -v "_${TOKEN}" | grep "${TOKEN}" | wc -l | awk '{print $1}'`
+SUPPORT=`grep -v "_${TOKEN}" modified_dataset | grep -n "${TOKEN}" | tr ':' ' ' | awk '{print $1}'`
 [[ `echo ${SUPPORT}` != "" ]] && SUPPORT=$(($SUPPORT*1))
 #RESULT_SUPPORT_LINE=$(head -$SUPPORT result | tail -1 | tr -d ' ')
 
@@ -69,6 +69,7 @@ done ## for TOKEN in ${LINE}
 
 #[[ $(($ITERATOR % 100)) -eq 0 ]] && {
 echo "$ITERATOR/$NUMBER_OF_LINES"
+echo "${SUPPORT}:`echo ${TOKEN} | tr '_' ' '`"
 #} ## [[ $(($ITERATOR % 100)) -eq 0 ]] && {
 ITERATOR=$(($ITERATOR+1))
 done ## while [[ $ITERATOR -lt $NUMBER_OF_LINES+1 ]]
