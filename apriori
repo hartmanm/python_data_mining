@@ -32,7 +32,7 @@ THIS=$(grep -w "${LINE}" token_per_line | wc -l | awk '{print $1}')
 ##sed -i 's/${THIS}//g' token_per_line
 [[ `grep -w "${LINE}" result` == "" ]] && {
 GREATER_THAN_771=$((`echo ${THIS} | tr ':' ' ' | awk '{print $1}'`))
-[[ $GREATER_THAN_771 -gt 771 ]] && echo "${RESULT}!`echo ${THIS}`:`echo ${LINE} `" >> result
+[[ $GREATER_THAN_771 -gt 771 ]] && echo "`echo ${THIS}`:`echo ${LINE}`" >> result
 } ## [[ `echo ${RESULT}| grep "!${THIS}"` == "" ]] && {
 #done ## for TOKEN in ${LINE}
 
