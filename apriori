@@ -19,9 +19,7 @@ do
 LINE=$(head -$ITERATOR modified_dataset | tail -1)
 for TOKEN in ${LINE}
 do
-SUPPORT=""
-SUPPORT=`grep -v "_${TOKEN}" modified_dataset | grep "${TOKEN}" | wc -l | awk '{print $1}'`
-echo "${SUPPORT}:`echo ${TOKEN} | tr '_' ' '`" >> result
+echo "`grep -v "_${TOKEN}" modified_dataset | grep "${TOKEN}" | wc -l | awk '{print $1}'`:`echo ${TOKEN} | tr '_' ' '`" >> result
 done ## for TOKEN in ${LINE}
 
 [[ $(($ITERATOR % 1000)) -eq 0 ]] && {
