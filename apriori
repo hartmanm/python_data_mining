@@ -95,9 +95,11 @@ done ## for ITEM in ${TOKENS}
 
 cat result2 | sort -n | tr '_' ' ' > part2
 
+cat part1 > patterns.txt 
+
 cat part2 >> patterns.txt 
 
-cat patterns.txt | sort -n >> part2
+cat patterns.txt | sort -n > part2
 
 cat part2 > patterns.txt
 
