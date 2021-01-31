@@ -154,9 +154,9 @@ MULTI=$(echo ${MULTI_PATHS} | awk -v i=$ITERATOR '{print $i}')
 NEXT=$(echo ${TOKENS} | awk -v i=$ITERATOR '{print $i}')
 CURRENT=$(echo ${TOKENS} | awk -v i=$ITERATOR '{print $i}')
 
-THIS=$(echo ${MULTI} | grep "${NEXT}" | grep "${CURRENT}" | grep "${ITEM}" | wc -l | awk '{print $1}')
-THIS2=$(echo ${MULTI} | grep "${NEXT}" | grep "${CURRENT}" | grep "${ITEM}" | wc -l | awk '{print $1}')
-THIS3=$(echo ${MULTI} | grep "${CURRENT}" | grep "${CURRENT}" | grep "${ITEM}" | wc -l | awk '{print $1}')
+THIS=$(echo ${MULTI} | grep "${NEXT}" | grep "${ITEM}" | grep "${CURRENT}" | wc -l | awk '{print $1}')
+THIS2=$(echo ${MULTI} | grep "${ITEM}" | grep "${CURRENT}" | grep "${NEXT}" | wc -l | awk '{print $1}')
+THIS3=$(echo ${MULTI} | grep "${CURRENT}" | grep "${NEXT}" | grep "${ITEM}" | wc -l | awk '{print $1}')
 THIS=$(($THIS*1))
 THIS2=$(($THIS2*1))
 THIS3=$(($THIS3*1))
@@ -166,9 +166,6 @@ $THIS2
 $THIS3
 "
 
-[[ $THIS --eq 0 ]] && {
-THIS=$(echo ${MULTI} | grep -w "${NEXT}" | grep -w "${CURRENT}" | grep -w "${ITEM}" | wc -l | awk '{print $1}')
-
 [[ $THIS -gt 0 ]] && {
 THIS_TRIP="${ITEM};${CURRENT};${NEXT}"
 [[ `grep -w "${ITEM}" result2 | grep -w "${CURRENT}" | grep -w "${NEXT}"` == "" && ${CURRENT} != ${ITEM} && ${CURRENT} != ${NEXT} && ${NEXT} != ${ITEM} ]] && {
@@ -177,7 +174,7 @@ THIS_TRIP="${ITEM};${CURRENT};${NEXT}"
 echo "`echo ${THIS}`:`echo ${THIS_TRIP}`" >> result2
 #} ## [[ $GREATER_THAN_771 -gt 771 ]] && {
 } ## [[ `grep -w "${ITEM}" result2 | grep -w "${CURRENT}" | grep -w "${NEXT}"` == "" && ${CURRENT} != ${ITEM} && ${CURRENT} != ${NEXT} && ${NEXT} != ${ITEM} ]] && {
-
+} ## [[ $THIS -gt 0 ]] && {
 done ## for ITEM,CURRENT,NEXT in ${TOKENS}
  
 
