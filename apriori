@@ -70,8 +70,7 @@ THIS=$(grep -w "${ITEM}" modified_dataset | grep -w "${CURRENT}" | wc -l | awk '
 THIS=$(($THIS*1))
 [[ $THIS -gt 0 ]] && {
 THIS_PAIR="${ITEM};${CURRENT}"
-OTHER_PAIR="${CURRENT};${ITEM}"
-[[ `grep -w "${THIS_PAIR}" result2` == "" && `grep -w "${OTHER_PAIR}" result2` == "" && ${CURRENT} != ${ITEM} ]] && {
+[[ `grep -w "${ITEM}" result2 | grep -w "${CURRENT}"` == ""  && ${CURRENT} != ${ITEM} ]] && {
 GREATER_THAN_771=$((`echo ${THIS} | tr ':' ' ' | awk '{print $1}'`))
 [[ $GREATER_THAN_771 -gt 771 ]] && echo "`echo ${THIS}`:`echo ${THIS_PAIR}`" >> result2
 } ## [[ `grep -w "${THIS_PAIR}" result2` == "" && `grep -w "${OTHER_PAIR}" result2` == "" && ${CURRENT} != ${ITEM} ]] && {
