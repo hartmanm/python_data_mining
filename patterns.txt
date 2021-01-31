@@ -1,50 +1,50 @@
-798:Sushi_Bars
-818:Sports_Bars
-823:General_Dentistry
+798:Sushi Bars
+818:Sports Bars
+823:General Dentistry
 848:Japanese
-870:Pet_Services
+870:Pet Services
 874:Pubs
-875:Financial_Services
+875:Financial Services
 1002:Cafes
-1018:Ice_Cream_&_Frozen_Yogurt
-1025:Professional_Services
+1018:Ice Cream & Frozen Yogurt
+1025:Professional Services
 1115:Bakeries
-1138:Women's_Clothing
-1150:Specialty_Food
+1138:Women's Clothing
+1150:Specialty Food
 1195:Dentists
-1369:Breakfast_&_Brunch
+1369:Breakfast & Brunch
 1424:Grocery
-1424:Real_Estate
+1424:Real Estate
 1431:Hotels
-1442:Fitness_&_Instruction
+1442:Fitness & Instruction
 1497:Pets
-1586:Home_&_Garden
-1593:American_(New)
+1586:Home & Garden
+1593:American (New)
 1629:Chinese
-1667:Nail_Salons
+1667:Nail Salons
 1694:Doctors
-1716:Auto_Repair
+1716:Auto Repair
 1774:Burgers
 1848:Italian
-2091:Hair_Salons
-2199:Coffee_&_Tea
-2271:Arts_&_Entertainment
+2091:Hair Salons
+2199:Coffee & Tea
+2271:Arts & Entertainment
 2364:Sandwiches
-2416:American_(Traditional)
-2495:Hotels_&_Travel
+2416:American (Traditional)
+2495:Hotels & Travel
 2515:Mexican
 2657:Pizza
-2851:Fast_Food
-2975:Event_Planning_&_Services
+2851:Fast Food
+2975:Event Planning & Services
 3078:Fashion
-3103:Active_Life
-3468:Local_Services
+3103:Active Life
+3468:Local Services
 4208:Automotive
 4328:Bars
-4785:Home_Services
+4785:Home Services
 5088:Nightlife
-5121:Health_&_Medical
-6583:Beauty_&_Spas
+5121:Health & Medical
+6583:Beauty & Spas
 9250:Food
 11233:Shopping
 25071:Restaurants
