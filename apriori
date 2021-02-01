@@ -71,7 +71,9 @@ CURRENT=$(echo ${TOKENS2} | awk -v i=$ITERATOR '{print $i}')
 
 THIS=$(grep -w "${ITEM}" modified_dataset | grep -w "${CURRENT}" | wc -l | awk '{print $1}')
 THIS=$(($THIS*1))
-[[ $THIS -gt 0 ]] && {
+THIS2=$(grep -w "${CURRENT}" modified_dataset | grep -w "${ITEM}" | wc -l | awk '{print $1}')
+THIS2=$(($THIS2*1))
+[[ $THIS -gt 0 || $THIS2 -gt 0  ]] && {
 THIS_PAIR="${ITEM};${CURRENT}"
 [[ `grep -w "${ITEM}" result2 | grep -w "${CURRENT}"` == ""  && ${CURRENT} != ${ITEM} ]] && {
 GREATER_THAN_771=$((`echo ${THIS} | tr ':' ' ' | awk '{print $1}'`))
@@ -80,7 +82,7 @@ GREATER_THAN_771=$((`echo ${THIS} | tr ':' ' ' | awk '{print $1}'`))
 
 echo "$ITERATOR/$NUMBER_OF_LINES"
 cat result2
-} ## [[ $THIS -gt 0 ]] && {
+} ## [[ $THIS -gt 0 || $THIS2 -gt 0  ]] && {
 
 ITERATOR=$(($ITERATOR+1))
 done ## while [[ $ITERATOR -lt $NUMBER_OF_LINES+1 ]]
