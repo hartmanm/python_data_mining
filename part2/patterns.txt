@@ -17,6 +17,15 @@
 875:Financial Services
 1002:Cafes
 1002:Cafes;Restaurants
+1018:Cream;&;Frozen
+1018:Cream;&;Yogurt
+1018:Cream;&;Food
+1018:Cream;Frozen;Yogurt
+1018:Cream;Frozen;Food
+1018:Cream;Yogurt;Food
+1018:&;Frozen;Yogurt
+1018:&;Frozen;Food
+1018:&;Yogurt;Food
 1018:Ice Cream & Frozen Yogurt
 1018:Ice Cream & Frozen Yogurt;Food
 1025:Professional Services
