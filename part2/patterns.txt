@@ -7,7 +7,6 @@
 823:General Dentistry
 823:General Dentistry;Dentists
 823:General Dentistry;Health & Medical
-823:Medical;Dentistry;&
 848:Japanese
 848:Japanese;Restaurants
 870:Pet Services
@@ -41,10 +40,8 @@
 1431:Hotels;Hotels & Travel
 1442:Fitness & Instruction
 1442:Fitness & Instruction;Active Life
-1442:Life;&;Instruction
 1471:Hotels & Travel;Event Planning & Services
 1497:Pets
-1549:Travel;Services;&
 1586:Home & Garden
 1586:Home & Garden;Shopping
 1593:American (New)
@@ -82,7 +79,6 @@
 2851:Fast Food
 2851:Fast Food;Restaurants
 2975:Event Planning & Services
-2987:Planning;Services;&
 3078:Fashion
 3078:Fashion;Shopping
 3103:Active Life
