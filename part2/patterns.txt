@@ -63,7 +63,6 @@
 2101:Food;Restaurants
 2199:Coffee & Tea
 2199:Coffee & Tea;Food
-2223:Tea;&;Food
 2271:Arts & Entertainment
 2364:Sandwiches
 2364:Sandwiches;Restaurants
