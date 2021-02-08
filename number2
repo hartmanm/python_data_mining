@@ -11,10 +11,10 @@ MODIFIED=$(cat modified_dataset | tr '\n' '!')
 IS_MATCH=""
 LARGEST=0
 ITERATOR=1
-while $ITERATOR -lt 77186
+while [[ $ITERATOR -lt 77186 ]]
 do
 LINE=$(head -$ITERATOR modified_dataset | tail -1)
-NUMBER_OF_TOKENS_IN_LINE=$(echo ${LINE} | awk '{print $NF}')
+NUMBER_OF_TOKENS_IN_LINE=$(echo ${LINE} | awk '{print NF}')
 NUMBER_OF_TOKENS_IN_LINE=$(($NUMBER_OF_TOKENS_IN_LINE*1))
 [[ $NUMBER_OF_TOKENS_IN_LINE -gt $LARGEST  ]] && LARGEST=$NUMBER_OF_TOKENS_IN_LINE
 echo "
@@ -24,19 +24,24 @@ $LARGEST
 "
 
 
-for $NUMBER_OF_TOKENS_IN_LINE in ${LINE}
+while [[ $NUMBER_OF_TOKENS_IN_LINE -gt 0 ]]
 do
 #CURRENT=$(echo ${TOKENS} | awk -v i=$ITERATOR '{print $i}')
-echo "$LINE" | awk -v i=$ITERATOR '{print $i}' >> res
+echo "$LINE" | awk -v i=$NUMBER_OF_TOKENS_IN_LINE '{print $i}' >> res
+
 
 #[[ ${CURRENT} != ${ITEM} ]] && 
+
+
 
 #CURRENT=$(echo ${TOKENS} | awk -v i=$ITERATOR '{print $i}')
 #PAIR_2_CURRENT=$(echo ${TOKENS} | awk -v i=$ITERATOR '{print $i}')
 #[[ ${CURRENT} != ${ITEM} ]] && 
 
-ITERATOR=$(($ITERATOR+1))
+
+NUMBER_OF_TOKENS_IN_LINE=$(($NUMBER_OF_TOKENS_IN_LINE-1))
 done ## for ITEM in ${TOKENS}
+ITERATOR=$(($ITERATOR+1))
 done ## while $ITERATOR -lt 77186
 
 
@@ -78,4 +83,4 @@ NEXT_ITR=$(($NEXT_ITR+1))
 done ## while [[ $ITERATOR -lt $NUMBER_OF_LINES+1 ]]
 ITERATOR=$(($ITERATOR+1))
 done ## while [[ $ITERATOR -lt $NUMBER_OF_LINES+1 ]]
-done ## for ITEM in ${TOKENS}
+done ## for ITEM in ${TOKENS}}
