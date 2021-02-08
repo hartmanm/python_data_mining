@@ -9,7 +9,7 @@ MODIFIED=$(cat modified_dataset | tr '\n' '!')
 > res
 LARGEST=0
 ITERATOR=1
-while [[ $ITERATOR -lt 77186 ]]
+while [[ $ITERATOR -lt 77187 ]] ## +1
 do
 LINE=$(head -$ITERATOR modified_dataset | tail -1)
 NUMBER_OF_TOKENS_IN_LINE=$(echo ${LINE} | awk '{print NF}')
