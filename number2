@@ -1,14 +1,12 @@
 #!/bin/bash
 
-
-
+# process with given part1
 
 TOKENS=$(cat part1 | tr ' ' '_' | tr ':' ' ' | awk '{for (i=2; i<=NF; i++) print $i}' | tr '\n' '!')
 
 MODIFIED=$(cat modified_dataset | tr '\n' '!')
 
 > res
-IS_MATCH=""
 LARGEST=0
 ITERATOR=1
 while [[ $ITERATOR -lt 77186 ]]
