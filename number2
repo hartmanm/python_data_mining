@@ -50,8 +50,23 @@ uniq res > result
 } ## [[ $ALL_PRESENT -eq 1 ]] && {
 
 ITERATOR=$(($ITERATOR+1))
-[[ $(($ITERATOR % 1000)) -eq 0 ]] && echo "$ITERATOR $LARGEST `cat res`"
+[[ $(($ITERATOR % 1000)) -eq 0 ]] && {
+echo "
 
+
+
+
+
+
+$ITERATOR $LARGEST 
+`cat res`
+
+
+
+
+
+"
+} ## [[ $(($ITERATOR % 1000)) -eq 0 ]] && {
 done ## while $ITERATOR -lt 77186
 
 echo ${LARGEST}
