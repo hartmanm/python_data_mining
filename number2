@@ -37,8 +37,8 @@ echo "
 
 
 $ITERATOR $LARGEST 
-`cat res`
-
+`cat res2`
+`wc -l res2`
 
 
 
