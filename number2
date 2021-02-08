@@ -6,6 +6,7 @@ TOKENS=$(cat part1 | tr ' ' '_' | tr ':' ' ' | awk '{for (i=2; i<=NF; i++) print
 
 MODIFIED=$(cat modified_dataset | tr '\n' '!')
 
+> subs
 > res
 LARGEST=0
 ITERATOR=1
@@ -19,9 +20,13 @@ ALL_PRESENT=1
 while [[ $NUMBER_OF_TOKENS_IN_LINE -gt 0 ]]
 do
 THIS=$(echo "$LINE" | awk -v i=$NUMBER_OF_TOKENS_IN_LINE '{print $i}')
-[[ `echo ${TOKENS} | tr '!' '\n' | grep ${THIS}` == "" ]] && ALL_PRESENT=0
+[[ `echo ${TOKENS} | tr '!' '\n' | grep ${THIS}` == "" ]] && ALL_PRESENT=$(($NUMBER_OF_TOKENS_IN_LINE-1))
 NUMBER_OF_TOKENS_IN_LINE=$(($NUMBER_OF_TOKENS_IN_LINE-1))
 done ## while [[ $NUMBER_OF_TOKENS_IN_LINE -gt 0 ]]
+[[ $ALL_PRESENT -gt 1 ]] && {
+echo "$LINE" >> res
+uniq res > subs
+> res
 [[ $ALL_PRESENT -eq 1 ]] && {
 echo "$LINE" >> res
 uniq res > result
@@ -31,17 +36,10 @@ ITERATOR=$(($ITERATOR+1))
 [[ $(($ITERATOR % 1000)) -eq 0 ]] && {
 echo "
 
-
-
-
-
-
+`cat result`
+`wc -l result`
+`wc -l subs`
 $ITERATOR $LARGEST 
-`cat res2`
-`wc -l res2`
-
-
-
 
 "
 } ## [[ $(($ITERATOR % 1000)) -eq 0 ]] && {
