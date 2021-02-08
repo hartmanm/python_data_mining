@@ -6,6 +6,7 @@ TOKENS=$(cat part1 | tr ' ' '_' | tr ':' ' ' | awk '{for (i=2; i<=NF; i++) print
 
 MODIFIED=$(cat modified_dataset | tr '\n' '!')
 
+> result
 > subs
 > res
 LARGEST=0
@@ -24,11 +25,13 @@ THIS=$(echo "$LINE" | awk -v i=$NUMBER_OF_TOKENS_IN_LINE '{print $i}')
 NUMBER_OF_TOKENS_IN_LINE=$(($NUMBER_OF_TOKENS_IN_LINE-1))
 done ## while [[ $NUMBER_OF_TOKENS_IN_LINE -gt 0 ]]
 [[ $ALL_PRESENT -gt 1 ]] && {
+cat subs > res
 echo "$LINE" >> res
 uniq res > subs
 > res
 } ## [[ $ALL_PRESENT -gt 1 ]] && {
 [[ $ALL_PRESENT -eq 1 ]] && {
+cat result > res
 echo "$LINE" >> res
 uniq res > result
 > res
