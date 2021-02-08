@@ -17,17 +17,17 @@ LINE=$(head -$ITERATOR modified_dataset | tail -1)
 NUMBER_OF_TOKENS_IN_LINE=$(echo ${LINE} | awk '{print NF}')
 NUMBER_OF_TOKENS_IN_LINE=$(($NUMBER_OF_TOKENS_IN_LINE*1))
 [[ $NUMBER_OF_TOKENS_IN_LINE -gt $LARGEST  ]] && LARGEST=$NUMBER_OF_TOKENS_IN_LINE
-echo "
-$LINE
-$NUMBER_OF_TOKENS_IN_LINE
-$LARGEST
-"
+#echo "
+#$LINE
+#$NUMBER_OF_TOKENS_IN_LINE
+#$LARGEST
+#"
 
 
-while [[ $NUMBER_OF_TOKENS_IN_LINE -gt 0 ]]
-do
+#while [[ $NUMBER_OF_TOKENS_IN_LINE -gt 0 ]]
+#do
 #CURRENT=$(echo ${TOKENS} | awk -v i=$ITERATOR '{print $i}')
-echo "$LINE" | awk -v i=$NUMBER_OF_TOKENS_IN_LINE '{print $i}' >> res
+#echo "$LINE" | awk -v i=$NUMBER_OF_TOKENS_IN_LINE '{print $i}' >> res
 
 
 #[[ ${CURRENT} != ${ITEM} ]] && 
@@ -39,11 +39,17 @@ echo "$LINE" | awk -v i=$NUMBER_OF_TOKENS_IN_LINE '{print $i}' >> res
 #[[ ${CURRENT} != ${ITEM} ]] && 
 
 
-NUMBER_OF_TOKENS_IN_LINE=$(($NUMBER_OF_TOKENS_IN_LINE-1))
-done ## for ITEM in ${TOKENS}
+#NUMBER_OF_TOKENS_IN_LINE=$(($NUMBER_OF_TOKENS_IN_LINE-1))
+#done ## for ITEM in ${TOKENS}
 ITERATOR=$(($ITERATOR+1))
+
+[[ $(($ITERATOR % 1000)) -eq 0 ]] && echo "$ITERATOR $LARGEST"
+
 done ## while $ITERATOR -lt 77186
 
+echo ${NUMBER_OF_TOKENS_IN_LINE}
+
+echo ${NUMBER_OF_TOKENS_IN_LINE} > res
 
 exec true
 TOKENS=$(cat part1)
