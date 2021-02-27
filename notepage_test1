@@ -31,38 +31,7 @@ How can one determine if a given graph is a subgraph of another?
 
 You may consider labeling the nodes of the candidate subgraph and searching for corresponding nodes (and edges between them) in the graph in question.
 
-Coursera
-
-Skip to Main Content
-
-Michael Neill Hartman
-CS 412: Introduction to Data Mining
-Week 5
-Part 1 Practice Exam
-Prev
-Next
-
-Course Part 1 Practice Exam: Pattern Discovery
-Practice Quiz: Part 1 Practice Exam
-8 questions
-Reading: Pattern Discovery FAQ
-. Duration: 10 minutes10 min
-
-Course Part 1 Exam Policy
-
-Course Part 1 Exam: Pattern Discovery
-
-Office Hour Recordings
-PRACTICE QUIZ • 30 MIN30 MINUTES
-Part 1 Practice Exam
-Submit your assignment
-Receive grade
-TO PASS1% or higher
-Grade
-100%
-We keep your highest score
-
-
+---
 
 Part 1 Practice Exam
 
