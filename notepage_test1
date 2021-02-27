@@ -78,7 +78,7 @@ customer id | shopping sequence
 
 Let the minimum support be 3. Mine all frequent sequential patterns and answer the following question:
 
-How many max sequential patterns are there?: -> 4 dec,aec,
+How many max sequential patterns are there?: -> 4 dec,aec,?
 
 
 Suppose a sequence database D contains three sequences as follows. Note (b c) means that items b and c are purchased together (i.e., in the same transaction).
@@ -108,7 +108,7 @@ where ai != bi != ci for i from 1 to 100 ("!=" means "not equals to").
 
 Let min support = 2. 
 
-How many closed frequent patterns are there in this dataset?: -> 3
+How many closed frequent patterns are there in this dataset?: -> 3 S1,S2, and S3 are closed frequent patterns
 
 
 Suppose there are the following three sets of items (i.e., three transactions) in a dataset: 
@@ -123,7 +123,7 @@ where ai != bi != ci for i from 1 to 100.
 
 Let min support = 2. 
 
-How many frequent patterns are there in this dataset?: -> 2^50 + 2^67 − 2^33  −  1
+How many frequent patterns are there in this dataset?: -> 2^50 + 2^67 − 2^33  −  1 evens + (odds + evens mod 3)()
 
 
 
