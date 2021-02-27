@@ -78,7 +78,7 @@ customer id | shopping sequence
 
 Let the minimum support be 3. Mine all frequent sequential patterns and answer the following question:
 
-How many max sequential patterns are there?: -> 4 
+How many max sequential patterns are there?: -> 4 dec,aec,
 
 
 Suppose a sequence database D contains three sequences as follows. Note (b c) means that items b and c are purchased together (i.e., in the same transaction).
@@ -93,7 +93,7 @@ customer id | shopping sequence
 
 Let the minimum support be 3. Mine all frequent sequential patterns and answer the following question:
 
-How long is the longest sequential pattern?: -> 3
+How long is the longest sequential pattern?: -> 3 dec,aec are both of length 3
 
 
 Suppose there are the following three sets of items (i.e., three transactions) in a dataset: 
