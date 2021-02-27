@@ -49,7 +49,7 @@ trans id | items bought
 
 5 | A, F, G, H 
 
-How many frequent 2-itemsets will the database generate?: -> 3
+How many frequent 2-itemsets will the database generate?: -> 3 ab,bc,ac -- note its not sequential
 
 Suppose a sequence database D contains three sequences as follows. Note (b c) means that items b and c are purchased together (i.e., in the same transaction).
 
@@ -63,7 +63,7 @@ customer id | shopping sequence
 
 Let the minimum support be 3. Mine all frequent sequential patterns and answer the following question:
 
-How many sequential patterns are frequent in this data (of all lengths k >=1)?: 11
+How many sequential patterns are frequent in this data (of all lengths k >=1)?: 11 ae,ac,ec,cd,a,e,c,d,b,f,aec -- note non sequence items can be between sequence items
 
 
 Suppose a sequence database D contains three sequences as follows. Note (b c) means that items b and c are purchased together (i.e., in the same transaction).
@@ -78,7 +78,7 @@ customer id | shopping sequence
 
 Let the minimum support be 3. Mine all frequent sequential patterns and answer the following question:
 
-How many max sequential patterns are there?: -> 4
+How many max sequential patterns are there?: -> 4 
 
 
 Suppose a sequence database D contains three sequences as follows. Note (b c) means that items b and c are purchased together (i.e., in the same transaction).
