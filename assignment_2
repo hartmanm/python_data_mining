@@ -1,0 +1,104 @@
+#!/bin/bash
+
+PART_1=0 # generate a file of all tokens
+PART_2=1 # find support for each token in tokens, and store those with greater than 100 in patterns.txt in the format support:token
+PART_3=0 # 
+
+SOURCE_FILE=reviews_sample.txt
+NUMBER_OF_LINES=$(wc -l ${SOURCE_FILE}| awk '{print $1}')
+NUMBER_OF_LINES=$(($NUMBER_OF_LINES+1))
+
+[[ $PART_1 -eq 1 ]] && {
+# generate a file of all tokens
+
+# list to store unique tokens
+TOKENS=""
+
+# iterate over each line
+ITERATOR=1
+while [[ $ITERATOR -lt ${NUMBER_OF_LINES} ]]
+do
+LINE=$(head -$ITERATOR ${SOURCE_FILE} | tail -1)
+
+# process tokens in line
+NUMBER_OF_TOKENS_IN_LINE=$(echo ${LINE} | awk '{print NF}')
+NUMBER_OF_TOKENS_IN_LINE=$(($NUMBER_OF_TOKENS_IN_LINE*1))
+while [[ $NUMBER_OF_TOKENS_IN_LINE -gt 0 ]]
+do
+THIS=$(echo "$LINE" | awk -v i=$NUMBER_OF_TOKENS_IN_LINE '{print $i}')
+
+# append token to $TOKENS if it is unique
+[[ `echo ${TOKENS} | grep ${THIS}` == "" ]] && TOKENS="${TOKENS} ${THIS}"
+
+NUMBER_OF_TOKENS_IN_LINE=$(($NUMBER_OF_TOKENS_IN_LINE-1))
+done ## while [[ $NUMBER_OF_TOKENS_IN_LINE -gt 0 ]]
+
+# output progess feedback
+ITERATOR=$(($ITERATOR+1))
+[[ $(($ITERATOR % 100)) -eq 0 ]] && {
+echo "
+
+$TOKENS
+
+$ITERATOR 
+"
+} ## [[ $(($ITERATOR % 100)) -eq 0 ]] && {
+done ## while [[ $ITERATOR -lt ${NUMBER_OF_LINES} ]]
+
+# store TOKENS in the file tokens
+> tokens
+for ITEM in ${TOKENS}
+do
+echo ${ITEM} >> tokens
+done ## for ITEM in ${TOKENS}
+cp tokens part1
+} ## [[ $PART_1 -eq 1 ]] && {
+
+
+[[ $PART_2 -eq 1 ]] && {
+# find support for each token in tokens, and store those with greater than 100 in patterns.txt in the format support:token
+> patterns.txt
+ITERATOR=1
+for ITEM in `cat tokens`
+do
+SUPPORT=$(grep -c ${ITEM} ${SOURCE_FILE})
+SUPPORT=$(($SUPPORT*1))
+[[ $SUPPORT -gt 99 ]] && echo "${SUPPORT}:${ITEM}" >> patterns.txt
+
+# output progess feedback
+ITERATOR=$(($ITERATOR+1))
+[[ $(($ITERATOR % 100)) -eq 0 ]] && {
+echo "
+$ITERATOR 
+"
+} ## [[ $(($ITERATOR % 100)) -eq 0 ]] && {
+done ## for ITEM in `cat tokens`
+cp patterns.txt part2
+} ## [[ $PART_2 -eq 1 ]] && {
+
+
+[[ $PART_3 -eq 1 ]] && {
+
+# for each token find all lines with that token, generate all subsequences with that token
+
+# iterate over results using results limiting and tail
+#grep  -m 2 "lidia" reviews_sample.txt | tail -1
+
+# determine number of token occurances in line
+# grep  -m 2 "lidia" reviews_sample.txt | tail -1 | tr ' ' '\n' | grep -c lidia
+
+# determine position of target token in line
+# grep  -m 2 "lidia" reviews_sample.txt | tail -1 | tr ' ' '\n' | grep -n lidia | tr ':' ' ' | awk '{print $1}'
+
+
+# find support for each token in tokens, and store those with greater than 100 in patterns.txt in the format support:token
+> patterns.txt
+for ITEM in `cat tokens`
+do
+
+SUPPORT=$(grep -c ${ITEM} tokens)
+SUPPORT=$(($SUPPORT*1))
+[[ $SUPPORT -gt 99 ]] && echo "${SUPPORT}:${ITEM}" >> patterns.txt
+done ## for ITEM in `cat tokens`
+
+} ## [[ $PART_3 -eq 1 ]] && {
