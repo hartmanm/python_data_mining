@@ -89,11 +89,12 @@ echo ${PART_2_TOKENS} > part3
 echo "extract only token names from part2 and write them as a list to part3 complete!"
 
 > gt_one
-> only_one
+## when restarting with partial results dont wipe only_one
+#> only_one
+
 ## iterate over results using results limiting and tail
 for ITEM in ${PART_2_TOKENS}
 do
-ITERATOR=1
 # find all lines matching ITEM and write them to temp
 > temp
 grep ${ITEM} reviews_sample.txt > temp
@@ -105,8 +106,11 @@ TEMP_NUMBER_OF_LINES=$(($TEMP_NUMBER_OF_LINES+1))
 # remove all lines with only 1 match
 ITERATOR=1
 IS_TARGET_WITH_THIS_ITEM=0
+ALREADY_PROCESSED=`grep $ITEM only_one`
 while [[ $ITERATOR -ne ${TEMP_NUMBER_OF_LINES}+1 ]]
 do
+# skip 
+[[ ${ALREADY_PROCESSED} == "" ]] && {
 RESULT=$(cat temp | head -$ITERATOR | tail -1)
 IS_ONE=$(echo ${RESULT} | grep -c ${ITEM})
 IS_ONE=$(($IS_ONE*1))
@@ -114,13 +118,13 @@ echo "
 ${ITEM}
 $ITERATOR / $TEMP_NUMBER_OF_LINES
 $IS_ONE
-${RESULT} 
 ${IS_TARGET_WITH_THIS_ITEM}
 "
 [[ $IS_ONE -gt 1 ]] && {
 echo "${IS_ONE}:${ITEM}" >> gt_one
 IS_TARGET_WITH_THIS_ITEM=1
 } ## [[ $IS_ONE -gt 1 ]] && {
+} ## [[ ${ALREADY_PROCESSED} == "" ]] && {
 ITERATOR=$(($ITERATOR+1))
 done ## while [[ $ITERATOR -ne ${TEMP_NUMBER_OF_LINES}+1 ]]
 
