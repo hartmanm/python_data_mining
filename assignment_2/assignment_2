@@ -221,9 +221,9 @@ IS_UNIQUE=$(grep -c "${THIS_SUBPATTERN}" ${SOURCE_FILE})
 IS_UNIQUE=$(($IS_UNIQUE*1))
 # append token to $TOKENS if it is unique
 [[ $IS_UNIQUE -gt 100 ]] && {
-IS_ALREADY=$(grep -c "${THIS_SUBPATTERN}" part5)
-[[ "${IS_ALREADY}" == "0" ]] && {
 FORMATTED=`echo ${THIS_SUBPATTERN} | tr ' ' ';'`
+IS_ALREADY=$(grep -c "${IS_UNIQUE}:${THIS_SUBPATTERN}" part5)
+[[ "${IS_ALREADY}" == "0" ]] && {
 echo "${IS_UNIQUE}:${FORMATTED}" >> part5
 } ## [[ "${IS_ALREADY}" == "0" ]] && {
 } ## [[ $IS_UNIQUE -gt 100 ]] && {
@@ -236,8 +236,6 @@ ITERATOR=$(($ITERATOR+1))
 done ## while [[ $ITERATOR -ne $NUMBER_OF_LINES+1 ]]
 } ## [[ $PART_5 -eq 1 ]] && {
 
-
-uniq part5 patterns.txt
 
 
 exec true
