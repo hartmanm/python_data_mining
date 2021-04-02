@@ -5,21 +5,26 @@
 
 # assumes file i/o performed on ramdisk
 
+START_AT=1
+
 SOURCE_FILE=reviews_sample.txt
 
 PART_1=0 # generate a file of all tokens
          # generates part1
 PART_2=0 # find support for each token in tokens, and store those with greater than 100 in patterns.txt in the format support:token
          # generates part2
-PART_3=1 # for edge case 1: for each token from part2 determine if it occurs more than once in a line or only once
+## note no PART_3 edge cases, no need to run
+        PART_3=0 # for edge case 1: for each token from part2 determine if it occurs more than once in a line or only once
          # and write the results to two files only_one / gt_one respectively
-RESTARTING_PART_3=0 # when restarting part_3 with partial results dont wipe only_one or gt_one 
+        RESTARTING_PART_3=0 # when restarting part_3 with partial results dont wipe only_one or gt_one 
          # generates part3,only_one,gt_one
-PART_4=0 # generate file of all lines with tokens from part2
+PART_4=1 # generate file of all lines with tokens from part2
          # generates part4
-PART_5=0 # generate file with all two token sequences using part4 for basis and part 2 for tokens
-         # and and store them in the format support:token as part5
-         # generates part5
+PART_5=0 # remove duplicate lines from part4
+         # generates part5           
+PART_6=0 # generate file with all two token sequences using part5 for basis and part 2 for tokens
+         # and and store them in the format support:token as part6
+         # generates part6
 
 
 NUMBER_OF_LINES=$(wc -l ${SOURCE_FILE} | awk '{print $1}')
@@ -164,17 +169,64 @@ PART_2_TOKENS=$(cat part2 | tr ':' ' ' | awk '{print $2}')
 echo ${PART_2_TOKENS} > temp
 echo "extract only token names from part2 and write them as a list to temp complete!"
 
-
-
-cat temp | grep   ${SOURCE_FILE}
-
-
+# find all lines matching ITEM and write them to temp if they aren't in temp already
+> temp
+NUMBER_OF_PART_2_TOKENS=$(echo ${PART_2_TOKENS} | wc | awk '{print $2}')
+THIS_TOKEN=1
+for ITEM in ${PART_2_TOKENS}
+do
+grep ${ITEM} reviews_sample.txt > temp2
+# find the number of lines in temp2
+TEMP_NUMBER_OF_LINES=$(wc -l temp2 | awk '{print $1}')
+TEMP_NUMBER_OF_LINES=$(($TEMP_NUMBER_OF_LINES+1))
+ITERATOR=1
+while [[ $ITERATOR -ne ${TEMP_NUMBER_OF_LINES}+1 ]]
+do
+LINE=$(cat temp2 | head -$ITERATOR | tail -1)
+IS_ALREADY=$(grep -c "${LINE}" temp)
+[[ "${IS_ALREADY}" == "0" ]] && echo "${LINE}" >> temp
+ITERATOR=$(($ITERATOR+1))
+done ## while [[ $ITERATOR -ne ${TEMP_NUMBER_OF_LINES}+1 ]]
+echo "
+$THIS_TOKEN / $NUMBER_OF_PART_2_TOKENS
+"
+THIS_TOKEN=$(($THIS_TOKEN+1))
+done ## for ITEM in ${PART_2_TOKENS}
+cat temp > part4
 } ## [[ $PART_4 -eq 1 ]] && {
 
 
 
 
 
+
+[[ $PART_5 -eq 1 ]] && {
+> part5
+# begin processing line at passed value from START_AT
+ITERATOR=$START_AT
+while [[ $ITERATOR -ne $NUMBER_OF_LINES+1 ]]
+do
+LINE=$(cat ${SOURCE_FILE} | head -$ITERATOR | tail -1)
+# process tokens in line
+# see if the entire line has a support of > 100
+# (see if line - last token has a support of > 100) until all tokens in line have been tested
+NUMBER_OF_TOKENS_IN_LINE=$(echo ${LINE} | awk '{print NF}')
+NUMBER_OF_TOKENS_IN_LINE=$(($NUMBER_OF_TOKENS_IN_LINE*1))
+while [[ $NUMBER_OF_TOKENS_IN_LINE -gt 0 ]]
+do
+THIS_SUBPATTERN=$(echo "$LINE" | awk -v i=$NUMBER_OF_TOKENS_IN_LINE '{print $i}')
+IS_UNIQUE=$(grep -c ${THIS_SUBPATTERN} ${SOURCE_FILE})
+IS_UNIQUE=$(($IS_UNIQUE*1))
+# append token to $TOKENS if it is unique
+[[ $IS_UNIQUE -gt 100 ]] && echo "${SUPPORT}:${THIS_SUBPATTERN}" >> part5
+NUMBER_OF_TOKENS_IN_LINE=$(($NUMBER_OF_TOKENS_IN_LINE-1))
+done ## while [[ $NUMBER_OF_TOKENS_IN_LINE -gt 0 ]]
+echo "
+$ITERATOR / $NUMBER_OF_LINES+1
+"
+ITERATOR=$(($ITERATOR+1))
+done ## while [[ $ITERATOR -ne $NUMBER_OF_LINES+1 ]]
+} ## [[ $PART_5 -eq 1 ]] && {
 
 
 
@@ -183,11 +235,111 @@ cat temp | grep   ${SOURCE_FILE}
 exec true
 
 
-cat temp | head -3 | tail -1 | grep -c road
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#uniq part4 part5
+#} ## [[ $PART_5 -eq 1 ]] && {
+
+#exec true
+#cat temp | head -3 | tail -1 | grep -c road
+
+
+# extract only token names from part2 and write them as a list to part3
+PART_2_TOKENS=$(cat part2 | tr ':' ' ' | awk '{print $2}')
+echo ${PART_2_TOKENS} > temp
+echo "extract only token names from part2 and write them as a list to temp complete!"
+
+NUMBER_OF_PART_2_TOKENS=$(echo ${PART_2_TOKENS} | wc | awk '{print $2}')
+THIS_TOKEN=1
+for ITEM in ${PART_2_TOKENS}
+do
+
 
 
 # iterate over each match of ITEM in the SOURCE_FILE line by line
-LINE=$(grep -m $ITERATOR ${ITEM} ${SOURCE_FILE} | tail -1)
+ITERATOR=1
+grep ${ITEM} ${SOURCE_FILE} > lines
+LINE=$(cat lines | head -1)
+#LINE=$(grep -m $ITERATOR ${ITEM} ${SOURCE_FILE} | tail -1)
+while [[ "${LINE}" != "${LAST_LINE}" ]]
+do
+LINE=$(cat lines | head -$ITERATOR | tail -1)
+ITERATOR=$(($ITERATOR+1))
+[[ "${LINE}" != "" ]] && LAST_LINE=${LINE}
+done ## while [[ "${LINE}" != "${LAST_LINE}" ]]
+
+
+
+
+echo "
+$THIS_TOKEN / $NUMBER_OF_PART_2_TOKENS
+"
+THIS_TOKEN=$(($THIS_TOKEN+1))
+done ## for ITEM in ${PART_2_TOKENS}
+
+
+
+
+
+
+NUMBER_OF_PART_2_TOKENS=$(echo ${PART_2_TOKENS} | wc | awk '{print $2}')
+THIS_TOKEN=1
+for ITEM in ${PART_2_TOKENS}
+do
+grep ${ITEM} reviews_sample.txt > temp2
+
+
+TEMP_NUMBER_OF_LINES=$(wc -l temp2 | awk '{print $1}')
+TEMP_NUMBER_OF_LINES=$(($TEMP_NUMBER_OF_LINES+1))
+ITERATOR=1
+while [[ $ITERATOR -ne ${TEMP_NUMBER_OF_LINES}+1 ]]
+do
+LINE=$(cat temp2 | head -$ITERATOR | tail -1)
+IS_ALREADY=$(grep -c "${LINE}" temp)
+[[ "${IS_ALREADY}" == "0" ]] && echo "${LINE}" >> temp
+ITERATOR=$(($ITERATOR+1))
+done ## while [[ $ITERATOR -ne ${TEMP_NUMBER_OF_LINES}+1 ]]
+
+
+
+
+
+
+
+
+echo "
+$THIS_TOKEN / $NUMBER_OF_PART_2_TOKENS
+"
+THIS_TOKEN=$(($THIS_TOKEN+1))
+done ## for ITEM in ${PART_2_TOKENS}
+
+
+
+
+} ## [[ $PART_5 -eq 1 ]] && {
+
+
+
+
+
+exec true
 
 
 for ITEM_FOR_PAIR in ${PART_2_TOKENS}
@@ -221,7 +373,7 @@ NUMBER_OF_TOKENS_IN_LINE=$(($NUMBER_OF_TOKENS_IN_LINE*1))
 while [[ $NUMBER_OF_TOKENS_IN_LINE -gt 0 ]]
 do
 THIS_SUBPATTERN=$(echo "$LINE" | awk -v i=$NUMBER_OF_TOKENS_IN_LINE '{print $i}')
-SUBPATTERN=$(echo ${LINE} | tr ' ' '\n' | tail -$(($LENGTH-$HEAD)) | tr '\n' ' ')
+#SUBPATTERN=$(echo ${LINE} | tr ' ' '\n' | tail -$(($LENGTH-$HEAD)) | tr '\n' ' ')
 
 
 IS_UNIQUE=$(grep -c ${THIS_SUBPATTERN} ${SOURCE_FILE})
