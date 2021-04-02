@@ -222,7 +222,7 @@ IS_UNIQUE=$(($IS_UNIQUE*1))
 # append token to $TOKENS if it is unique
 [[ $IS_UNIQUE -gt 100 ]] && {
 FORMATTED=`echo ${THIS_SUBPATTERN} | tr ' ' ';'`
-IS_ALREADY=$(grep -c "${IS_UNIQUE}:${THIS_SUBPATTERN}" part5)
+IS_ALREADY=$(grep -c "${IS_UNIQUE}:${FORMATTED}" part5)
 [[ "${IS_ALREADY}" == "0" ]] && {
 echo "${IS_UNIQUE}:${FORMATTED}" >> part5
 } ## [[ "${IS_ALREADY}" == "0" ]] && {
