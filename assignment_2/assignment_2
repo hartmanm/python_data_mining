@@ -1,8 +1,16 @@
+
 #!/bin/bash
+# for University_of_Illinois 2021
+# Michael Neill Hartman
 
 PART_1=0 # generate a file of all tokens
+         # generates part1
 PART_2=0 # find support for each token in tokens, and store those with greater than 100 in patterns.txt in the format support:token
-PART_3=1 # 
+         # generates part2
+PART_3=1 # for edge case 1: for each token from part1/part2 determine if it occurs more than once in a line or only once
+         # and write the results to two files only_one / gt_one respectively
+RESTARTING_PART_3=0 # when restarting part_3 with partial results dont wipe only_one or gt_one 
+         # generates part3,only_one,gt_one
 
 SOURCE_FILE=reviews_sample.txt
 NUMBER_OF_LINES=$(wc -l ${SOURCE_FILE}| awk '{print $1}')
@@ -78,19 +86,22 @@ cp patterns.txt part2
 
 
 [[ $PART_3 -eq 1 ]] && {
-
-# for each token find all lines with that token, generate all subsequences with that token, and output the results
+# for edge case 1: for each token from part1/part2 determine if it occurs more than once in a line or only once
+# and write the results to two files only_one / gt_one respectively
 > part3
 
 # extract only token names from part2 and write them as a list to part3
 PART_2_TOKENS=$(cat part2 | tr ':' ' ' | awk '{print $2}')
 echo ${PART_2_TOKENS} > part3
-
 echo "extract only token names from part2 and write them as a list to part3 complete!"
 
+## when restarting with partial results dont wipe only_one or gt_one
+[[ $RESTARTING_PART_3 -eq 1 ]] && {
+> only_one
 > gt_one
-## when restarting with partial results dont wipe only_one
-#> only_one
+} ## [[ $RESTARTING_PART_3 -eq 1 ]] && {
+[[ ! -e only_one ]] && > only_one
+[[ ! -e gt_one ]] && > gt_one
 
 ## iterate over results using results limiting and tail
 for ITEM in ${PART_2_TOKENS}
@@ -135,6 +146,10 @@ done ## for ITEM in ${PART_2_TOKENS}
 
 cat gt_one > part3
 } ## [[ $PART_3 -eq 1 ]] && {
+
+
+
+
 exec true
 # 
 cat temp | head -3 | tail -1 | grep -c road
