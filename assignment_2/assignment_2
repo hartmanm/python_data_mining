@@ -3,18 +3,28 @@
 # for University_of_Illinois 2021
 # Michael Neill Hartman
 
+# assumes file i/o performed on ramdisk
+
+SOURCE_FILE=reviews_sample.txt
+
 PART_1=0 # generate a file of all tokens
          # generates part1
 PART_2=0 # find support for each token in tokens, and store those with greater than 100 in patterns.txt in the format support:token
          # generates part2
-PART_3=1 # for edge case 1: for each token from part1/part2 determine if it occurs more than once in a line or only once
+PART_3=1 # for edge case 1: for each token from part2 determine if it occurs more than once in a line or only once
          # and write the results to two files only_one / gt_one respectively
 RESTARTING_PART_3=0 # when restarting part_3 with partial results dont wipe only_one or gt_one 
          # generates part3,only_one,gt_one
+PART_4=0 # generate file of all lines with tokens from part2
+         # generates part4
+PART_5=0 # generate file with all two token sequences using part4 for basis and part 2 for tokens
+         # and and store them in the format support:token as part5
+         # generates part5
 
-SOURCE_FILE=reviews_sample.txt
-NUMBER_OF_LINES=$(wc -l ${SOURCE_FILE}| awk '{print $1}')
+
+NUMBER_OF_LINES=$(wc -l ${SOURCE_FILE} | awk '{print $1}')
 NUMBER_OF_LINES=$(($NUMBER_OF_LINES+1))
+
 
 [[ $PART_1 -eq 1 ]] && {
 # generate a file of all tokens
@@ -45,9 +55,6 @@ done ## while [[ $NUMBER_OF_TOKENS_IN_LINE -gt 0 ]]
 ITERATOR=$(($ITERATOR+1))
 [[ $(($ITERATOR % 100)) -eq 0 ]] && {
 echo "
-
-$TOKENS
-
 $ITERATOR 
 "
 } ## [[ $(($ITERATOR % 100)) -eq 0 ]] && {
@@ -86,7 +93,7 @@ cp patterns.txt part2
 
 
 [[ $PART_3 -eq 1 ]] && {
-# for edge case 1: for each token from part1/part2 determine if it occurs more than once in a line or only once
+# for edge case 1: for each token from part2 determine if it occurs more than once in a line or only once
 # and write the results to two files only_one / gt_one respectively
 > part3
 
@@ -148,20 +155,52 @@ cat gt_one > part3
 } ## [[ $PART_3 -eq 1 ]] && {
 
 
+[[ $PART_4 -eq 1 ]] && {
+ # generate file of all lines with tokens from part2
+> part4
+
+# extract only token names from part2 and write them as a list to part3
+PART_2_TOKENS=$(cat part2 | tr ':' ' ' | awk '{print $2}')
+echo ${PART_2_TOKENS} > temp
+echo "extract only token names from part2 and write them as a list to temp complete!"
+
+
+
+cat temp | grep   ${SOURCE_FILE}
+
+
+} ## [[ $PART_4 -eq 1 ]] && {
+
+
+
+
+
+
+
+
 
 
 exec true
-# 
+
+
 cat temp | head -3 | tail -1 | grep -c road
 
 
-
+# iterate over each match of ITEM in the SOURCE_FILE line by line
 LINE=$(grep -m $ITERATOR ${ITEM} ${SOURCE_FILE} | tail -1)
 
+
+for ITEM_FOR_PAIR in ${PART_2_TOKENS}
+do
+PAIR=$(echo ${LINE} | tr ' ' '\n' | grep -c ${ITEM})
+
+
+done ## for ITEM in ${PART_2_TOKENS}
+
 # determine number of token occurances in line
-MORE_THAN_ONE=$(echo ${LINE} | tr ' ' '\n' | grep -c ${ITEM})
-MORE_THAN_ONE=$(($MORE_THAN_ONE*1))
-[[ $MORE_THAN_ONE -gt 1 ]] && echo "$MORE_THAN_ONE ${LINE}"
+#MORE_THAN_ONE=$(echo ${LINE} | tr ' ' '\n' | grep -c ${ITEM})
+#MORE_THAN_ONE=$(($MORE_THAN_ONE*1))
+#[[ $MORE_THAN_ONE -gt 1 ]] && echo "$MORE_THAN_ONE ${LINE}"
 
 # determine position of target token in line
 HEAD=$(echo ${LINE} | tr ' ' '\n' | grep -n ${ITEM} | tr ':' ' ' | awk '{print $1}')
@@ -212,4 +251,4 @@ SUPPORT=$(($SUPPORT*1))
 done ## for ITEM in `cat tokens`
 
 cat part3
-} ## [[ $PART_3 -eq 1 ]] && {
+} ## [[ $PART_ -eq 1 ]] && {
