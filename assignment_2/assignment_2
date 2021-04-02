@@ -86,11 +86,57 @@ cp patterns.txt part2
 PART_2_TOKENS=$(cat part2 | tr ':' ' ' | awk '{print $2}')
 echo ${PART_2_TOKENS} > part3
 
+echo "extract only token names from part2 and write them as a list to part3 complete!"
 
+> gt_one
+> only_one
+## iterate over results using results limiting and tail
 for ITEM in ${PART_2_TOKENS}
 do
 ITERATOR=1
-# iterate over results using results limiting and tail
+# find all lines matching ITEM and write them to temp
+> temp
+grep ${ITEM} reviews_sample.txt > temp
+
+# find the number of lines in temp
+TEMP_NUMBER_OF_LINES=$(wc -l temp | awk '{print $1}')
+TEMP_NUMBER_OF_LINES=$(($TEMP_NUMBER_OF_LINES+1))
+
+# remove all lines with only 1 match
+ITERATOR=1
+IS_TARGET_WITH_THIS_ITEM=0
+while [[ $ITERATOR -ne ${TEMP_NUMBER_OF_LINES}+1 ]]
+do
+RESULT=$(cat temp | head -$ITERATOR | tail -1)
+IS_ONE=$(echo ${RESULT} | grep -c ${ITEM})
+IS_ONE=$(($IS_ONE*1))
+echo "
+${ITEM}
+$ITERATOR / $TEMP_NUMBER_OF_LINES
+$IS_ONE
+${RESULT} 
+${IS_TARGET_WITH_THIS_ITEM}
+"
+[[ $IS_ONE -gt 1 ]] && {
+echo "${IS_ONE}:${ITEM}" >> gt_one
+IS_TARGET_WITH_THIS_ITEM=1
+} ## [[ $IS_ONE -gt 1 ]] && {
+ITERATOR=$(($ITERATOR+1))
+done ## while [[ $ITERATOR -ne ${TEMP_NUMBER_OF_LINES}+1 ]]
+
+[[ $IS_TARGET_WITH_THIS_ITEM -eq 0 ]] && echo "$ITEM" >> only_one
+
+echo "$ITEM gt 1 is: $IS_TARGET_WITH_THIS_ITEM, $ITEM complete!"
+done ## for ITEM in ${PART_2_TOKENS}
+
+cat gt_one > part3
+} ## [[ $PART_3 -eq 1 ]] && {
+exec true
+# 
+cat temp | head -3 | tail -1 | grep -c road
+
+
+
 LINE=$(grep -m $ITERATOR ${ITEM} ${SOURCE_FILE} | tail -1)
 
 # determine number of token occurances in line
