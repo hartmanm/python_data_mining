@@ -2,7 +2,7 @@
 # for University_of_Illinois 2021
 # Michael Neill Hartman
 
-# buniq implementation
+# b_uniq implementation
 
 SOURCE_FILE=this
 OUTPUT_FILE=patterns.txt
