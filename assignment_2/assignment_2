@@ -304,15 +304,32 @@ done ## while [[ $ITERATOR -ne $NUMBER_OF_LINES+1 ]]
 
 
 
+rr(){
+THIS_SUBPATTERN="doe"  
+LINE="a f doe seem like throwback year ago old fashioned menu board booth large selection 
+food speciality italian hoagie voted best area year year usually order burger patty obviously cooked 
+frozen ingredient fresh overall good alternative subway road "
 
 
 
+HEAD=$(echo ${LINE} | tr ' ' '\n' | grep -n ${THIS_SUBPATTERN} | tr ':' ' ' | awk '{print $1}')
+# determine the length of the line
+LENGTH=$(echo ${LINE} | tr ' ' '\n' | wc -l | tr -d ' ')
+# create substring starting with CONTAINS_100_SUPPORT_TOKEN
+SUBPATTERN=$(echo ${LINE} | tr ' ' '\n' | tail -$(($LENGTH-$HEAD)) | tr '\n' ' ')
+
+echo "
+${THIS_SUBPATTERN} 
+${HEAD}
+${LENGTH}
+${SUBPATTERN}
+"
+}
+
+#exec true
 
 
-
-
-
-
+[[ ! -e more_than_one ]] && > more_than_one
 OUTPUT_FILE=part_7
 [[ $PART_7 -eq 1 ]] && {
 # finds all patterns within full lines left extending to right, then 
@@ -337,30 +354,32 @@ do
 THIS_SUBPATTERN=$(echo "$LINE" | tr ' ' '\n' | head -$THIS_ITERATOR | tail -1 | tr '\n' ' ')
 
 
-echo "
-${THIS_SUBPATTERN}
-"
+
 
 CONTAINS_100_SUPPORT_TOKEN=$(grep -c "${THIS_SUBPATTERN}" part3)
 [[ "${CONTAINS_100_SUPPORT_TOKEN}" == "1" ]] && {
+
+# deal with multiple instances of CONTAINS_100_SUPPORT_TOKEN in line by logging it
+# taking the first
+MORE_THAN_ONE=$(echo ${LINE} | tr ' ' '\n' | grep -c ${THIS_SUBPATTERN})
+MORE_THAN_ONE=$(($MORE_THAN_ONE*1))
+[[ $MORE_THAN_ONE -gt 1 ]] && {
+echo "$MORE_THAN_ONE ${LINE}" >> more_than_one
+# determine position of the first target token in line
+HEAD=$(echo ${LINE} | tr ' ' '\n' | grep -n ${THIS_SUBPATTERN} | head -1 | tr ':' ' ' | awk '{print $1}')
+} ## [[ $MORE_THAN_ONE -gt 1 ]] && {
+[[ ! $MORE_THAN_ONE -gt 1 ]] && {
 # determine position of target token in line
 HEAD=$(echo ${LINE} | tr ' ' '\n' | grep -n ${THIS_SUBPATTERN} | tr ':' ' ' | awk '{print $1}')
+} ## [[ ! $MORE_THAN_ONE -gt 1 ]] && {
+HEAD=$(($HEAD*1))
 # determine the length of the line
-LENGTH=$(echo ${LINE} | tr ' ' '\n' | wc -l)
+LENGTH=$(echo ${LINE} | tr ' ' '\n' | wc -l | tr -d ' ')
+LENGTH=$(($LENGTH*1))
 # create substring starting with CONTAINS_100_SUPPORT_TOKEN
 SUBPATTERN=$(echo ${LINE} | tr ' ' '\n' | tail -$(($LENGTH-$HEAD)) | tr '\n' ' ')
 
-jj(){
-echo "
-${THIS_SUBPATTERN} 
-${CONTAINS_100_SUPPORT_TOKEN}
-${HEAD}
-${LENGTH}
 
-${LINE}
-${SUBPATTERN}
-"
-}
 
 [[ "${MIN_SUPPORT_TOKENS_IN_LINE}" != ""  ]] && MIN_SUPPORT_TOKENS_IN_LINE="${MIN_SUPPORT_TOKENS_IN_LINE} ${THIS_SUBPATTERN}"
 [[ "${MIN_SUPPORT_TOKENS_IN_LINE}" == "" ]] && MIN_SUPPORT_TOKENS_IN_LINE="${THIS_SUBPATTERN}"
@@ -377,27 +396,37 @@ THIS_ITERATOR=$(($THIS_ITERATOR+1))
 done ## while [[ $THIS_ITERATOR -lt $NUMBER_OF_TOKENS_IN_LINE ]]
 
 
-echo ${MIN_SUPPORT_TOKENS_IN_LINE}
+#echo ${MIN_SUPPORT_TOKENS_IN_LINE}
 
 #kjh(){
 
+MORE_THAN_ONE_ITERATOR=1
 for ITEM in ${MIN_SUPPORT_TOKENS_IN_LINE}
 do
 
 
+# deal with multiple instances of CONTAINS_100_SUPPORT_TOKEN in line by logging it
+# taking the first
+MORE_THAN_ONE=$(echo ${LINE} | tr ' ' '\n' | grep -c ${ITEM})
+MORE_THAN_ONE=$(($MORE_THAN_ONE*1))
+[[ $MORE_THAN_ONE -gt 1 ]] && {
+echo "$MORE_THAN_ONE ${LINE}" >> more_than_one
+# determine position of the first target token in line
+HEAD=$(echo ${LINE} | tr ' ' '\n' | grep -n ${ITEM} | head -1 | tr ':' ' ' | awk '{print $1}')
+} ## [[ $MORE_THAN_ONE -gt 1 ]] && {
+[[ ! $MORE_THAN_ONE -gt 1 ]] && {
 # determine position of target token in line
 HEAD=$(echo ${LINE} | tr ' ' '\n' | grep -n ${ITEM} | tr ':' ' ' | awk '{print $1}')
+} ## [[ ! $MORE_THAN_ONE -gt 1 ]] && {
+HEAD=$(($HEAD*1))
 # determine the length of the line
-LENGTH=$(echo ${LINE} | tr ' ' '\n' | wc -l)
+LENGTH=$(echo ${LINE} | tr ' ' '\n' | wc -l | tr -d ' ')
+LENGTH=$(($LENGTH*1))
 # create substring starting with CONTAINS_100_SUPPORT_TOKEN
 SUBPATTERN=$(echo ${LINE} | tr ' ' '\n' | tail -$(($LENGTH-$HEAD)) | tr '\n' ' ')
-echo "
-${THIS_SUBPATTERN} 
-${CONTAINS_100_SUPPORT_TOKEN}
-${HEAD}
-${LENGTH}
-${SUBPATTERN}
-"
+
+
+
 
 
 THIS_ITERATOR=1
@@ -415,7 +444,7 @@ THIS_SUBPATTERN=$(echo "$SUBPATTERN" | tr ' ' '\n' | head -$THIS_ITERATOR | tail
 [[ $THIS_ITERATOR -ne 1 ]] && RESULT="${RESULT} ${THIS_SUBPATTERN}"
 
 
-echo ${RESULT}
+
 
 IS_UNIQUE=$(grep -c "${RESULT}" ${SOURCE_FILE})
 IS_UNIQUE=$(($IS_UNIQUE*1))
@@ -462,7 +491,12 @@ exec true
 
 
 
-
+echo "
+${THIS_SUBPATTERN} 
+${HEAD}
+${LENGTH}
+${ITEM}
+"
 
 
 
