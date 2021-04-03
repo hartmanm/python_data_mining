@@ -1,0 +1,24 @@
+#!/bin/bash
+
+# b_determine_lowest_non_0_idle_cpu
+
+LAST_10=$(top -l 10 | grep idle | awk '{print $(NF-1)}' | tr -d '%' | tr '.' ' ' | awk '{print $1}')
+TOTAL=0
+LOWEST=100
+for ITEM in $LAST_10
+do
+ITEM=$(($ITEM+1))
+TOTAL=$(($TOTAL+$ITEM))
+[[ $ITEM -lt $LOWEST && $ITEM -ne 1 ]] && LOWEST=$ITEM
+done ## for ITEM in $LAST_10
+
+echo "$LOWEST"
+
+exec true
+
+echo "
+$LAST_10
+$TOTAL
+
+$LOWEST
+"
