@@ -9,6 +9,7 @@
 using namespace std;
 
 
+float Euclidean(float LAT1,float LAT2, float LONG1, float LONG2);
 
 
 int main() {
@@ -26,24 +27,86 @@ int main() {
 // Average link: mean
 
 
-    
-   int N;
-int K;
+// Euclidean(LAT1, LAT2, LONG1, LONG2);
+
+
+
+    vector<float> points_x;
+    vector<float> points_y;
+    vector<float> ordered_points_x;
+    vector<float> ordered_points_y;
+    float distance;
+    int distance_index;
+    vector<float> cluster_assigned;
+    int N;
+    int K;
     int M;
-    int last_x_min;
-        int last_y_min;
-    int loop_n=N;
-    
     cin >> N >> K >> M;
-    //cout << N << "  " << K <<"  " << M << endl;
     cout << N << endl;
-     cout << K << endl;
-        cout << M << endl;
+    cout << K << endl;
+    cout << M << endl;
+
+    for(int i=0;i<N;i++){
+    float x=0;
+    float y=0;
+    cin >> x >> y;
+    points_x.push_back(x);
+    points_y.push_back(y);
+    } //    for(int i=0;i<N;i++){
+
+    // Single link: min
+    if(M==0){
+    float min_distance=1000;
+    distance_index=0;
+    distance=1000;
+    for(int i=0;i<N+1;i++){
+    float x=0;
+    float y=0;
+    float x1=0;
+    float y2=0;
+    x=points_x.at[i]];
+    y=points_y.at[i]];
+    x2=points_x.at[i+1]];
+    y2=points_y.at[i+1]];
+    distance=Euclidean(x, x2, y, y2);
+    if(distance < min_distance){
+    min_distance=distance;
+    distance_index=i;
+    } //    if(distance < min_distance){
+    } //    for(int i=0;i<N;i++){
+    points_x.push_back(x);
+    points_y.push_back(y);
+
+    } //     if(M==0){
+
+    // Complete link: max
+    if(M==1){
+
+
+
+        
+    } //     if(M==1){
+
+    // Average link: mean
+    if(M==2){
+
+
+
+        
+    } //     if(M==2){
+
+
+
+
     //vector<float> points_x;
      //vector<float> points_y;
     N++;
     const int array_size =100;
     
+    int last_x_min;
+        int last_y_min;
+    int loop_n=N;
+
     //array<float, 100> bucket;
     if(N > 100){cout << "bucket size exceeded" << endl;}
     
@@ -193,3 +256,11 @@ ordered_points_x[x]=points_x[x];
 
 
 
+float Euclidean(float LAT1,float LAT2, float LONG1, float LONG2){
+float THE_LAT=LAT1-LAT2;
+THE_LAT=THE_LAT*THE_LAT;
+float THE_LONG=LONG1-LONG2;
+THE_LONG=THE_LONG*THE_LONG;
+float THE_INPUT=THE_LAT+THE_LONG;
+return sqrt(THE_INPUT);
+};
