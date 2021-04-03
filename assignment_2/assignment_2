@@ -4,6 +4,9 @@
 # Michael Neill Hartman
 
 # assumes file i/o performed on ramdisk
+# multiple instances can operate on output file at the same time
+# max cpu with instances covering divided ranges of input file
+# stupid easy parallel having linux/unix handle the lower level
 
 START_AT=1
 
@@ -197,7 +200,7 @@ cat temp > part4
 
 
 
-
+# 
 
 
 [[ $PART_5 -eq 1 ]] && {
