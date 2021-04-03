@@ -38,7 +38,6 @@ RESULT=$(awk -v x=$THE_INPUT 'BEGIN{print sqrt(x)}')
 
 > ${OUTPUT_FILE}
 CENTROID=
-CENTROID_A=
 LOWEST=
 ITERATOR=1
 
