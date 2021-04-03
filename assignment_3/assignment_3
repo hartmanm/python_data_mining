@@ -1,0 +1,476 @@
+#!/bin/bash
+
+
+
+
+INPUT_FILE=places.txt
+# format
+#longitude,latitude
+
+OUTPUT_FILE=clusters.txt
+#format
+#location_id cluster_label
+
+
+
+# for test
+INPUT_FILE=sp.txt
+OUTPUT_FILE=c.txt
+COMPARE_TO=sc.txt
+
+
+
+aa(){
+
+LONGS=$(cat $INPUT_FILE | tr ',' ' ' | awk '{print $1}')
+
+LATS=$(cat $INPUT_FILE | tr ',' ' ' | awk '{print $2}')
+
+
+
+TOTAL_LONGS=0
+LONG_ITERATOR=0
+for ITEM in $LONGS
+do
+#echo $ITEM
+TOTAL_LONGS=$(echo "$TOTAL_LONGS + $ITEM" | bc)
+LONG_ITERATOR=$(($LONG_ITERATOR+1))
+done
+MID_1=$(echo "$TOTAL_LONGS / $LONG_ITERATOR" | bc)
+LOWER_MID_1=$(echo "$MID_1 / 2" | bc)
+LL_MID_1=$(echo "$LOWER_MID_1 / 2" | bc)
+LH_MID_1=$(echo "$LOWER_MID_1 * 2" | bc)
+HIGHER_MID_1=$(echo "$MID_1 * 2" | bc)
+HL_MID_1=$(echo "$HIGHER_MID_1 / 2" | bc)
+HH_MID_1=$(echo "$HIGHER_MID_1 * 2" | bc)
+
+
+RESULTS_LONGS=$(echo "
+$MID_1
+$LOWER_MID_1
+$LL_MID_1
+$LH_MID_1
+$HIGHER_MID_1
+$HL_MID_1
+$HH_MID_1
+" | sort -n)
+LONGS=$(echo $RESULTS_LONGS | awk '{print $1, $3, $7}')
+
+
+
+
+TOTAL_LATS=0
+LAT_ITERATOR=0
+for ITEM in $LATS
+do
+#echo $ITEM
+TOTAL_LATS=$(echo "$TOTAL_LATS + $ITEM" | bc)
+LAT_ITERATOR=$(($LAT_ITERATOR+1))
+done
+MID_2=$(echo "$TOTAL_LATS / $LAT_ITERATOR" | bc)
+LOWER_MID_2=$(echo "$MID_2 / 2" | bc)
+LL_MID_2=$(echo "$LOWER_MID_2 / 2" | bc)
+LH_MID_2=$(echo "$LOWER_MID_2 * 2" | bc)
+HIGHER_MID_2=$(echo "$MID_2 * 2" | bc)
+HL_MID_2=$(echo "$HIGHER_MID_2 / 2" | bc)
+HH_MID_2=$(echo "$HIGHER_MID_2 * 2" | bc)
+
+
+
+RESULTS_LATS=$(echo "
+$MID_2
+$LOWER_MID_2
+$LL_MID_2
+$LH_MID_2
+$HIGHER_MID_2
+$HL_MID_2
+$HH_MID_2
+" | sort -n)
+LATS=$(echo $RESULTS_LATS | awk '{print $1, $3, $7}')
+
+echo "
+$LONGS
+
+$LATS
+"
+CENTROID_1=$(echo $LONGS | awk '{print $1}')
+#echo ","
+CENTROID_1="$CENTROID_1 `echo $LATS | awk '{print $1}'`"
+
+CENTROID_2=$(echo $LONGS | awk '{print $2}')
+#echo ","
+CENTROID_2="$CENTROID_2 `echo $LATS | awk '{print $2}'`"
+
+CENTROID_3=$(echo $LONGS | awk '{print $3}')
+#echo ","
+CENTROID_3="$CENTROID_3 `echo $LATS | awk '{print $3}'`"
+
+> centroids
+echo $CENTROID_1 > centroids
+echo $CENTROID_2 >> centroids
+echo $CENTROID_3 >> centroids
+
+cat centroids
+
+} ## aa(){
+
+
+LONGS=$(cat $INPUT_FILE | tr ',' ' ' | awk '{print $1}' | awk '{print $1, $75, $175}')
+LATS=$(cat $INPUT_FILE | tr ',' ' ' | awk '{print $2}' | awk '{print $1, $75, $175}')
+
+
+RESULTS_LATS=$(echo "
+$LATS
+" | sort -n)
+LATS=$(echo $RESULTS_LATS | awk '{print $1, $3, $7}')
+
+RESULTS_LONGS=$(echo "
+$LONGS
+" | sort -n)
+LONGS=$(echo $RESULTS_LONGS | awk '{print $1, $3, $7}')
+
+echo "
+$LONGS
+
+$LATS
+"
+
+RESULT=
+LAT1=
+LAT2=
+LONG1=
+LONG2=
+
+Euclidean(){
+THE_LAT=$(echo "$LAT1 - $LAT2" | bc)
+THE_LAT=$(echo "$THE_LAT * $THE_LAT" | bc)
+THE_LONG=$(echo "$LONG1 - $LONG2" | bc)
+THE_LONG=$(echo "$THE_LONG * $THE_LONG" | bc)
+THE_INPUT=$(echo "$THE_LAT + $THE_LONG" | bc)
+RESULT=$(awk -v x=$THE_INPUT 'BEGIN{print sqrt(x)}')
+}
+
+
+
+
+
+
+
+
+
+> ${OUTPUT_FILE}
+CENTROID=
+CENTROID_A=
+LOWEST=
+ITERATOR=1
+#for ITEM_LONGS ITEM_LATS in $LONGS,$LATS
+#do
+
+SOURCE_LONGS=$(cat $INPUT_FILE | tr ',' ' ' | awk '{print $1}')
+
+SOURCE_LATS=$(cat $INPUT_FILE | tr ',' ' ' | awk '{print $2}')
+
+
+LAT_ITERATOR=$(wc -l $INPUT_FILE | awk '{print $1}')
+LAT_ITERATOR=$(($LAT_ITERATOR*1))
+while [[ $ITERATOR -lt $LAT_ITERATOR+2 ]]
+do
+#ITEM=$(cat $INPUT_FILE | head -$ITERATOR | tail -1 | tr ',' ' ')
+#ITEM_LONGS=$(echo $SOURCE_LONGS | tr ' ' '\n' | head -$ITERATOR | tail -1 | tr '\n' ' ' | tr -d ' .-')
+#ITEM_LATS=$(echo $SOURCE_LATS | tr ' ' '\n' | head -$ITERATOR | tail -1 | tr '\n' ' ' | tr -d ' .-')
+#LONG=$(echo $ITEM | awk '{print $1}')
+
+#CLOSEST1_LONG=$(echo $LONGS | awk '{print $1}' | tr -d '.-')
+#CLOSEST1_LAT=$(echo $LATS | awk '{print $1}' | tr -d '.-')
+
+
+ITEM_LONGS=$(echo $SOURCE_LONGS | tr ' ' '\n' | head -$ITERATOR | tail -1 | tr '\n' ' ')
+ITEM_LATS=$(echo $SOURCE_LATS | tr ' ' '\n' | head -$ITERATOR | tail -1 | tr '\n' ' ')
+#LONG=$(echo $ITEM | awk '{print $1}')
+
+CLOSEST1_LONG=$(echo $LONGS | awk '{print $1}')
+CLOSEST1_LAT=$(echo $LATS | awk '{print $1}')
+
+
+RESULT=
+RESULT1=
+RESULT2=
+RESULT3=
+LAT1=$ITEM_LATS
+LAT2=$CLOSEST1_LAT
+LONG1=$ITEM_LONGS
+LONG2=$CLOSEST1_LONG
+
+Euclidean
+
+echo "
+$ITEM_LONGS,$ITEM_LATS
+
+$CLOSEST1_LONG,$CLOSEST1_LAT
+
+$LAT1
+$LAT2
+
+$LONG1
+$LONG2
+
+$RESULT
+"
+
+RESULT1=`echo $RESULT | tr -d '.' | awk '{print $1}'`
+RESULT1D=`echo $RESULT | tr -d '.' | awk '{print $2}'`
+
+CLOSEST1_LONG=$(echo $LONGS | awk '{print $2}')
+CLOSEST1_LAT=$(echo $LATS | awk '{print $2}')
+
+
+RESULT=
+LAT1=$ITEM_LATS
+LAT2=$CLOSEST1_LAT
+LONG1=$ITEM_LONGS
+LONG2=$CLOSEST1_LONG
+
+Euclidean
+
+RESULT2=`echo $RESULT | tr -d '.' | awk '{print $1}'`
+RESULT2D=`echo $RESULT | tr -d '.' | awk '{print $2}'`
+echo "
+$ITEM_LONGS,$ITEM_LATS
+
+$CLOSEST1_LONG,$CLOSEST1_LAT
+
+$LAT1
+$LAT2
+
+$LONG1
+$LONG2
+
+$RESULT
+"
+
+
+
+CLOSEST1_LONG=$(echo $LONGS | awk '{print $3}')
+CLOSEST1_LAT=$(echo $LATS | awk '{print $3}')
+
+
+RESULT=
+LAT1=$ITEM_LATS
+LAT2=$CLOSEST1_LAT
+LONG1=$ITEM_LONGS
+LONG2=$CLOSEST1_LONG
+
+Euclidean
+
+echo "
+$ITEM_LONGS,$ITEM_LATS
+
+$CLOSEST1_LONG,$CLOSEST1_LAT
+
+$LAT1
+$LAT2
+
+$LONG1
+$LONG2
+
+$RESULT
+"
+
+RESULT3=`echo $RESULT  | tr -d '.' | awk '{print $1}'`
+RESULT3D=`echo $RESULT | tr -d '.' | awk '{print $2}'`
+
+echo "
+$RESULT1.$RESULT1D
+$RESULT2.$RESULT2D
+$RESULT3.$RESULT3D
+
+"
+
+ 
+
+
+
+LOWEST=$RESULT1
+[[ $RESULT2 -lt $RESULT1 ]] && LOWEST=$RESULT2
+[[ $RESULT2 -eq $RESULT1 ]] && {
+
+[[ $RESULT2D -lt $RESULT1D ]] && LOWEST=$RESULT2
+
+}
+
+[[ $RESULT3 -lt $RESULT2 ]] && LOWEST=$RESULT3
+[[ $RESULT3 -eq $RESULT2 ]] && {
+
+[[ $RESULT3D -lt $RESULT2D ]] && LOWEST=$RESULT3
+
+}
+
+
+
+
+[[ $RESULT1 =~ $LOWEST ]] && CENTROID=0
+[[ $RESULT2 =~ $LOWEST ]] && CENTROID=1
+[[ $RESULT3 =~ $LOWEST ]] && CENTROID=2
+
+OUT=$(($ITERATOR-1))
+echo "${OUT} ${CENTROID}" >> ${OUTPUT_FILE}
+#sleep 4
+
+ITERATOR=$(($ITERATOR+1))
+done ## while [[ $ITERATOR -lt $LAT_ITERATOR+1 ]]
+
+cat ${OUTPUT_FILE}
+
+echo "--------"
+
+cat sc.txt
+
+echo "
+
+"
+
+
+
+
+
+
+
+
+
+
+
+
+exec true
+
+exec true
+
+> ${OUTPUT_FILE}
+CENTROID=
+CENTROID_A=
+LOWEST=
+ITERATOR=1
+#for ITEM_LONGS ITEM_LATS in $LONGS,$LATS
+#do
+
+SOURCE_LONGS=$(cat $INPUT_FILE | tr ',' ' ' | awk '{print $1}')
+
+SOURCE_LATS=$(cat $INPUT_FILE | tr ',' ' ' | awk '{print $2}')
+
+
+LAT_ITERATOR=$(wc -l $INPUT_FILE | awk '{print $1}')
+LAT_ITERATOR=$(($LAT_ITERATOR*1))
+while [[ $ITERATOR -lt $LAT_ITERATOR ]]
+do
+#ITEM=$(cat $INPUT_FILE | head -$ITERATOR | tail -1 | tr ',' ' ')
+ITEM_LONGS=$(echo $SOURCE_LONGS | tr ' ' '\n' | head -$ITERATOR | tail -1 | tr '\n' ' ' | tr -d '.-')
+ITEM_LATS=$(echo $SOURCE_LATS | tr ' ' '\n' | head -$ITERATOR | tail -1 | tr '\n' ' ' | tr -d '.-')
+#LONG=$(echo $ITEM | awk '{print $1}')
+
+
+CLOSEST1=$(echo $LONGS | awk '{print $1}' | tr -d '.-')
+CLOSEST1=$(echo "`echo $CLOSEST1` - $ITEM_LONGS" | bc | tr -d '-' | tr -d '.' | awk '{print $1}')
+LOWEST=$CLOSEST1
+CLOSEST2=$(echo $LONGS | awk '{print $2}' | tr -d '.-')
+CLOSEST2=$(echo "`echo $CLOSEST2` - $ITEM_LONGS" | bc | tr -d '-' | tr -d '.' | awk '{print $1}')
+[[ $CLOSEST2 -lt $CLOSEST1 ]] && LOWEST=$CLOSEST2
+CLOSEST3=$(echo $LONGS | awk '{print $3}' | tr -d '.-')
+CLOSEST3=$(echo "`echo $CLOSEST3` - $ITEM_LONGS" | bc | tr -d '-' | tr -d '.' | awk '{print $1}')
+[[ $CLOSEST3 -lt $LOWEST ]] && LOWEST=$CLOSEST3
+
+
+[[ $CLOSEST1 =~ $LOWEST ]] && CENTROID=0
+[[ $CLOSEST2 =~ $LOWEST ]] && CENTROID=1
+[[ $CLOSEST3 =~ $LOWEST ]] && CENTROID=2
+
+
+echo "
+$ITEM_LONGS
+
+$CLOSEST1
+$CLOSEST2
+$CLOSEST3
+
+$LOWEST
+$CENTROID
+"
+
+LOWEST=
+
+
+
+CLOSEST1=$(echo $LATS | awk '{print $1}' | tr -d '.-')
+CLOSEST1=$(echo "`echo $CLOSEST1` - $ITEM_LATS" | bc | tr -d '-' | tr -d '.' | awk '{print $1}')
+LOWEST=$CLOSEST1
+CLOSEST2=$(echo $LATS | awk '{print $2}' | tr -d '.-')
+CLOSEST2=$(echo "`echo $CLOSEST2` - $ITEM_LATS" | bc | tr -d '-' | tr -d '.' | awk '{print $1}')
+[[ $CLOSEST2 -lt $CLOSEST1 ]] && LOWEST=$CLOSEST2
+CLOSEST3=$(echo $LATS | awk '{print $3}' | tr -d '.-')
+CLOSEST3=$(echo "`echo $CLOSEST3` - $ITEM_LATS" | bc | tr -d '-' | tr -d '.' | awk '{print $1}')
+[[ $CLOSEST3 -lt $LOWEST ]] && LOWEST=$CLOSEST3
+
+
+[[ $CLOSEST1 =~ $LOWEST ]] && CENTROID_A=0
+[[ $CLOSEST2 =~ $LOWEST ]] && CENTROID_A=1
+[[ $CLOSEST3 =~ $LOWEST ]] && CENTROID_A=2
+
+
+
+echo "${CENTROID} ${CENTROID_A}" >> ${OUTPUT_FILE}
+
+
+ITERATOR=$(($ITERATOR+1))
+done ## while [[ $ITERATOR -lt $TOTAL_LATS ]]
+
+cat ${OUTPUT_FILE}
+
+echo "--------"
+
+cat sc.txt
+
+exec true
+
+
+
+
+CLOSEST1D=$(echo $LONGS | awk '{print $1}' | tr -d '.-')
+CLOSEST1D=$(echo "`echo $CLOSEST1` - $ITEM_LONGS" | bc | tr -d '-' | tr '.' ' ' | awk '{print $2}')
+LOWESTD=$CLOSEST1D
+CLOSEST2D=$(echo $LONGS | awk '{print $2}' | tr -d '.-')
+CLOSEST2D=$(echo "`echo $CLOSEST2` - $ITEM_LONGS" | bc | tr -d '-' | tr '.' ' ' | awk '{print $2}')
+[[ $CLOSEST2D -lt $CLOSEST1D ]] && LOWESTD=$CLOSEST2
+CLOSEST3D=$(echo $LONGS | awk '{print $3}' | tr -d '.-')
+CLOSEST3D=$(echo "`echo $CLOSEST3` - $ITEM_LONGS" | bc | tr -d '-' | tr '.' ' ' | awk '{print $2}')
+[[ $CLOSEST3D -lt $LOWESTD ]] && LOWESTD=$CLOSEST3D
+
+
+CLOSEST1=$(echo "`echo $LATS | awk '{print $1}'` + $ITEM_LATS" | tr '.' ' ' | awk '{print $1}')
+LOWEST=$CLOSEST1
+CLOSEST2=$(echo "`echo $LATS | awk '{print $2}'` + $ITEM_LATS" | tr '.' ' ' | awk '{print $1}')
+[[ $CLOSEST2 -lt $CLOSEST1 ]] && LOWEST=$CLOSEST2
+CLOSEST3=$(echo "`echo $LATS | awk '{print $3}'` + $ITEM_LATS" | tr '.' ' ' | awk '{print $1}')
+[[ $CLOSEST3 -lt $LOWEST ]] && LOWEST=$CLOSEST3
+
+[[ $CLOSEST1 =~ $LOWEST ]] && CENTROID_A=0
+[[ $CLOSEST2 =~ $LOWEST ]] && CENTROID_A=1
+[[ $CLOSEST3 =~ $LOWEST ]] && CENTROID_A=2
+
+
+LAT=$(echo $ITEM | awk '{print $2}')
+
+TOTAL_LATS=0
+LAT_ITERATOR=0
+for ITEM in $LATS
+do
+#echo $ITEM
+TOTAL_LATS=$(echo "$TOTAL_LATS + $ITEM" | bc)
+LAT_ITERATOR=$(($LAT_ITERATOR+1))
+done
+
+
+
+exec true 
+
+
+CENTROID_1=$(echo $LONGS | awk '{print $1}' > centroid1; )
+CENTROID_2=$()
+CENTROID_3=$()
