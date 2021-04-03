@@ -253,9 +253,10 @@ done ## while [[ $ITERATOR -ne $NUMBER_OF_LINES+1 ]]
 
 
 OUTPUT_FILE=part_6
+[[ ! -e ${OUTPUT_FILE} ]] && > ${OUTPUT_FILE}
 [[ $PART_6 -eq 1 ]] && {
 # finds all patterns within full lines left extending to right
-> ${OUTPUT_FILE}
+#> ${OUTPUT_FILE}
 # begin processing line at passed value from START_AT
 ITERATOR=$START_AT
 while [[ $ITERATOR -ne $NUMBER_OF_LINES+1 ]]
@@ -328,13 +329,15 @@ ${SUBPATTERN}
 
 #exec true
 
-
+[[ ${1} != "" ]] && START_AT=$1
+echo "START_AT: $START_AT"
 [[ ! -e more_than_one ]] && > more_than_one
 OUTPUT_FILE=part_7
+[[ ! -e ${OUTPUT_FILE} ]] && > ${OUTPUT_FILE}
 [[ $PART_7 -eq 1 ]] && {
 # finds all patterns within full lines left extending to right, then 
 # 
-> ${OUTPUT_FILE}
+#> ${OUTPUT_FILE}
 # begin processing line at passed value from START_AT
 ITERATOR=$START_AT
 while [[ $ITERATOR -ne $NUMBER_OF_LINES+1 ]]
@@ -364,7 +367,8 @@ CONTAINS_100_SUPPORT_TOKEN=$(grep -c "${THIS_SUBPATTERN}" part3)
 MORE_THAN_ONE=$(echo ${LINE} | tr ' ' '\n' | grep -c ${THIS_SUBPATTERN})
 MORE_THAN_ONE=$(($MORE_THAN_ONE*1))
 [[ $MORE_THAN_ONE -gt 1 ]] && {
-echo "$MORE_THAN_ONE ${LINE}" >> more_than_one
+echo "$MORE_THAN_ONE ${THIS_SUBPATTERN} ${LINE}" >> is_uniq
+uniq is_uniq more_than_one
 # determine position of the first target token in line
 HEAD=$(echo ${LINE} | tr ' ' '\n' | grep -n ${THIS_SUBPATTERN} | head -1 | tr ':' ' ' | awk '{print $1}')
 } ## [[ $MORE_THAN_ONE -gt 1 ]] && {
@@ -410,7 +414,6 @@ do
 MORE_THAN_ONE=$(echo ${LINE} | tr ' ' '\n' | grep -c ${ITEM})
 MORE_THAN_ONE=$(($MORE_THAN_ONE*1))
 [[ $MORE_THAN_ONE -gt 1 ]] && {
-echo "$MORE_THAN_ONE ${LINE}" >> more_than_one
 # determine position of the first target token in line
 HEAD=$(echo ${LINE} | tr ' ' '\n' | grep -n ${ITEM} | head -1 | tr ':' ' ' | awk '{print $1}')
 } ## [[ $MORE_THAN_ONE -gt 1 ]] && {
