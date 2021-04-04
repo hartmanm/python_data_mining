@@ -18,10 +18,10 @@ vector<float> cluster_points_x;
 vector<float> cluster_points_y;
 };
 
-int main() {
+int main(){
 // N The number of data points (lines) following the first line .
 // K The number of output clusters .
-// M The cluster similarity measure to be used.  for single link,  for complete link,  for average link.
+// M The cluster similarity measure to be used.  for single link,  for complete link,  for average link .
     
 
 
@@ -31,25 +31,23 @@ int main() {
 
     vector<cluster> clusters; 
 
-
+    string output;
     int cluster_count=0;
     vector<float> points_x;
     vector<float> points_y;
 
-
+/*
     vector<float> ordered_points_x;
     vector<float> ordered_points_y;
     float distance;
     int distance_index;
     vector<float> cluster_assigned;
+*/
 
     int N;
     int K;
     int M;
     cin >> N >> K >> M;
-    cout << N << endl;
-    cout << K << endl;
-    cout << M << endl;
 
 
     for(int i=0;i<N;i++){
@@ -61,8 +59,50 @@ int main() {
     points_y.push_back(y);
     } //    for(int i=0;i<N;i++){
 
+output="number of clusters: ";
+output.append(to_string(cluster_count));
+Output(output);
 
-Output("number of clusters: "+string(cluster_count));
+output="N The number of data points (lines) following the first line: ";
+output.append(to_string(N));
+Output(output);
+
+output="K The number of output clusters: ";
+output.append(to_string(K));
+Output(output);
+
+output="M The cluster similarity measure to be used.  0 for single link,  1 for complete link,  2 for average link : ";
+output.append(to_string(M));
+Output(output);
+
+
+
+for(int i=0;i<N;i++){
+float x=0;
+float y=0;
+x=points_x.at(i);
+y=points_y.at(i);
+output="cluster: ";
+output.append(to_string(i));
+Output(output);
+output="x,y: ";
+output.append(to_string(x));
+output.append(",");
+output.append(to_string(y));
+Output(output);
+} //    for(int i=0;i<N;i++){
+
+
+
+
+
+
+
+
+
+return 0;
+
+/*
 
 while(cluster_count > K)
 {
@@ -238,7 +278,7 @@ ordered_points_x[x]=points_x[x];
     
    // cout << endl;
     
-   /*
+
         for (int i = 0; i < array_size; ++i)
         {
         for (int j = i; j > 0 && ordered_points_y[j] < ordered_points_y[j-1]; --j)
@@ -296,10 +336,11 @@ ordered_points_x[x]=points_x[x];
     //   points_x[x] >> points_y[x];  
    // }
     
-    */
-    
+   
     /* Enter your code here. Read input from STDIN. Print output to STDOUT */   
-    return 0;
+
+
+    
 }
 
 
@@ -314,4 +355,4 @@ float THE_INPUT=THE_LAT+THE_LONG;
 return sqrt(THE_INPUT);
 };
 
-void Output(string the_output){endl;cout<<the_output;endl;}
+void Output(string the_output){cout<<endl<<the_output<<endl;}
