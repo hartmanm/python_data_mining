@@ -10,34 +10,39 @@ using namespace std;
 
 
 float Euclidean(float LAT1,float LAT2, float LONG1, float LONG2);
+void Output(string the_output);
 
+struct cluster{
+int cluster_id;
+vector<float> cluster_points_x;
+vector<float> cluster_points_y;
+};
 
 int main() {
+// N The number of data points (lines) following the first line .
+// K The number of output clusters .
+// M The cluster similarity measure to be used.  for single link,  for complete link,  for average link.
     
-    //The number of data points (lines) following the first line .
-//The number of output clusters .
-//The cluster similarity measure  to be used.  for single link,  for complete link,  for average link.
-    
-  //  Single link: min
-
-
-//Complete link: max
-
-
-// Average link: mean
 
 
 // Euclidean(LAT1, LAT2, LONG1, LONG2);
 
 
 
+    vector<cluster> clusters; 
+
+
+    int cluster_count=0;
     vector<float> points_x;
     vector<float> points_y;
+
+
     vector<float> ordered_points_x;
     vector<float> ordered_points_y;
     float distance;
     int distance_index;
     vector<float> cluster_assigned;
+
     int N;
     int K;
     int M;
@@ -45,6 +50,35 @@ int main() {
     cout << N << endl;
     cout << K << endl;
     cout << M << endl;
+
+
+    for(int i=0;i<N;i++){
+    float x=0;
+    float y=0;
+    cin >> x >> y;
+    cluster_count++;
+    points_x.push_back(x);
+    points_y.push_back(y);
+    } //    for(int i=0;i<N;i++){
+
+
+Output("number of clusters: "+string(cluster_count));
+
+while(cluster_count > K)
+{
+
+
+
+
+
+
+
+
+} // while(cluster_count > K)
+
+
+
+
 
     for(int i=0;i<N;i++){
     float x=0;
@@ -73,9 +107,22 @@ int main() {
     min_distance=distance;
     distance_index=i;
     } //    if(distance < min_distance){
+
+
     } //    for(int i=0;i<N;i++){
-    points_x.push_back(x);
-    points_y.push_back(y);
+
+    x=points_x.at[distance_index]];
+    y=points_y.at[distance_index]];
+    x2=points_x.at[distance_index+1]];
+    y2=points_y.at[distance_index+1]];
+    ordered_points_x.push_back(x);
+    ordered_points_y.push_back(y);
+    cluster_count++;
+    cluster one;
+    one.cluster_id=cluster_count;
+    one.cluster_points_x=;
+    one.cluster_points_y=;
+    clusters.push_back(one);
 
     } //     if(M==0){
 
@@ -186,6 +233,8 @@ ordered_points_x[x]=points_x[x];
     
     iterator--;
     }
+
+
     
    // cout << endl;
     
@@ -264,3 +313,5 @@ THE_LONG=THE_LONG*THE_LONG;
 float THE_INPUT=THE_LAT+THE_LONG;
 return sqrt(THE_INPUT);
 };
+
+void Output(string the_output){endl;cout<<the_output;endl;}
