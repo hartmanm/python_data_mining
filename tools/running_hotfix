@@ -1,1 +1,1 @@
-cat part5 > this; bash '/Users/macpro_m1/Downloads/b_uniq'
+cat part5 > this; cat part2 >> this; cat part_7 >> this; bash '/Users/macpro_m1/Downloads/b_uniq'
