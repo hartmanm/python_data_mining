@@ -329,6 +329,29 @@ ${SUBPATTERN}
 
 #exec true
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 [[ ${1} != "" ]] && START_AT=$1
 echo "START_AT: $START_AT"
 [[ ! -e more_than_one ]] && > more_than_one
@@ -477,9 +500,26 @@ done ## for ITEM in ${MIN_SUPPORT_TOKENS_IN_LINE}
 echo "
 $ITERATOR / $NUMBER_OF_LINES
 "
+echo "processed thru $ITERATOR" >> processed_thru
 ITERATOR=$(($ITERATOR+1))
 done ## while [[ $ITERATOR -ne $NUMBER_OF_LINES+1 ]]
 } ## [[ $PART_7 -eq 1 ]] && {
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
