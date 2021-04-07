@@ -68,7 +68,7 @@ cin >> x >> y;
 cluster_count++;
 points_x.push_back(x);
 points_y.push_back(y);
-cluster_assigned.push_back(0.0);
+cluster_assigned.push_back(0);
 } //    for(int i=0;i<N;i++){
 
 output="number of clusters: ";
@@ -81,7 +81,7 @@ Output(output);
 
 output="K The number of output clusters: ";
 output.append(to_string(K));
-Output(output);
+Output(output);   
 
 output="M The cluster similarity measure to be used.  0 for single link (min),  1 for complete link (max),  2 for average link (mean): ";
 output.append(to_string(M));
@@ -105,11 +105,14 @@ Output(output);
 
 
 
+//while((cluster_count + K) > K)
 while(cluster_count > K)
 {
 
 // Single link: min
 if(M==0){
+  //  cluster_count--;
+//cluster_count=K;
 distance_index_i=0;
 distance_index_j=0;
 for(int j=0;j<N;j++){
@@ -130,6 +133,13 @@ if(distance < min_distance){
 min_distance=distance;
 distance_index_i=i;
 distance_index_j=j;
+output="";
+output.append(to_string(distance));
+    output.append("\t");
+    output.append(to_string(i));
+        output.append("\t");
+    output.append(to_string(j));
+Output(output);
 } //    if(distance < min_distance){
 } //    if(i!=j){
 } //    for(int i=0;i<N;i++){
@@ -139,8 +149,8 @@ output.append(" ");
 output.append(to_string(distance_index_j));
 output.append(to_string(distance_index_i));
 Output(output);
-cluster_assigned.at(distance_index_j)=cluster_iterator;
-cluster_assigned.at(distance_index_i)=cluster_iterator;
+//cluster_assigned.at(distance_index_j)=cluster_iterator;
+cluster_assigned.at(distance_index_j)=distance_index_i;
 } //    for(int j=0;j<N;j++){
 
 
@@ -149,8 +159,8 @@ cluster_assigned.at(distance_index_i)=cluster_iterator;
 
 } //    if(M==0){
 
-
-cluster_count--;
+cluster_count=K;
+//cluster_count--;
 cluster_iterator++;
 
 } //    while(cluster_count > K)
@@ -164,6 +174,10 @@ output.append(to_string(x));
 Output(output);
 } //    for(int i=0;i<N;i++){
 
+
+    
+    
+    
 return 0;
 
 /*
