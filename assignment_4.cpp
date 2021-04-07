@@ -151,6 +151,9 @@ output.append(to_string(distance_index_i));
 Output(output);
 //cluster_assigned.at(distance_index_j)=cluster_iterator;
 cluster_assigned.at(distance_index_j)=distance_index_i;
+
+  // check if previously assigned clusters redirect here
+ 
 } //    for(int j=0;j<N;j++){
 
 
