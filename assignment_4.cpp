@@ -28,6 +28,20 @@ struct compare_struct {
 
 
 
+/*
+templates exist to provide extensibility to classes and structs
+
+if we know ahead of time the maximum we intend to support for each instance of a given class/struct
+and we intend to process in parallel
+it makes more sense to predefine all memory locations, and optimize operations not by creating and destroying objects
+but rather by simply modifiying indexes
+all states should be possible to be predefined
+a system designed in this way is capable of fully defining its entire state as data / a state machine
+
+
+
+*/
+
 int main(){
 // N The number of data points (lines) following the first line .
 // K The number of output clusters .
@@ -53,6 +67,8 @@ float min_distance=1000;
 
 float distance;
 
+vector<int> ordered_index_points_x;
+vector<int> ordered_index_points_y;
 
 vector<int> cluster_assigned;
 
@@ -79,13 +95,15 @@ cin >> x >> y;
 cluster_count++;
 points_x.push_back(x);
 points_y.push_back(y);
+ordered_index_points_x.push_back(i);
+ordered_index_points_y.push_back(i);
 
 // ensure points_x is sorted, change points_y to match this sorted index
-if(last_x > x){
-std::swap(points_x.at(i), points_x.at(i-1));   
-std::swap(points_y.at(i), points_y.at(i-1));   
-} //    if(last_x > x){
-last_x=x;
+//if(last_x > x){
+//std::swap(points_x.at(i), points_x.at(i-1));   
+//std::swap(points_y.at(i), points_y.at(i-1));   
+//} //    if(last_x > x){
+//last_x=x;
 
     
 //init_points_y.push_back(x);
@@ -103,18 +121,19 @@ for(int i=0;i<N;i++){
 float y=0;
 float z=0;
 if(i!=j){
-
 z=points_x.at(i);
+    
+    
 // replace with matching index of sorted x values
-if(x == z){
-y=points_y.at();
-init_points_y.at(i)=y; 
+if(x < z){
+ordered_index_points_x.at(i);
+ordered_index_points_y.at(i);
     
 } //    if(x == z){
     
     
     
-} // 
+} //    if(i!=j){
 } //    for(int i=0;i<N;i++){
 } //    for(int j=0;j<N;j++){
     
