@@ -1,7 +1,9 @@
 cat part5 > this; cat part2 >> this; cat part_7 >> this; bash '/Users/macpro_m1/Downloads/b_uniq'
 
 
-cat part5 > this; cat part2 >> this; cat part_7 >> this; bash '/workspace/UOI_Introduction_to_Data_Mining_CS_412_Jiawei_Han/tools/b_uniq'
-
 
 cat part5 > this; cat part_7 >> this; bash '/workspace/UOI_Introduction_to_Data_Mining_CS_412_Jiawei_Han/tools/b_uniq'
+
+
+
+cat part5 > this; cat part2 >> this; cat part_7 >> this; bash '/workspace/UOI_Introduction_to_Data_Mining_CS_412_Jiawei_Han/tools/b_uniq'
