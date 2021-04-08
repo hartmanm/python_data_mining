@@ -38,7 +38,14 @@ but rather by simply modifiying indexes
 all states should be possible to be predefined
 a system designed in this way is capable of fully defining its entire state as data / a state machine
 
+this will also have the effect of isolating the data from the logic
+the logic can then in turn become what is instantiated/modified.
 
+this inversion should be familar to metaprogrammers.
+
+with such a system we never need to process data, we can always append additional data with processing as needed.
+
+magic or meta shifts are possible 
 
 */
 
