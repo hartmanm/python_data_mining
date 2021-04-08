@@ -19,6 +19,10 @@ vector<float> cluster_points_x;
 vector<float> cluster_points_y;
 };
 
+struct compare_struct {
+  bool operator() (int i,int j) { return (i<j);}
+} comparator;
+
 int main(){
 // N The number of data points (lines) following the first line .
 // K The number of output clusters .
@@ -38,6 +42,7 @@ string output;
 int cluster_count=0;
 int cluster_iterator=0;
 vector<float> points_x;
+vector<float> init_points_y;
 vector<float> points_y;
 float min_distance=1000;
 
@@ -67,10 +72,32 @@ float y=0;
 cin >> x >> y;
 cluster_count++;
 points_x.push_back(x);
-points_y.push_back(y);
+init_points_y.push_back(y);
+points_y.push_back(x);
 cluster_assigned.push_back(0);
 } //    for(int i=0;i<N;i++){
 
+
+// sort input 
+std::sort (points_x.begin(), points_x.end(), comparator);
+    
+for(int i=0;i<N;i++){
+float x=0;
+float y=0;
+x=points_x.at(i);
+y=points_y.at(i);
+z=init_points_y.at(i);
+if()
+
+points_y.push_back(y);
+cluster_assigned.push_back(0);
+} //    for(int i=0;i<N;i++){
+    
+std::sort (points_y.begin(), points_y.end(), comparator); 
+    
+// initial_clusters
+    
+    
 output="number of clusters: ";
 output.append(to_string(cluster_count));
 Output(output);
@@ -150,6 +177,13 @@ output.append(to_string(distance_index_j));
 output.append(to_string(distance_index_i));
 Output(output);
 //cluster_assigned.at(distance_index_j)=cluster_iterator;
+    
+    
+for(int r=0;r<N;r++){
+if(cluster_assigned.at(r) == distance_index_i){}
+} //    for(int r=0;r<N;r++){
+    
+    
 cluster_assigned.at(distance_index_j)=distance_index_i;
 
   // check if previously assigned clusters redirect here
@@ -162,8 +196,8 @@ cluster_assigned.at(distance_index_j)=distance_index_i;
 
 } //    if(M==0){
 
-cluster_count=K;
-//cluster_count--;
+//cluster_count=K;
+cluster_count--;
 cluster_iterator++;
 
 } //    while(cluster_count > K)
