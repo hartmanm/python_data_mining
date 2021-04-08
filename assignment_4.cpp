@@ -23,6 +23,11 @@ struct compare_struct {
   bool operator() (int i,int j) { return (i<j);}
 } comparator;
 
+
+// maintain_index or create new addressing structure for additional operations/processing?
+
+
+
 int main(){
 // N The number of data points (lines) following the first line .
 // K The number of output clusters .
@@ -42,7 +47,7 @@ string output;
 int cluster_count=0;
 int cluster_iterator=0;
 vector<float> points_x;
-vector<float> init_points_y;
+//vector<float> init_points_y;
 vector<float> points_y;
 float min_distance=1000;
 
@@ -65,38 +70,78 @@ int K;
 int M;
 cin >> N >> K >> M;
 
-
+float last_x=0;
+//float last_y=0;
 for(int i=0;i<N;i++){
 float x=0;
 float y=0;
 cin >> x >> y;
 cluster_count++;
 points_x.push_back(x);
-init_points_y.push_back(y);
-points_y.push_back(x);
+points_y.push_back(y);
+
+// ensure points_x is sorted, change points_y to match this sorted index
+if(last_x > x){
+std::swap(points_x.at(i), points_x.at(i-1));   
+std::swap(points_y.at(i), points_y.at(i-1));   
+} //    if(last_x > x){
+last_x=x;
+
+    
+//init_points_y.push_back(x);
 cluster_assigned.push_back(0);
 } //    for(int i=0;i<N;i++){
 
 
+   
+// sort input 
+//std::sort (points_x.begin(), points_x.end(), comparator);
+for(int j=0;j<N;j++){
+float x=0;
+x=points_x.at(j);
+for(int i=0;i<N;i++){
+float y=0;
+float z=0;
+if(i!=j){
+
+z=points_x.at(i);
+// replace with matching index of sorted x values
+if(x == z){
+y=points_y.at();
+init_points_y.at(i)=y; 
+    
+} //    if(x == z){
+    
+    
+    
+} // 
+} //    for(int i=0;i<N;i++){
+} //    for(int j=0;j<N;j++){
+    
+    
+    
+/*
 // sort input 
 std::sort (points_x.begin(), points_x.end(), comparator);
-    
-for(int i=0;i<N;i++){
+for(int j=0;j<N;j++){
 float x=0;
+x=points_x.at(j);
+for(int i=0;i<N;i++){
 float y=0;
-x=points_x.at(i);
-y=points_y.at(i);
+float z=0;
 z=init_points_y.at(i);
-if()
-
-points_y.push_back(y);
-cluster_assigned.push_back(0);
+// replace with matching index of sorted x values
+if(x == z){
+y=points_y.at();
+init_points_y.at(i)=y;  
+} //    if(x == z){
 } //    for(int i=0;i<N;i++){
+} //    for(int j=0;j<N;j++){
     
-std::sort (points_y.begin(), points_y.end(), comparator); 
+//std::sort (points_y.begin(), points_y.end(), comparator); 
     
 // initial_clusters
-    
+  */  
     
 output="number of clusters: ";
 output.append(to_string(cluster_count));
