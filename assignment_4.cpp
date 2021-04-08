@@ -74,9 +74,12 @@ float min_distance=1000;
 
 float distance;
 
-vector<int> ordered_index_points_x;
-vector<int> ordered_index_points_y;
+//vector<int> ordered_index_points_x;
+//vector<int> ordered_index_points_y;
 
+vector<int> ordered_index_points;
+    
+    
 vector<int> cluster_assigned;
 
 int distance_index_i;
@@ -102,9 +105,11 @@ cin >> x >> y;
 cluster_count++;
 points_x.push_back(x);
 points_y.push_back(y);
-ordered_index_points_x.push_back(i);
-ordered_index_points_y.push_back(i);
+ordered_index_points.push_back(i);
+//ordered_index_points_y.push_back(i);
 
+
+    
 // ensure points_x is sorted, change points_y to match this sorted index
 //if(last_x > x){
 //std::swap(points_x.at(i), points_x.at(i-1));   
