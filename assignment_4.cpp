@@ -5,7 +5,7 @@
 #include <algorithm>
 #include <array>
 #include <stdlib.h> 
-#include <tuple> 
+//#include <tuple> 
 
 using namespace std;
 
@@ -117,7 +117,7 @@ std::tuple<int,float,float> cluster1 (,'x');
 */   
     
     
-    
+string history;
 vector<cluster> clusters; 
 string output;
 int cluster_count=0; 
@@ -156,18 +156,22 @@ cluster_count++;
 // initial_clusters_meta_info
 output="number of clusters: ";
 output.append(to_string(cluster_count));
+history.append(output);
 Output(output);
 
 output="N The number of data points (lines) following the first line: ";
 output.append(to_string(N));
+history.append(output);
 Output(output);
 
 output="K The number of output clusters: ";
 output.append(to_string(K));
+history.append(output);
 Output(output);   
 
 output="M The cluster similarity measure to be used.  0 for single link (min),  1 for complete link (max),  2 for average link (mean): ";
 output.append(to_string(M));
+history.append(output);
 Output(output);
 
 
@@ -188,6 +192,7 @@ output.append("  x,y: ");
 output.append(to_string(x));
 output.append(",");
 output.append(to_string(y));
+history.append(output);
 Output(output);
 //} //    if(clusters.at(i) != nullptr)
 } //    for(int i=0;i<N;i++){
@@ -211,7 +216,7 @@ float distance=1000;
 float min_distance=1000;
 int cluster_merge_candidate=0; 
 int cluster_size=0; 
-bool reentrant=false;
+//bool reentrant=false;
 float x=0;
 float y=0;  
 cluster at;
@@ -221,21 +226,34 @@ at=clusters.at(j);
     
 // determine_if_multiple_points_are_assigned_to_this_cluster
 cluster_size=at.cluster_points_x.size();  
+    
 if(cluster_size < 2){
-x=at.cluster_points_x.at(0);
-y=at.cluster_points_y.at(0); 
+// if_only_one_point_in_the_cluster
+x=at.at(j).cluster_points_x.at(0);
+y=at.at(j).cluster_points_y.at(0); 
+for(int i=0;i<cluster_count;i++){
+float x2=0;
+float y2=0;
+if(i!=j){
+x2=at.at(i).cluster_points_x.at(0);
+y2=at.at(i).cluster_points_y.at(0);
+distance=Euclidean(x, x2, y, y2);
+if(distance < min_distance){
+min_distance=distance;
+cluster_merge_candidate=i;
+} //    if(distance < min_distance){
+} //    if(i!=j){
+} //    for(int i=0;i<cluster_count;i++){
 } //    if(cluster_size < 2){ 
     
-    
 if(cluster_size >= 2){
-reentrant=true;
-    
-x=at.cluster_points_x.at(0);
-y=at.cluster_points_y.at(0); 
-
-} //    if(cluster_size >= 2){
-     
-    
+// if_more_than_one_point_in_the_cluster
+//reentrant=true;
+int cluster_iterator=0;
+while(cluster_iterator < cluster_size+1)
+{
+x=at.cluster_points_x.at(cluster_iterator);
+y=at.cluster_points_y.at(cluster_iterator); 
 
 for(int i=0;i<cluster_count;i++){
 float x2=0;
@@ -247,16 +265,18 @@ distance=Euclidean(x, x2, y, y2);
 if(distance < min_distance){
 min_distance=distance;
 cluster_merge_candidate=i;
-//output="";
-//output.append(to_string(distance));
-//    output.append("\t");
-//    output.append(to_string(i));
-//        output.append("\t");
-//    output.append(to_string(j));
-//Output(output);
 } //    if(distance < min_distance){
 } //    if(i!=j){
 } //    for(int i=0;i<cluster_count;i++){
+cluster_iterator++;
+} //    while(cluster_iterator < cluster_size+1)
+
+} //    if(cluster_size >= 2){
+     
+    
+
+
+    
 //output="";
 //output.append(to_string(distance));
 //output.append(" ");
@@ -277,10 +297,19 @@ cluster_merge_candidate=i;
  
 // merge_the_closest_two_clusters
 cluster_merge_candidate
+TODO    
+
+at=clusters.at(cluster_merge_candidate);
+x=at.cluster_points_x.at(0);
+y=at.cluster_points_y.at(0);  
     
+// the_growing_cluster
+clusters.at(j).cluster_points_x.push_back(x);
+clusters.at(j).cluster_points_y.push_back(y);
+
     
-clusters.at(cluster_merge_candidate).erase(myvector.begin()+5);
-    
+// remove_merged_cluster
+clusters.erase(clusters.at(cluster_merge_candidate));
 cluster_count--;
 if(cluster_count == K){break;}
 } //    for(int j=0;j<cluster_count;j++){
@@ -299,7 +328,7 @@ if(cluster_count == K){break;}
 
     
     
-    
+Output(history);  
 
 return 0;
     
@@ -309,6 +338,7 @@ int x=0;
 x=cluster_assigned.at(i);
 output="";
 output.append(to_string(x));
+history.append(output);
 Output(output);
 } //    for(int i=0;i<N;i++){  
     
