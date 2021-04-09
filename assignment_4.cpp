@@ -216,7 +216,8 @@ float distance=1000;
 float min_distance=1000;
 int cluster_merge_candidate=0; 
 int cluster_size=0; 
-//bool reentrant=false;
+bool reentrant=false;
+int reentrant_cluster_size=0;
 float x=0;
 float y=0;  
 cluster at;
@@ -229,14 +230,20 @@ cluster_size=at.cluster_points_x.size();
     
 if(cluster_size < 2){
 // if_only_one_point_in_the_cluster
-x=at.at(j).cluster_points_x.at(0);
-y=at.at(j).cluster_points_y.at(0); 
+x=at.cluster_points_x.at(0);
+y=at.cluster_points_y.at(0); 
 for(int i=0;i<cluster_count;i++){
 float x2=0;
 float y2=0;
 if(i!=j){
-x2=at.at(i).cluster_points_x.at(0);
-y2=at.at(i).cluster_points_y.at(0);
+x2=clusters.at(i).cluster_points_x.at(0);
+y2=clusters.at(i).cluster_points_y.at(0);
+  
+// multi_comparator_index
+// determine_if_multiple_points_are_assigned_to_this_inner_cluster
+reentrant_cluster_size=clusters.at(i).cluster_points_x.size(); 
+if(reentrant_cluster_size >= 2){reentrant=true;}
+
 distance=Euclidean(x, x2, y, y2);
 if(distance < min_distance){
 min_distance=distance;
@@ -252,15 +259,24 @@ if(cluster_size >= 2){
 int cluster_iterator=0;
 while(cluster_iterator < cluster_size+1)
 {
+//x=at.cluster_points_x.at(cluster_iterator);
+//y=at.cluster_points_y.at(cluster_iterator); 
+
 x=at.cluster_points_x.at(cluster_iterator);
 y=at.cluster_points_y.at(cluster_iterator); 
-
+    
 for(int i=0;i<cluster_count;i++){
 float x2=0;
 float y2=0;
 if(i!=j){
-x2=at.cluster_points_x.at(i);
-y2=at.cluster_points_y.at(i);
+x2=clusters.at(i).cluster_points_x.at(0);
+y2=clusters.at(i).cluster_points_y.at(0);
+    
+// multi_comparator_index
+// determine_if_multiple_points_are_assigned_to_this_inner_cluster
+reentrant_cluster_size=clusters.at(i).cluster_points_x.size(); 
+if(reentrant_cluster_size >= 2){reentrant=true;}
+    
 distance=Euclidean(x, x2, y, y2);
 if(distance < min_distance){
 min_distance=distance;
@@ -296,9 +312,7 @@ cluster_iterator++;
   // check if previously assigned clusters redirect here
  
 // merge_the_closest_two_clusters
-cluster_merge_candidate
-TODO    
-
+// set_the_at_struct_to_the_inner_candidate
 at=clusters.at(cluster_merge_candidate);
 x=at.cluster_points_x.at(0);
 y=at.cluster_points_y.at(0);  
@@ -320,6 +334,16 @@ if(cluster_count == K){break;}
 
 } //    if(M==0){
 
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 //cluster_count=K;
 
 
