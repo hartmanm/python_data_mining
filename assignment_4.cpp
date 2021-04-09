@@ -239,16 +239,31 @@ if(i!=j){
 x2=clusters.at(i).cluster_points_x.at(0);
 y2=clusters.at(i).cluster_points_y.at(0);
   
-// multi_comparator_index
-// determine_if_multiple_points_are_assigned_to_this_inner_cluster
-reentrant_cluster_size=clusters.at(i).cluster_points_x.size(); 
-if(reentrant_cluster_size >= 2){reentrant=true;}
-
 distance=Euclidean(x, x2, y, y2);
 if(distance < min_distance){
 min_distance=distance;
 cluster_merge_candidate=i;
 } //    if(distance < min_distance){
+    
+// multi_comparator_index
+// determine_if_multiple_points_are_assigned_to_this_inner_cluster
+reentrant_cluster_size=clusters.at(i).cluster_points_x.size(); 
+if(reentrant_cluster_size >= 2){
+reentrant=true;
+                              
+for(int z=0;z<reentrant_cluster_size;z++){
+x2=clusters.at(i).cluster_points_x.at(z);
+y2=clusters.at(i).cluster_points_y.at(z);
+distance=Euclidean(x, x2, y, y2);
+if(distance < min_distance){
+min_distance=distance;
+cluster_merge_candidate=i;
+} //    if(distance < min_distance){
+} //    for(int z=0;z<reentrant_cluster_size;z++){
+    
+                               
+} //    if(reentrant_cluster_size >= 2){
+    
 } //    if(i!=j){
 } //    for(int i=0;i<cluster_count;i++){
 } //    if(cluster_size < 2){ 
@@ -271,17 +286,34 @@ float y2=0;
 if(i!=j){
 x2=clusters.at(i).cluster_points_x.at(0);
 y2=clusters.at(i).cluster_points_y.at(0);
-    
-// multi_comparator_index
-// determine_if_multiple_points_are_assigned_to_this_inner_cluster
-reentrant_cluster_size=clusters.at(i).cluster_points_x.size(); 
-if(reentrant_cluster_size >= 2){reentrant=true;}
-    
+        
 distance=Euclidean(x, x2, y, y2);
 if(distance < min_distance){
 min_distance=distance;
 cluster_merge_candidate=i;
 } //    if(distance < min_distance){
+    
+   
+// multi_comparator_index
+// determine_if_multiple_points_are_assigned_to_this_inner_cluster
+reentrant_cluster_size=clusters.at(i).cluster_points_x.size(); 
+if(reentrant_cluster_size >= 2){
+reentrant=true;
+                              
+for(int z=0;z<reentrant_cluster_size;z++){
+x2=clusters.at(i).cluster_points_x.at(z);
+y2=clusters.at(i).cluster_points_y.at(z);
+distance=Euclidean(x, x2, y, y2);
+if(distance < min_distance){
+min_distance=distance;
+cluster_merge_candidate=i;
+} //    if(distance < min_distance){
+} //    for(int z=0;z<reentrant_cluster_size;z++){
+    
+                               
+} //    if(reentrant_cluster_size >= 2){  
+    
+    
 } //    if(i!=j){
 } //    for(int i=0;i<cluster_count;i++){
 cluster_iterator++;
