@@ -19,6 +19,7 @@ struct cluster{
 int cluster_id;
 vector<float> cluster_points_x;
 vector<float> cluster_points_y;
+bool is_valid;
 };
 
 //struct compare_struct {
@@ -148,6 +149,7 @@ a.cluster_id=i;
 a.cluster_points_x.push_back(x);
 ordered_index_points.push_back(x);
 a.cluster_points_y.push_back(y);
+a.is_valid=true;
 clusters.push_back(a);
 cluster_count++;
 } //    for(int i=0;i<N;i++){
@@ -222,6 +224,7 @@ float x=0;
 float y=0;  
 cluster at;
 at=clusters.at(j);
+if(at.is_valid){
 //at.cluster_id
     
     
@@ -235,6 +238,8 @@ y=at.cluster_points_y.at(0);
 for(int i=0;i<cluster_count;i++){
 float x2=0;
 float y2=0;
+cluster iat=clusters.at(i);
+if(iat.is_valid){
 if(i!=j){
 x2=clusters.at(i).cluster_points_x.at(0);
 y2=clusters.at(i).cluster_points_y.at(0);
@@ -265,6 +270,7 @@ cluster_merge_candidate=i;
 } //    if(reentrant_cluster_size >= 2){
     
 } //    if(i!=j){
+} //    if(iat.is_valid){
 } //    for(int i=0;i<cluster_count;i++){
 } //    if(cluster_size < 2){ 
     
@@ -283,6 +289,8 @@ y=at.cluster_points_y.at(cluster_iterator);
 for(int i=0;i<cluster_count;i++){
 float x2=0;
 float y2=0;
+cluster iat=clusters.at(i);
+if(iat.is_valid){
 if(i!=j){
 x2=clusters.at(i).cluster_points_x.at(0);
 y2=clusters.at(i).cluster_points_y.at(0);
@@ -315,6 +323,7 @@ cluster_merge_candidate=i;
     
     
 } //    if(i!=j){
+} //    if(iat.is_valid){
 } //    for(int i=0;i<cluster_count;i++){
 cluster_iterator++;
 } //    while(cluster_iterator < cluster_size+1)
@@ -367,13 +376,17 @@ Output(output);
 //int to_remove=cluster_merge_candidate;
 //cluster itr=clusters.at(c.begin());
 // remove_merged_cluster
-clusters.erase(clusters.begin()+cluster_merge_candidate);
+//clusters.erase(clusters.begin()+cluster_merge_candidate);
+// tombstone_merged_cluster 
+at.is_valid=false;
+    
 cluster_count--;
 output="";
 output.append("cluster_count: ");
 output.append(to_string(cluster_count));
 Output(output);
 if(cluster_count == K){break;}
+} //    if(at.is_valid){
 } //    for(int j=0;j<cluster_count;j++){
 
 
