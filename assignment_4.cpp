@@ -5,12 +5,14 @@
 #include <algorithm>
 #include <array>
 #include <stdlib.h> 
+#include <tuple> 
 
 using namespace std;
 
 // https://www.hackerrank.com/contests/mcs-ds-cs412-sp2021/challenges/clustering-agglomerative-hierarchical-clustering/problem
 
 float Euclidean(float LAT1,float LAT2, float LONG1, float LONG2);
+
 void Output(string the_output);
 
 struct cluster{
@@ -19,9 +21,9 @@ vector<float> cluster_points_x;
 vector<float> cluster_points_y;
 };
 
-struct compare_struct {
-  bool operator() (int i,int j) { return (i<j);}
-} comparator;
+//struct compare_struct {
+//  bool operator() (int i,int j) { return (i<j);}
+//} comparator;
 
 
 // maintain_index or create new addressing structure for additional operations/processing?
@@ -62,28 +64,25 @@ int main(){
 
 
 
-vector<cluster> clusters; 
 
-string output;
-int cluster_count=0;
-int cluster_iterator=0;
-vector<float> points_x;
-//vector<float> init_points_y;
-vector<float> points_y;
-float min_distance=1000;
+//int cluster_iterator=0;
+//vector<float> points_x;
+//vector<float> init_points_x;
+//vector<float> points_y;
+//float min_distance=1000;
 
-float distance;
+//float distance;
 
 //vector<int> ordered_index_points_x;
 //vector<int> ordered_index_points_y;
 
-vector<int> ordered_index_points;
+//vector<int> ordered_index_points;
     
     
-vector<int> cluster_assigned;
+//vector<int> cluster_assigned;
 
-int distance_index_i;
-int distance_index_j;
+//int distance_index_i;
+//int distance_index_j;
 /*
 vector<float> ordered_points_x;
 vector<float> ordered_points_y;
@@ -91,24 +90,89 @@ vector<float> ordered_points_y;
 vector<float> cluster_assigned;
 */
 
+    
+//int cluster_id;
+//vector<float> cluster_points_x;
+//vector<float> cluster_points_y;
+    
+    
+/*
+std::tuple<int,float,float> cluster1 (,'x');
+    
+    
+  std::tuple<int,char> foo (10,'x');
+  auto bar = std::make_tuple ("test", 3.1, 14, 'y');
+
+  std::get<2>(bar) = 100;                                    // access element
+
+  int myint; char mychar;
+
+  std::tie (myint, mychar) = foo;                            // unpack elements
+  std::tie (std::ignore, std::ignore, myint, mychar) = bar;  // unpack (with ignore)
+
+  mychar = std::get<3>(bar);
+
+  std::get<0>(foo) = std::get<2>(bar);
+  std::get<1>(foo) = mychar;
+
+  std::cout << "foo contains: ";
+  std::cout << std::get<0>(foo) << ' ';
+  std::cout << std::get<1>(foo) << '\n';
+*/   
+    
+    
+    
+vector<cluster> clusters; 
+string output;
+int cluster_count=0; 
 int N;
 int K;
 int M;
 cin >> N >> K >> M;
 
-float last_x=0;
+//float last_x=0;
 //float last_y=0;
+//float max=0;
+//float min=0;
 for(int i=0;i<N;i++){
 float x=0;
 float y=0;
 cin >> x >> y;
+cluster a;
+a.cluster_id=i;
+a.cluster_points_x.push_back(x);
+a.cluster_points_y.push_back(y);
+clusters.push_back(a);
+cluster_count++;
+    
+/*
+int cluster_id;
+vector<float> cluster_points_x;
+vector<float> cluster_points_y;
+clusters.push_back(x)
+std::tuple<int,float,float> cluster1 (i,x,y);
 cluster_count++;
 points_x.push_back(x);
 points_y.push_back(y);
 ordered_index_points.push_back(i);
+*/
 //ordered_index_points_y.push_back(i);
 
 
+    /*
+for(int j=0;j<i;j++){
+
+if(x < z){
+ordered_index_points.at(j)=i;
+ordered_index_points.at(i)=j;  
+} //    if(x == z){
+    
+    
+    
+    
+} //    for(int j=0;j<N;j++){
+last_x=x;
+    */
     
 // ensure points_x is sorted, change points_y to match this sorted index
 //if(last_x > x){
@@ -119,13 +183,19 @@ ordered_index_points.push_back(i);
 
     
 //init_points_y.push_back(x);
-cluster_assigned.push_back(0);
+//cluster_assigned.push_back(0);
+    
+    
+    
 } //    for(int i=0;i<N;i++){
 
 
-   
+    
+
+/* 
 // sort input 
-//std::sort (points_x.begin(), points_x.end(), comparator);
+init_points_x=points_x;
+std::sort (init_points_x.begin(), init_points_x.end(), comparator);
 for(int j=0;j<N;j++){
 float x=0;
 x=points_x.at(j);
@@ -133,14 +203,13 @@ for(int i=0;i<N;i++){
 float y=0;
 float z=0;
 if(i!=j){
-z=points_x.at(i);
+z=init_points_x.at(i);
     
     
-// replace with matching index of sorted x values
-if(x < z){
-ordered_index_points_x.at(i);
-ordered_index_points_y.at(i);
-    
+// generate ordered_index_points with matching index of sorted x values
+if(x == z){
+ordered_index_points.at(i)=i;
+//ordered_index_points.at(i)=j;  
 } //    if(x == z){
     
     
@@ -148,7 +217,7 @@ ordered_index_points_y.at(i);
 } //    if(i!=j){
 } //    for(int i=0;i<N;i++){
 } //    for(int j=0;j<N;j++){
-    
+ */   
     
     
 /*
@@ -195,8 +264,12 @@ Output(output);
 for(int i=0;i<N;i++){
 float x=0;
 float y=0;
-x=points_x.at(i);
-y=points_y.at(i);
+cluster at;
+//if(clusters.at(i) != nullptr)
+//{
+at=clusters.at(i);
+x=at.cluster_points_x.at(0);
+y=at.cluster_points_y.at(0);
 output="cluster: ";
 output.append(to_string(i));
 output.append("  x,y: ");
@@ -204,10 +277,13 @@ output.append(to_string(x));
 output.append(",");
 output.append(to_string(y));
 Output(output);
+//} //    if(clusters.at(i) != nullptr)
 } //    for(int i=0;i<N;i++){
 
 
-
+return 0;
+    
+/*
 //while((cluster_count + K) > K)
 while(cluster_count > K)
 {
@@ -288,10 +364,10 @@ Output(output);
 } //    for(int i=0;i<N;i++){
 
 
+    */
     
     
-    
-return 0;
+
 
 /*
 
