@@ -216,7 +216,7 @@ float distance=1000;
 float min_distance=1000;
 int cluster_merge_candidate=0; 
 int cluster_size=0; 
-bool reentrant=false;
+//bool reentrant=false;
 int reentrant_cluster_size=0;
 float x=0;
 float y=0;  
@@ -249,7 +249,7 @@ cluster_merge_candidate=i;
 // determine_if_multiple_points_are_assigned_to_this_inner_cluster
 reentrant_cluster_size=clusters.at(i).cluster_points_x.size(); 
 if(reentrant_cluster_size >= 2){
-reentrant=true;
+//reentrant=true;
                               
 for(int z=0;z<reentrant_cluster_size;z++){
 x2=clusters.at(i).cluster_points_x.at(z);
@@ -298,7 +298,7 @@ cluster_merge_candidate=i;
 // determine_if_multiple_points_are_assigned_to_this_inner_cluster
 reentrant_cluster_size=clusters.at(i).cluster_points_x.size(); 
 if(reentrant_cluster_size >= 2){
-reentrant=true;
+//reentrant=true;
                               
 for(int z=0;z<reentrant_cluster_size;z++){
 x2=clusters.at(i).cluster_points_x.at(z);
@@ -353,11 +353,26 @@ y=at.cluster_points_y.at(0);
 clusters.at(j).cluster_points_x.push_back(x);
 clusters.at(j).cluster_points_y.push_back(y);
 
+output="";
+output.append("adding x: ");
+output.append(to_string(x));
+output.append("adding y: ");
+output.append(to_string(y));
+output.append("cluster_merge_candidate : ");
+output.append(to_string(cluster_merge_candidate));
+output.append("j : ");
+output.append(to_string(j));
+Output(output);
+    
 //int to_remove=cluster_merge_candidate;
 //cluster itr=clusters.at(c.begin());
 // remove_merged_cluster
 clusters.erase(clusters.begin()+cluster_merge_candidate);
 cluster_count--;
+output="";
+output.append("cluster_count: ");
+output.append(to_string(cluster_count));
+Output(output);
 if(cluster_count == K){break;}
 } //    for(int j=0;j<cluster_count;j++){
 
@@ -390,21 +405,27 @@ if(cluster_count == K){break;}
 // output_final_clusters_data
 for(int i=0;i<cluster_count;i++){
 float x=0;
-float y=0;
+//float y=0;
 cluster at;
 at=clusters.at(i);
-
+output="cluster:";
+output.append(to_string(i));
+output.append("\t");
+    
 int final_cluster_size=clusters.at(i).cluster_points_x.size(); 
 for(int j=0;j<final_cluster_size;j++){
 
 x=at.cluster_points_x.at(j);
 //y=at.cluster_points_y.at(j);
+output.append("\t");
+output.append(to_string(x));
+Output(output);
     
 int cluster_size=ordered_index_points.size(); 
 for(int z=0;z<cluster_size;z++){
 if(ordered_index_points.at(z) == x){
 output="";
-output.append(to_string(at.cluster_id));
+output.append(to_string(i));
 Output(output);    
 } //    if(ordered_index_points.at(z) == x){
 
@@ -415,6 +436,46 @@ Output(output);
 } //    for(int i=0;i<cluster_count;i++){
 
 
+    
+    
+    output="\n\n";
+    Output(output);
+    
+    
+    
+
+// output_final_clusters_data
+for(int i=0;i<cluster_count;i++){
+float x=0;
+//float y=0;
+cluster at;
+at=clusters.at(i);
+
+int final_cluster_size=clusters.at(i).cluster_points_x.size(); 
+for(int j=0;j<final_cluster_size;j++){
+
+x=at.cluster_points_x.at(j);
+//y=at.cluster_points_y.at(j);
+
+
+int cluster_size=ordered_index_points.size(); 
+for(int z=0;z<cluster_size;z++){
+if(ordered_index_points.at(z) == x){
+output="";
+output.append(to_string(i));
+Output(output);    
+} //    if(ordered_index_points.at(z) == x){
+
+} //    for(int z=0;z<cluster_size;z++){  
+
+} //    for(int j=0;j<final_cluster_size;j++){    
+    
+} //    for(int i=0;i<cluster_count;i++){
+
+
+    
+    
+    
 
     
 //Output(history);  
