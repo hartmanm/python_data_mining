@@ -206,67 +206,84 @@ if(M==0){
 //cluster_count=K;
 //distance_index_i=0;
 //distance_index_j=0;
-for(int j=0;j<N;j++){
+for(int j=0;j<cluster_count;j++){
 float distance=1000;
 float min_distance=1000;
-int cluster_iterator=0; 
+int cluster_merge_candidate=0; 
 int cluster_size=0; 
+bool reentrant=false;
+float x=0;
+float y=0;  
 cluster at;
-at=clusters.at(i);
+at=clusters.at(j);
 //at.cluster_id
     
-cluster_size=at.cluster_points_x.size();
     
-
+// determine_if_multiple_points_are_assigned_to_this_cluster
+cluster_size=at.cluster_points_x.size();  
+if(cluster_size < 2){
 x=at.cluster_points_x.at(0);
 y=at.cluster_points_y.at(0); 
+} //    if(cluster_size < 2){ 
     
     
+if(cluster_size >= 2){
+reentrant=true;
     
-float x=0;
-float y=0;
-x=points_x.at(j);
-y=points_y.at(j);
-for(int i=0;i<N;i++){
+x=at.cluster_points_x.at(0);
+y=at.cluster_points_y.at(0); 
+
+} //    if(cluster_size >= 2){
+     
+    
+
+for(int i=0;i<cluster_count;i++){
 float x2=0;
 float y2=0;
 if(i!=j){
-x2=points_x.at(i);
-y2=points_y.at(i);
+x2=at.cluster_points_x.at(i);
+y2=at.cluster_points_y.at(i);
 distance=Euclidean(x, x2, y, y2);
 if(distance < min_distance){
 min_distance=distance;
-distance_index_i=i;
-distance_index_j=j;
-output="";
-output.append(to_string(distance));
-    output.append("\t");
-    output.append(to_string(i));
-        output.append("\t");
-    output.append(to_string(j));
-Output(output);
+cluster_merge_candidate=i;
+//output="";
+//output.append(to_string(distance));
+//    output.append("\t");
+//    output.append(to_string(i));
+//        output.append("\t");
+//    output.append(to_string(j));
+//Output(output);
 } //    if(distance < min_distance){
 } //    if(i!=j){
-} //    for(int i=0;i<N;i++){
-output="";
-output.append(to_string(distance));
-output.append(" ");
-output.append(to_string(distance_index_j));
-output.append(to_string(distance_index_i));
-Output(output);
+} //    for(int i=0;i<cluster_count;i++){
+//output="";
+//output.append(to_string(distance));
+//output.append(" ");
+//output.append(to_string(distance_index_j));
+//output.append(to_string(distance_index_i));
+//Output(output);
 //cluster_assigned.at(distance_index_j)=cluster_iterator;
     
     
-for(int r=0;r<N;r++){
-if(cluster_assigned.at(r) == distance_index_i){}
-} //    for(int r=0;r<N;r++){
+//for(int r=0;r<cluster_count;r++){
+//if(cluster_assigned.at(r) == distance_index_i){}
+//} //    for(int r=0;r<cluster_count;r++){
     
     
-cluster_assigned.at(distance_index_j)=distance_index_i;
+//cluster_assigned.at(distance_index_j)=distance_index_i;
 
   // check if previously assigned clusters redirect here
  
-} //    for(int j=0;j<N;j++){
+// merge_the_closest_two_clusters
+cluster_merge_candidate
+    
+    
+clusters.at(cluster_merge_candidate).erase(myvector.begin()+5);
+    
+cluster_count--;
+if(cluster_count == K){break;}
+} //    for(int j=0;j<cluster_count;j++){
 
 
 
@@ -275,7 +292,7 @@ cluster_assigned.at(distance_index_j)=distance_index_i;
 } //    if(M==0){
 
 //cluster_count=K;
-cluster_count--;
+
 
 } //    while(cluster_count > K)
 
