@@ -207,8 +207,14 @@ Output(output);
     
     
  
-while(cluster_count > K)
+while(cluster_count >= K)
 {
+output="";
+output="top of loop\tcluster_count: ";
+output.append(to_string(cluster_count));
+output.append("\tK\t");
+output.append(to_string(K));
+Output(output);
 
 // Single link: min
 if(M==0){
@@ -395,8 +401,24 @@ Output(output);
     
 Output_all_clusters(clusters);
     
-if(cluster_count == K){break;}
+if(cluster_count < K){break;
+                     
+output="";
+output="\tbreak\t";
+Output(output);
+
+}
+    
+ output="";   
+output="bottom of loop\tcluster_count:";
+output.append(to_string(cluster_count));
+output.append("\tK\t");
+output.append(to_string(K));
+Output(output);
+
+
 } //    if(at.is_valid){
+
 } //    for(int j=0;j<cluster_count;j++){
 
 
@@ -418,9 +440,12 @@ if(cluster_count == K){break;}
 //cluster_count=K;
 
 
-} //    while(cluster_count > K)
+} //    while(cluster_count >= K)
 
 
+output="exit main loop";
+
+Output(output);
     
     
     
