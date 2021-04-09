@@ -22,6 +22,9 @@ vector<float> cluster_points_y;
 bool is_valid;
 };
 
+
+void Output_all_clusters(vector<cluster> clusters);
+
 //struct compare_struct {
 //  bool operator() (int i,int j) { return (i<j);}
 //} comparator;
@@ -365,13 +368,15 @@ clusters.at(j).cluster_points_y.push_back(y);
 output="";
 output.append("adding x: ");
 output.append(to_string(x));
-output.append("adding y: ");
+output.append(" adding y: ");
 output.append(to_string(y));
-output.append("cluster_merge_candidate : ");
+output.append(" cluster_merge_candidate : ");
 output.append(to_string(cluster_merge_candidate));
-output.append("j : ");
+output.append(" j : ");
 output.append(to_string(j));
 Output(output);
+    
+
     
 //int to_remove=cluster_merge_candidate;
 //cluster itr=clusters.at(c.begin());
@@ -385,6 +390,11 @@ output="";
 output.append("cluster_count: ");
 output.append(to_string(cluster_count));
 Output(output);
+    
+    
+    
+Output_all_clusters(clusters);
+    
 if(cluster_count == K){break;}
 } //    if(at.is_valid){
 } //    for(int j=0;j<cluster_count;j++){
@@ -487,7 +497,7 @@ Output(output);
 
 
     
-    
+Output_all_clusters(clusters);
     
 
     
@@ -952,3 +962,34 @@ return sqrt(THE_INPUT);
 };
 
 void Output(string the_output){cout<<the_output<<endl;}
+
+
+void Output_all_clusters(vector<cluster> clusters){
+ //for(clusters : cluster){
+for (auto & cluster : clusters) { 
+     cout<<endl;
+    cout<< "cluster_id: ";
+ cout<<to_string(cluster.cluster_id)<<endl;    
+    cout<< "is_valid: ";
+ cout<<to_string(cluster.is_valid)<<endl; 
+    
+    
+    
+int cluster_size=cluster.cluster_points_x.size(); 
+for(int z=0;z<cluster_size;z++){
+
+    cout<< "cluster_points_x: ";
+ cout<<to_string(cluster.cluster_points_x.at(z))<<endl; 
+    cout<< "cluster_points_y: ";
+ cout<<to_string(cluster.cluster_points_y.at(z))<<endl; 
+} //    for(int z=0;z<cluster_size;z++){
+    
+  
+    
+    cout<<endl;
+ } //     for (auto & cluster : clusters) { 
+    
+    
+    
+};
+
