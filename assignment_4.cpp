@@ -116,7 +116,7 @@ std::tuple<int,float,float> cluster1 (,'x');
   std::cout << std::get<1>(foo) << '\n';
 */   
     
-    
+vector<float> ordered_index_points;
 string history;
 vector<cluster> clusters; 
 string output;
@@ -146,11 +146,11 @@ cin >> x >> y;
 cluster a;
 a.cluster_id=i;
 a.cluster_points_x.push_back(x);
+ordered_index_points.push_back(x);
 a.cluster_points_y.push_back(y);
 clusters.push_back(a);
 cluster_count++;
 } //    for(int i=0;i<N;i++){
-    
     
     
 // initial_clusters_meta_info
@@ -321,9 +321,10 @@ y=at.cluster_points_y.at(0);
 clusters.at(j).cluster_points_x.push_back(x);
 clusters.at(j).cluster_points_y.push_back(y);
 
-    
+//int to_remove=cluster_merge_candidate;
+//cluster itr=clusters.at(c.begin());
 // remove_merged_cluster
-clusters.erase(clusters.at(cluster_merge_candidate));
+clusters.erase(clusters.begin()+cluster_merge_candidate);
 cluster_count--;
 if(cluster_count == K){break;}
 } //    for(int j=0;j<cluster_count;j++){
@@ -352,10 +353,49 @@ if(cluster_count == K){break;}
 
     
     
-Output(history);  
+    
+
+// output_final_clusters_data
+for(int i=0;i<cluster_count;i++){
+float x=0;
+float y=0;
+cluster at;
+at=clusters.at(i);
+
+int final_cluster_size=clusters.at(i).cluster_points_x.size(); 
+for(int j=0;j<final_cluster_size;j++){
+
+x=at.cluster_points_x.at(j);
+//y=at.cluster_points_y.at(j);
+    
+int cluster_size=ordered_index_points.size(); 
+for(int z=0;z<cluster_size;z++){
+if(ordered_index_points.at(z) == x){
+output="";
+output.append(to_string(at.cluster_id));
+Output(output);    
+} //    if(ordered_index_points.at(z) == x){
+
+} //    for(int z=0;z<cluster_size;z++){  
+
+} //    for(int j=0;j<final_cluster_size;j++){    
+    
+} //    for(int i=0;i<cluster_count;i++){
+
+
+
+    
+//Output(history);  
 
 return 0;
     
+
+    
+    
+    
+    
+    
+/*
     
 for(int i=0;i<N;i++){
 int x=0;
@@ -366,12 +406,8 @@ history.append(output);
 Output(output);
 } //    for(int i=0;i<N;i++){  
     
-    
-    
-    
-    
-    
-/*
+
+
 int cluster_id;
 vector<float> cluster_points_x;
 vector<float> cluster_points_y;
