@@ -383,7 +383,7 @@ Output(output);
 // remove_merged_cluster
 //clusters.erase(clusters.begin()+cluster_merge_candidate);
 // tombstone_merged_cluster 
-at.is_valid=false;
+clusters.at(cluster_merge_candidate).is_valid=false;
     
 cluster_count--;
 output="";
@@ -966,7 +966,9 @@ void Output(string the_output){cout<<the_output<<endl;}
 
 void Output_all_clusters(vector<cluster> clusters){
  //for(clusters : cluster){
+    cout<<endl;
 for (auto & cluster : clusters) { 
+    if(cluster.is_valid){
      cout<<endl;
     cout<< "cluster_id: ";
  cout<<to_string(cluster.cluster_id)<<endl;    
@@ -979,13 +981,13 @@ int cluster_size=cluster.cluster_points_x.size();
 for(int z=0;z<cluster_size;z++){
 
     cout<< "cluster_points_x: ";
- cout<<to_string(cluster.cluster_points_x.at(z))<<endl; 
-    cout<< "cluster_points_y: ";
+ cout<<to_string(cluster.cluster_points_x.at(z));
+    cout<< "\tcluster_points_y: ";
  cout<<to_string(cluster.cluster_points_y.at(z))<<endl; 
 } //    for(int z=0;z<cluster_size;z++){
     
   
-    
+    }
     cout<<endl;
  } //     for (auto & cluster : clusters) { 
     
