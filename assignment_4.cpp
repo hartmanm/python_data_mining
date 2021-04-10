@@ -158,10 +158,15 @@ a.cluster_points_x.push_back(x);
 ordered_index_points.push_back(x);
 a.cluster_points_y.push_back(y);
 a.is_valid=true;
+centroid_x=x;
+centroid_y=y;
 clusters.push_back(a);
 cluster_count++;
 } //    for(int i=0;i<N;i++){
     
+    
+    
+/*
     
 // initial_clusters_meta_info
 output="number of clusters: ";
@@ -208,7 +213,7 @@ Output(output);
 } //    for(int i=0;i<N;i++){
 
 
-    
+   */ 
     
     
 int loop_cluster_count=cluster_count; 
