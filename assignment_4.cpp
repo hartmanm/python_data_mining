@@ -25,6 +25,9 @@ bool is_valid;
 
 void Output_all_clusters(vector<cluster> clusters);
 
+
+void Ensure_continous_cluster_index_for_valid_clusters(vector<cluster> clusters);
+
 //struct compare_struct {
 //  bool operator() (int i,int j) { return (i<j);}
 //} comparator;
@@ -206,8 +209,8 @@ Output(output);
     
     
     
- 
-while(cluster_count >= K)
+int loop_cluster_count=cluster_count; 
+while(loop_cluster_count >= K)
 {
 output="";
 output="top of loop\tcluster_count: ";
@@ -391,14 +394,14 @@ Output(output);
 // tombstone_merged_cluster 
 clusters.at(cluster_merge_candidate).is_valid=false;
     
-cluster_count--;
+loop_cluster_count--;
 output="";
 output.append("cluster_count: ");
 output.append(to_string(cluster_count));
 Output(output);
     
     
-    
+Ensure_continous_cluster_index_for_valid_clusters(clusters);
 Output_all_clusters(clusters);
     
 if(cluster_count < K){break;
@@ -411,7 +414,7 @@ Output(output);
     
  output="";   
 output="bottom of loop\tcluster_count:";
-output.append(to_string(cluster_count));
+output.append(to_string(loop_cluster_count));
 output.append("\tK\t");
 output.append(to_string(K));
 Output(output);
@@ -440,7 +443,7 @@ Output(output);
 //cluster_count=K;
 
 
-} //    while(cluster_count >= K)
+} //    while(loop_cluster_count >= K)
 
 
 output="exit main loop";
@@ -984,7 +987,7 @@ float THE_LONG=LONG1-LONG2;
 THE_LONG=THE_LONG*THE_LONG;
 float THE_INPUT=THE_LAT+THE_LONG;
 return sqrt(THE_INPUT);
-};
+}; //   float Euclidean(float LAT1,float LAT2, float LONG1, float LONG2){
 
 void Output(string the_output){cout<<the_output<<endl;}
 
@@ -1018,5 +1021,26 @@ for(int z=0;z<cluster_size;z++){
     
     
     
-};
+}; //   void Output_all_clusters(vector<cluster> clusters){
+                 
+                 
+                 
+void Ensure_continous_cluster_index_for_valid_clusters(vector<cluster> clusters){
+int last_cluster_id=0;
+bool init=1;
+for(auto & cluster : clusters){ 
+if(cluster.is_valid && init == 0){
+if(cluster.cluster_id > last_cluster_id+1){
+cout<<endl;
+    cout<< "modifiying cluster_id: ";
+ cout<<to_string(cluster.cluster_id)<<endl;   
+cluster.cluster_id=last_cluster_id+1;
+    cout<< "to: ";
+ cout<<to_string(cluster.cluster_id)<<endl;   
+} //    if(cluster.cluster_id > last_cluster_id+1){
+} //    if(cluster.is_valid && init == 0){
+init=0;
+last_cluster_id=cluster.cluster_id;
+} //     for (auto & cluster : clusters) {  
+}; //   void Ensure_continous_cluster_index_for_valid_clusters(vector<cluster> clusters){
 
