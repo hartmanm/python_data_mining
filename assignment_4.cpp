@@ -210,7 +210,7 @@ Output(output);
     
     
 int loop_cluster_count=cluster_count; 
-while(loop_cluster_count >= K)
+while(loop_cluster_count > K)
 {
 output="";
 output="top of loop\tcluster_count: ";
@@ -404,13 +404,9 @@ Output(output);
 Ensure_continous_cluster_index_for_valid_clusters(clusters);
 Output_all_clusters(clusters);
     
-if(cluster_count < K){break;
-                     
-output="";
-output="\tbreak\t";
-Output(output);
 
-}
+
+
     
  output="";   
 output="bottom of loop\tcluster_count:";
@@ -422,6 +418,14 @@ Output(output);
 
 } //    if(at.is_valid){
 
+if(loop_cluster_count < K){
+break;                 
+output="";
+output="\tbreak\t";
+Output(output);
+} //    if(loop_cluster_count < K){
+                           
+                          
 } //    for(int j=0;j<cluster_count;j++){
 
 
@@ -443,16 +447,18 @@ Output(output);
 //cluster_count=K;
 
 
-} //    while(loop_cluster_count >= K)
+} //    while(loop_cluster_count > K)
 
 
+Ensure_continous_cluster_index_for_valid_clusters(clusters);
+    
 output="exit main loop";
 
 Output(output);
     
     
     
-
+/*
 // output_final_clusters_data
 for(int i=0;i<cluster_count;i++){
 float x=0;
@@ -492,11 +498,11 @@ Output(output);
     output="\n\n";
     Output(output);
     
-    
+   */ 
     
 
 // output_final_clusters_data
-for(int i=0;i<cluster_count;i++){
+for(int i=0;i<loop_cluster_count;i++){
 float x=0;
 //float y=0;
 cluster at;
@@ -525,7 +531,7 @@ Output(output);
 
 
     
-Output_all_clusters(clusters);
+//Output_all_clusters(clusters);
     
 
     
