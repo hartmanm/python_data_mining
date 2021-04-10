@@ -19,6 +19,8 @@ struct cluster{
 int cluster_id;
 vector<float> cluster_points_x;
 vector<float> cluster_points_y;
+float centroid_x;
+float centroid_y;
 bool is_valid;
 };
 
@@ -374,6 +376,17 @@ y=at.cluster_points_y.at(0);
 clusters.at(j).cluster_points_x.push_back(x);
 clusters.at(j).cluster_points_y.push_back(y);
 
+ 
+// verify how merging is indended to occur and how to merge a cluster with multiple points
+/*
+// ensure all clusters are trans
+int cluster_size=cluster.cluster_points_x.size(); 
+for(int z=0;z<cluster_size;z++){
+
+    cout<< "cluster_points_x: ";
+*/   
+    
+    
 output="";
 output.append("adding x: ");
 output.append(to_string(x));
