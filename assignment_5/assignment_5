@@ -1,4 +1,3 @@
-
 #!/bin/bash
 # for University_of_Illinois 2021
 # Michael Neill Hartman
@@ -109,15 +108,15 @@ THIS_PC:  $THIS_PC
 done ## while read -r LINE; 
 total_number_of_points_in_all_clusters=$(($number_of_points_in_cluster_3+$number_of_points_in_cluster_2+$number_of_points_in_cluster_1+$number_of_points_in_cluster_0))
 
-poc0=$(echo "scale=3; $number_of_points_in_cluster_0 / $total_number_of_points_in_all_clusters" | bc)
-poc1=$(echo "scale=3; $number_of_points_in_cluster_1 / $total_number_of_points_in_all_clusters" | bc)
-poc2=$(echo "scale=3; $number_of_points_in_cluster_2 / $total_number_of_points_in_all_clusters" | bc)
-poc3=$(echo "scale=3; $number_of_points_in_cluster_3 / $total_number_of_points_in_all_clusters" | bc)
+poc0=$(echo "scale=10; $number_of_points_in_cluster_0 / $total_number_of_points_in_all_clusters" | bc)
+poc1=$(echo "scale=10; $number_of_points_in_cluster_1 / $total_number_of_points_in_all_clusters" | bc)
+poc2=$(echo "scale=10; $number_of_points_in_cluster_2 / $total_number_of_points_in_all_clusters" | bc)
+poc3=$(echo "scale=10; $number_of_points_in_cluster_3 / $total_number_of_points_in_all_clusters" | bc)
 
-ground_truth_0=$(echo "scale=3; ($number_of_points_in_cluster_0 * $total_number_of_points_in_all_clusters) / 100" | bc)
-ground_truth_1=$(echo "scale=3; ($number_of_points_in_cluster_1 * $total_number_of_points_in_all_clusters) / 100" | bc)
-ground_truth_2=$(echo "scale=3; ($number_of_points_in_cluster_2 * $total_number_of_points_in_all_clusters) / 100" | bc)
-ground_truth_3=$(echo "scale=3; ($number_of_points_in_cluster_3 * $total_number_of_points_in_all_clusters) / 100" | bc)
+ground_truth_0=$(echo "scale=10; ($number_of_points_in_cluster_0 * $total_number_of_points_in_all_clusters) / 100" | bc)
+ground_truth_1=$(echo "scale=10; ($number_of_points_in_cluster_1 * $total_number_of_points_in_all_clusters) / 100" | bc)
+ground_truth_2=$(echo "scale=10; ($number_of_points_in_cluster_2 * $total_number_of_points_in_all_clusters) / 100" | bc)
+ground_truth_3=$(echo "scale=10; ($number_of_points_in_cluster_3 * $total_number_of_points_in_all_clusters) / 100" | bc)
 
 T0=`echo $GTC | awk '{print $1}'`
 T0=$(($T0))
@@ -128,27 +127,37 @@ T2=$(($T2))
 T3=`echo $GTC | awk '{print $4}'`
 T3=$(($T3))
 
-
 I0=0
-I0=2
-I0=0
-I0=0
+I1=0
+I2=0
+I3=0
+I_TOTAL=0
 
+#TT=" $T1 * (l($T1 / ($poc1 * $T1) ) / l(10)) | bc -l)"
+[[ ${ground_truth_0} != "0" && ${poc0} != "0" && ${T0} != "0" ]] && I0=$(echo "scale=10; $T0 * (l($T0 / ($poc0 * $T0) ) / l(10))" | bc -l)
+[[ ${ground_truth_1} != "0" && ${poc1} != "0" && ${T1} != "0" ]] && I0=$(echo "scale=10; $T1 * (l($T1 / ($poc1 * $T1) ) / l(10))" | bc -l)
+[[ ${ground_truth_2} != "0" && ${poc2} != "0" && ${T2} != "0" ]] && I0=$(echo "scale=10; $T2 * (l($T2 / ($poc2 * $T2) ) / l(10))" | bc -l)
+[[ ${ground_truth_3} != "0" && ${poc3} != "0" && ${T3} != "0" ]] && I0=$(echo "scale=10; $T3 * (l($T3 / ($poc3 * $T3) ) / l(10))" | bc -l)
+I_TOTAL=$(echo "scale=10; $I0 + $I1 + $I2 + $I3" | bc)
 
-I=$(echo "scale=3; -1 * $T0 * (l($T0 / ($poc0 * $T0) ) / l(10)) - $T1 * (l($T1) / l(10)) - $T2 * (l($T2) / l(10)) - $T3 * (l($T3) / l(10))" | bc -l)  
+#I=$(echo "scale=3; -1 * $T0 * (l($T0 / ($poc0 * $T0) ) / l(10)) - $T1 * (l($T1) / l(10)) - $T2 * (l($T2) / l(10)) - $T3 * (l($T3) / l(10))" | bc -l)  
 
-H_C=$(echo "scale=3; -1 * $poc0 * (l($poc0) / l(10)) - $poc1 * (l($poc1) / l(10)) - $poc2 * (l($poc2) / l(10)) - $poc3 * (l($poc3) / l(10))" | bc -l)  
+H_C=$(echo "scale=10; -1 * $poc0 * (l($poc0) / l(10)) - $poc1 * (l($poc1) / l(10)) - $poc2 * (l($poc2) / l(10)) - $poc3 * (l($poc3) / l(10))" | bc -l)  
 
-H_T=$(echo "scale=3; -1 * $T0 * (l($T0) / l(10)) - $T1 * (l($T1) / l(10)) - $T2 * (l($T2) / l(10)) - $T3 * (l($T3) / l(10))" | bc -l)  
+H_T=$(echo "scale=10; -1 * $T0 * (l($T0) / l(10)) - $T1 * (l($T1) / l(10)) - $T2 * (l($T2) / l(10)) - $T3 * (l($T3) / l(10))" | bc -l)  
 H_T=$(echo ${H_T/-/})
 
-THE_INPUT=$(echo "scale=3; $H_C * $H_T" | bc)
-RESULT=$(awk -v x=$THE_INPUT 'BEGIN{print sqrt(x)}')
+THE_INPUT=$(echo "scale=10; $H_C * $H_T" | bc)
+DENOM=$(awk -v x=$THE_INPUT 'BEGIN{print sqrt(x)}')
+#DENOM=$THE_INPUT
 
+RESULT=$(echo "scale=3; $I_TOTAL / $DENOM" | bc)
 #H_C=$(echo "scale=3; (l(0.4) / l()10)" | bc -l)  
 
 echo "
 ${GTC}
+${PC} 
+
 $number_of_points_in_cluster_0
 $number_of_points_in_cluster_1
 $number_of_points_in_cluster_2
@@ -169,6 +178,15 @@ $ground_truth_3
 $H_C
 
 $H_T
+
+$DENOM
+
+$I0
+$I1
+$I2
+$I3
+
+$I_TOTAL
 
 $RESULT
 "
