@@ -96,10 +96,10 @@ THIS_PC=`echo $LINE | awk '{print $2}'`
 THIS_PC=$(($THIS_PC))
 GTC="${GTC} ${THIS_GTC}" 
 PC="${PC} ${THIS_PC}" 
-echo "
-THIS_GTC: $THIS_GTC
-THIS_PC:  $THIS_PC
-"
+#echo "
+#THIS_GTC: $THIS_GTC
+#THIS_PC:  $THIS_PC
+#"
 #total_number_of_points_in_all_clusters=$(($total_number_of_points_in_all_clusters+`echo $LINE | awk '{print $1}'`))
 [[ $THIS_PC -eq 0 ]] && number_of_points_in_cluster_0=$(($THIS_GTC + $number_of_points_in_cluster_0))
 [[ $THIS_PC -eq 1 ]] && number_of_points_in_cluster_1=$(($THIS_GTC + $number_of_points_in_cluster_1))
@@ -154,6 +154,10 @@ DENOM=$(awk -v x=$THE_INPUT 'BEGIN{print sqrt(x)}')
 RESULT=$(echo "scale=3; $I_TOTAL / $DENOM" | bc)
 #H_C=$(echo "scale=3; (l(0.4) / l()10)" | bc -l)  
 
+echo ${RESULT}
+
+
+exec true
 echo "
 ${GTC}
 ${PC} 
@@ -190,8 +194,6 @@ $I_TOTAL
 
 $RESULT
 "
-
-#echo ${PC}
 
 
 
