@@ -124,11 +124,13 @@ std::tuple<int,float,float> cluster1 (,'x');
   std::cout << std::get<0>(foo) << ' ';
   std::cout << std::get<1>(foo) << '\n';
 */   
-    
+vector<int> valid_clusters; 
 vector<float> ordered_index_points;
 string history;
 vector<cluster> clusters; 
 string output;
+float centroid_x;
+float centroid_y;
 int cluster_count=0; 
 int N;
 int K;
@@ -220,8 +222,8 @@ int loop_cluster_count=cluster_count;
 while(loop_cluster_count > K)
 {
 output="";
-output="top of loop\tcluster_count: ";
-output.append(to_string(cluster_count));
+output="top of loop\tloop_cluster_count: ";
+output.append(to_string(loop_cluster_count));
 output.append("\tK\t");
 output.append(to_string(K));
 Output(output);
@@ -414,8 +416,8 @@ clusters.at(cluster_merge_candidate).is_valid=false;
     
 loop_cluster_count--;
 output="";
-output.append("cluster_count: ");
-output.append(to_string(cluster_count));
+output.append("loop_cluster_count: ");
+output.append(to_string(loop_cluster_count));
 Output(output);
     
     
@@ -427,7 +429,7 @@ Output_all_clusters(clusters);
 
     
  output="";   
-output="bottom of loop\tcluster_count:";
+output="bottom of loop\tloop_cluster_count:";
 output.append(to_string(loop_cluster_count));
 output.append("\tK\t");
 output.append(to_string(K));
@@ -468,11 +470,7 @@ Output(output);
 } //    while(loop_cluster_count > K)
 
 
-Ensure_continous_cluster_index_for_valid_clusters(clusters);
-    
-output="exit main loop";
 
-Output(output);
     
     
     
@@ -518,15 +516,31 @@ Output(output);
     
    */ 
     
+//Ensure_continous_cluster_index_for_valid_clusters(clusters);
+    
+output="exit main loop";
+Output(output);
+
+
+// add all valid cluster_id's to valid_clusters
+for(auto itr : clusters){
+if(itr.is_valid){
+valid_clusters.push_back(itr.cluster_id);
+} // if(itr.is_valid){
+} // for(auto itr : clusters){
+
+
+int final_cluster_iterator=0; 
+//int final_cluster_size=valid_clusters.size(); 
 
 // output_final_clusters_data
-for(int i=0;i<loop_cluster_count;i++){
+for(auto itr : valid_clusters){
 float x=0;
 //float y=0;
 cluster at;
-at=clusters.at(i);
+at=clusters.at(itr);
 
-int final_cluster_size=clusters.at(i).cluster_points_x.size(); 
+int final_cluster_size=clusters.at(itr).cluster_points_x.size(); 
 for(int j=0;j<final_cluster_size;j++){
 
 x=at.cluster_points_x.at(j);
@@ -537,21 +551,25 @@ int cluster_size=ordered_index_points.size();
 for(int z=0;z<cluster_size;z++){
 if(ordered_index_points.at(z) == x){
 output="";
-output.append(to_string(i));
+output.append(to_string(final_cluster_iterator));
 Output(output);    
 } //    if(ordered_index_points.at(z) == x){
+
+
 
 } //    for(int z=0;z<cluster_size;z++){  
 
 } //    for(int j=0;j<final_cluster_size;j++){    
     
-} //    for(int i=0;i<cluster_count;i++){
+final_cluster_iterator++;
+} //    for(auto itr : valid_clusters){
 
 
     
 //Output_all_clusters(clusters);
     
-
+Output("\n\n\n\n");   
+Output_all_clusters(clusters);
     
 //Output(history);  
 
@@ -1067,4 +1085,3 @@ init=0;
 last_cluster_id=cluster.cluster_id;
 } //     for (auto & cluster : clusters) {  
 }; //   void Ensure_continous_cluster_index_for_valid_clusters(vector<cluster> clusters){
-
