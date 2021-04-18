@@ -1,3 +1,7 @@
+# for University_of_Illinois 2021
+# Michael Neill Hartman
+
+# assignment_6
 
 """
 Classification: Decision Tree Classifier
@@ -55,3 +59,79 @@ Sample Output 0
 1
 """
 
+
+import sys
+
+#labels=[]
+#attributes=[]
+#values=[]
+the_map={}
+line_number=1
+
+
+
+
+#line_items=[]
+for line in sys.stdin:
+    #dic = {item.split(' ')[0]:float(item.split('\t')[1]) for item in line}
+    #print(str(line))
+    #for item in line:
+    #    print(item)
+    tokens=[]
+    if line_number not in the_map:
+        the_map[line_number]=[]
+    tokens = line.split(' ')
+    for item in tokens:
+        if item[-1]=='\n':
+            item=item[:-1]
+        #this_item = item.split('\n')
+        the_map[line_number].append(item)
+    print(str(the_map[line_number]))
+    line_number=line_number+1
+    """
+
+    line_items=[]
+    for item in line:
+
+        line_items[line_number]=
+        print(str(item))
+    #for item in line_items:
+    #    print(str(iitem))
+        #if item[0] not in the_map:
+        #    the_map[line_number]=[]
+        #the_map[line_number].append(item[0]
+    """     
+    
+    """    
+    the_map[line_number].append(label) 
+    label,attribute_value_1,attribute_value_2 = line.split(' ')
+    print(str(label))
+    print(str(attribute_value_1))
+    print(str(attribute_value_2))
+    attribute_1,value_1 = attribute_value_1.split(':')
+    print(str(attribute_1))
+    print(str(value_1))
+    attribute_2,value_2 = attribute_value_2.split(':')
+    print(str(attribute_2))
+    print(str(value_2))
+    if line_number not in the_map:
+        the_map[line_number]=[]
+    the_map[line_number].append(label)
+    #the_map[line_number][]
+    labels.append(label)
+    attributes.append(attribute_1)
+    values.append(value_1)
+    attributes.append(attribute_2)
+    values.append(value_2)
+    line_number=line_number+1
+    """
+
+print(str(the_map))
+
+#print(str(labels))
+
+#print(str(attributes))
+
+#print(str(values))
+
+#If attribute X <= threshold T ; then left node; else right node.
