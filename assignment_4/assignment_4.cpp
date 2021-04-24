@@ -20,6 +20,7 @@ vector<float> cluster_points_x;
 vector<float> cluster_points_y;
 float centroid_x;
 float centroid_y;
+float total_distance;
 bool is_valid;
 };
 
@@ -161,7 +162,10 @@ int reentrant_cluster_size=0;
 int re_reentrant_cluster_size=0;
 cluster at;
 at=clusters.at(j);
+// guard agianst old unmerged / merged cluster tomestones
 if(at.is_valid){
+// reset each clusters total_distance at the beginning of each iteration
+if(j==0){at.total_distance=0;}
 
 // outer centroids itr
 
@@ -196,8 +200,8 @@ y=at.cluster_points_y.at(z);
 //y=clusters.at(j).centroid_y;
 
 float distance=1000;
-float min_distance=1000;
-float max_distance=0;
+//float min_distance=1000;
+//float max_distance=0;
 // inner loop
 //for(int i=j+1;i<cluster_count;i++){
 for(int i=0;i<cluster_count;i++){
@@ -222,11 +226,13 @@ y2=iat.cluster_points_y.at(zz);
 
 
 
-
+// calculate the distance between at and iat clusters
 distance=Euclidean(x, x2, y, y2);
 
+// generate total distance
+at.total_distance+=distance;
 
-
+/*
 // Single link: min
 if(M==0){
 if(distance < min_distance){
@@ -270,6 +276,180 @@ max_distance=distance;
 cluster_merge_candidate=i;
 } //    if(distance > max_distance){
 } // if(M==1){
+*/
+
+} // for(int zz=0;<re_reentrant_cluster_size;zz++){
+
+
+} // if(i!=j){
+} // if(iat.is_valid){
+} // for(int i=0;i<cluster_count;i++){
+
+
+} //    for(int z=0;z<reentrant_cluster_size;z++){
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
+// (inner loop iterator after total_distance has been calculated)
+for(auto itr : at.cluster_points_x){
+clusters.at(cluster_merge_candidate).cluster_points_x.push_back(itr);
+} // for(auto itr : clusters){
+
+
+
+int last_cluster_id=0;
+bool init=1;
+for(auto & cluster : clusters){ 
+if(cluster.is_valid && init == 0){
+
+if(cluster.cluster_id > last_cluster_id+1){
+cout<<endl;
+    cout<< "modifiying cluster_id: ";
+ cout<<to_string(cluster.cluster_id)<<endl;   
+cluster.cluster_id=last_cluster_id+1;
+    cout<< "to: ";
+ cout<<to_string(cluster.cluster_id)<<endl;   
+} //    if(cluster.cluster_id > last_cluster_id+1){
+} //    if(cluster.is_valid && init == 0){
+init=0;
+last_cluster_id=cluster.cluster_id;
+} //     for (auto & cluster : clusters) {  
+*/
+
+
+
+
+
+// (inner loop iterator after total_distance has been calculated)
+for(int ij=0;ij<cluster_count;ij++){
+//int cluster_merge_candidate=0; 
+//float ix=0;
+//float iy=0;  
+int ireentrant_cluster_size=0;
+int ire_reentrant_cluster_size=0;
+cluster ati;
+ati=clusters.at(ij);
+// guard agianst old unmerged / merged cluster tomestones
+if(ati.is_valid){
+
+// determine_if_multiple_points_are_assigned_to_this_inner_cluster
+ireentrant_cluster_size=ati.cluster_points_x.size(); 
+for(int iz=0;iz<ireentrant_cluster_size;iz++){
+//ix=ati.cluster_points_x.at(iz);
+//iy=ati.cluster_points_y.at(iz);
+
+//float idistance=1000;
+float imin_distance=1000;
+float imax_distance=0;
+// inner loop
+for(int ii=0;ii<cluster_count;ii++){
+//float ix2=0;
+//float iy2=0;
+cluster iati=clusters.at(ii);
+if(iati.is_valid){
+if(ii!=ij){
+
+ire_reentrant_cluster_size=iati.cluster_points_x.size(); 
+for(int izz=0;izz<ire_reentrant_cluster_size;izz++){
+//ix2=iati.cluster_points_x.at(izz);
+//iy2=iati.cluster_points_y.at(izz);
+
+
+
+
+// calculate the distance between at and iat clusters
+//idistance=Euclidean(ix, ix2, iy, iy2);
+
+// generate total distance
+//ati.total_distance+=idistance;
+
+
+
+// Single link: min
+if(M==0){
+if(ati.total_distance < imin_distance){
+imin_distance=ati.total_distance;
+cluster_merge_candidate=ii;
+
+/*
+output="distance: ";
+output.append(to_string(ati.total_distance));
+output.append(" from: ");
+output.append(to_string(at.cluster_id));
+output.append(" to: ");
+output.append(to_string(iati.cluster_id));
+output.append(" cluster_count: ");
+output.append(to_string(cluster_count));
+Output(output,true);
+*/
+} //    if(distance < min_distance){
+} // if(M==0){
+
+// complete link (max)
+if(M==1){
+if(ati.total_distance > imax_distance){
+imax_distance=ati.total_distance;
+cluster_merge_candidate=ii;
+
+/*
+output="distance: ";
+output.append(to_string(ati.total_distance));
+output.append(" from: ");
+output.append(to_string(at.cluster_id));
+output.append(" to: ");
+output.append(to_string(iat.cluster_id));
+output.append(" cluster_count: ");
+output.append(to_string(cluster_count));
+Output(output,true);
+*/
+} //    if(distance > max_distance){
+} // if(M==1){
+
+// average link (mean)
+if(M==2){
+if(ati.total_distance > imax_distance){
+imax_distance=ati.total_distance;
+
+// more logic
+/*
+int final_cluster_size=clusters.at(cluster_merge_candidate).cluster_points_x.size();
+float x_total=0;
+float y_total=0;
+for(int i=0;i<final_cluster_size;i++){
+x_total+=clusters.at(cluster_merge_candidate).cluster_points_x.at(i);
+y_total+=clusters.at(cluster_merge_candidate).cluster_points_y.at(i);
+output="";
+output.append("final_cluster_size: ");
+output.append(to_string(final_cluster_size));
+output.append(" x_total: ");
+output.append(to_string(x_total));
+output.append(" y_total: ");
+output.append(to_string(y_total));
+output.append(" i: ");
+output.append(to_string(i));
+Output(output,false);
+} // for(int i=0;i<final_cluster_size;i++){
+clusters.at(cluster_merge_candidate).centroid_x=x_total/final_cluster_size;
+clusters.at(cluster_merge_candidate).centroid_y=y_total/final_cluster_size;
+*/
+
+cluster_merge_candidate=ii;
+} //    if(distance > max_distance){
+} // if(M==1){
 
 
 } // for(int zz=0;<re_reentrant_cluster_size;zz++){
@@ -281,6 +461,14 @@ cluster_merge_candidate=i;
 
 
 } //    for(int z=0;z<reentrant_cluster_size;z++){
+
+} //  if(ati.is_valid){
+
+} //   (inner) for(int ij=0;ij<cluster_count;ij++){
+
+
+
+
 
 
 
@@ -301,7 +489,7 @@ clusters.at(cluster_merge_candidate).cluster_points_y.push_back(itr);
 
 
 
-
+/*
 // recalculate the centroid for the growing cluster
 int final_cluster_size=clusters.at(cluster_merge_candidate).cluster_points_x.size();
 float x_total=0;
@@ -322,7 +510,7 @@ Output(output,false);
 } // for(int i=0;i<final_cluster_size;i++){
 clusters.at(cluster_merge_candidate).centroid_x=x_total/final_cluster_size;
 clusters.at(cluster_merge_candidate).centroid_y=y_total/final_cluster_size;
-
+*/
 
 
 // if merged cluster has already iterated append a copy to clusters and invalidate the original
@@ -545,6 +733,7 @@ init=0;
 last_cluster_id=cluster.cluster_id;
 } //     for (auto & cluster : clusters) {  
 }; //   void Ensure_continous_cluster_index_for_valid_clusters(vector<cluster> clusters){
+
 
 
 
