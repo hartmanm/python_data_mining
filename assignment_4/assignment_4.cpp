@@ -339,16 +339,16 @@ for(int ij=0;ij<cluster_count;ij++){
 //int cluster_merge_candidate=0; 
 //float ix=0;
 //float iy=0;  
-int ireentrant_cluster_size=0;
-int ire_reentrant_cluster_size=0;
+//int ireentrant_cluster_size=0;
+//int ire_reentrant_cluster_size=0;
 cluster ati;
 ati=clusters.at(ij);
 // guard agianst old unmerged / merged cluster tomestones
 if(ati.is_valid){
 
 // determine_if_multiple_points_are_assigned_to_this_inner_cluster
-ireentrant_cluster_size=ati.cluster_points_x.size(); 
-for(int iz=0;iz<ireentrant_cluster_size;iz++){
+//ireentrant_cluster_size=ati.cluster_points_x.size(); 
+//for(int iz=0;iz<ireentrant_cluster_size;iz++){
 //ix=ati.cluster_points_x.at(iz);
 //iy=ati.cluster_points_y.at(iz);
 
@@ -356,15 +356,15 @@ for(int iz=0;iz<ireentrant_cluster_size;iz++){
 float imin_distance=1000;
 float imax_distance=0;
 // inner loop
-for(int ii=0;ii<cluster_count;ii++){
+//for(int ii=0;ii<cluster_count;ii++){
 //float ix2=0;
 //float iy2=0;
-cluster iati=clusters.at(ii);
-if(iati.is_valid){
-if(ii!=ij){
+//cluster iati=clusters.at(ii);
+//if(iati.is_valid){
+if(j!=ij){
 
-ire_reentrant_cluster_size=iati.cluster_points_x.size(); 
-for(int izz=0;izz<ire_reentrant_cluster_size;izz++){
+//ire_reentrant_cluster_size=iati.cluster_points_x.size(); 
+//for(int izz=0;izz<ire_reentrant_cluster_size;izz++){
 //ix2=iati.cluster_points_x.at(izz);
 //iy2=iati.cluster_points_y.at(izz);
 
@@ -383,7 +383,7 @@ for(int izz=0;izz<ire_reentrant_cluster_size;izz++){
 if(M==0){
 if(ati.total_distance < imin_distance){
 imin_distance=ati.total_distance;
-cluster_merge_candidate=ii;
+cluster_merge_candidate=ij;
 
 /*
 output="distance: ";
@@ -403,7 +403,7 @@ Output(output,true);
 if(M==1){
 if(ati.total_distance > imax_distance){
 imax_distance=ati.total_distance;
-cluster_merge_candidate=ii;
+cluster_merge_candidate=ij;
 
 /*
 output="distance: ";
@@ -447,20 +447,20 @@ clusters.at(cluster_merge_candidate).centroid_x=x_total/final_cluster_size;
 clusters.at(cluster_merge_candidate).centroid_y=y_total/final_cluster_size;
 */
 
-cluster_merge_candidate=ii;
+cluster_merge_candidate=ij;
 } //    if(distance > max_distance){
 } // if(M==1){
 
 
-} // for(int zz=0;<re_reentrant_cluster_size;zz++){
+//} // for(int zz=0;<re_reentrant_cluster_size;zz++){
 
 
-} // if(i!=j){
-} // if(iat.is_valid){
-} // for(int i=0;i<cluster_count;i++){
+} //  if(j!=ij){
+//} // if(iat.is_valid){
+//} // for(int i=0;i<cluster_count;i++){
 
 
-} //    for(int z=0;z<reentrant_cluster_size;z++){
+//} //    for(int z=0;z<reentrant_cluster_size;z++){
 
 } //  if(ati.is_valid){
 
@@ -733,7 +733,6 @@ init=0;
 last_cluster_id=cluster.cluster_id;
 } //     for (auto & cluster : clusters) {  
 }; //   void Ensure_continous_cluster_index_for_valid_clusters(vector<cluster> clusters){
-
 
 
 
