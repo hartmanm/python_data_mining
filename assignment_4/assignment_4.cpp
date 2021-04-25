@@ -349,8 +349,8 @@ if(ati.is_valid){
 // determine_if_multiple_points_are_assigned_to_this_inner_cluster
 //ireentrant_cluster_size=ati.cluster_points_x.size(); 
 //for(int iz=0;iz<ireentrant_cluster_size;iz++){
-//ix=ati.cluster_points_x.at(iz);
-//iy=ati.cluster_points_y.at(iz);
+//ix=ati.cluster_points_x.at(ij);
+//iy=ati.cluster_points_y.at(ij);
 
 //float idistance=1000;
 float imin_distance=1000;
@@ -479,13 +479,37 @@ cluster_merge_candidate=ij;
 
 
 // append all j's points to the growing cluster cluster_merge_candidate
-at=clusters.at(j);
-for(auto itr : at.cluster_points_x){
-clusters.at(cluster_merge_candidate).cluster_points_x.push_back(itr);
-} // for(auto itr : clusters){
-for(auto itr : at.cluster_points_y){
-clusters.at(cluster_merge_candidate).cluster_points_y.push_back(itr);
-} // for(auto itr : clusters){
+//at=clusters.at(j);
+
+// merge clusters if points not already present
+//bool is_not_contained=true;
+//for(auto itr : at){
+int this_cluster_size=clusters.at(cluster_merge_candidate).cluster_points_x.size(); 
+for(int sj=0;sj<this_cluster_size;sj++){
+//is_not_contained=true;
+//for(auto itri : at.cluster_points_x){
+if(at.cluster_points_x.at(sj) && clusters.at(cluster_merge_candidate).cluster_points_x.at(sj))
+{
+if(at.cluster_points_x.at(sj) != clusters.at(cluster_merge_candidate).cluster_points_x.at(sj)){clusters.at(cluster_merge_candidate).cluster_points_x.push_back(sj);}
+}
+//} // for(auto itri : at.cluster_points_x){
+//f(is_not_contained){clusters.at(cluster_merge_candidate).cluster_points_x.push_back(itr);}
+//} // for(auto itr : clusters){
+} // for(auto itr : at.cluster_points_x){
+
+//for(auto itr : at){
+this_cluster_size=clusters.at(cluster_merge_candidate).cluster_points_y.size(); 
+for(int sj=0;sj<this_cluster_size;sj++){
+//is_not_contained=true;
+//for(auto itri : at.cluster_points_x){
+if(at.cluster_points_y.at(sj) && clusters.at(cluster_merge_candidate).cluster_points_y.at(sj))
+{
+if(at.cluster_points_y.at(sj) != clusters.at(cluster_merge_candidate).cluster_points_y.at(sj)){clusters.at(cluster_merge_candidate).cluster_points_y.push_back(sj);}
+}
+//} // for(auto itri : at.cluster_points_x){
+//f(is_not_contained){clusters.at(cluster_merge_candidate).cluster_points_x.push_back(itr);}
+//} // for(auto itr : clusters){
+} // for(auto itr : at.cluster_points_y){
 
 
 
