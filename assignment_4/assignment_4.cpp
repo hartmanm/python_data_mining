@@ -21,6 +21,8 @@ vector<float> cluster_points_y;
 float centroid_x;
 float centroid_y;
 float total_distance;
+float min_distance;
+float max_distance;
 bool is_valid;
 };
 
@@ -30,11 +32,21 @@ vector<float> cluster_points_y;
 };
 
 
+struct distances{
+vector<float> cluster_distances;
+};
+
+
 void Output_all_clusters(vector<cluster> clusters);
 
 void Ensure_continous_cluster_index_for_valid_clusters(vector<cluster> clusters);
 
+void Output_all_distances(distances dist);
+
 int main(){
+
+distances dist;
+
 bool is_on=false;
 vector<int> valid_clusters; 
 ordered_index_points oip;
@@ -63,6 +75,8 @@ a.cluster_points_y.push_back(y);
 a.is_valid=true;
 a.centroid_x=x;
 a.centroid_y=y;
+a.min_distance=1000;
+a.max_distance=0;
 clusters.push_back(a);
 cluster_count++;
 } //    for(int i=0;i<N;i++){
@@ -155,6 +169,14 @@ clusters.at(0).centroid_y=y_total/final_cluster_size;
 
 
 for(int j=0;j<cluster_count;j++){
+
+output="";
+output.append("\tcluster_count\t");
+output.append(to_string(cluster_count));
+Output(output,is_on);
+
+
+
 int cluster_merge_candidate=0; 
 float x=0;
 float y=0;  
@@ -199,7 +221,7 @@ y=at.cluster_points_y.at(z);
 //x=clusters.at(j).centroid_x;
 //y=clusters.at(j).centroid_y;
 
-float distance=1000;
+float distance;
 //float min_distance=1000;
 //float max_distance=0;
 // inner loop
@@ -229,57 +251,36 @@ y2=iat.cluster_points_y.at(zz);
 // calculate the distance between at and iat clusters
 distance=Euclidean(x, x2, y, y2);
 
+dist.cluster_distances.push_back(distance);
+
 // generate total distance
 at.total_distance+=distance;
 
-/*
-// Single link: min
-if(M==0){
-if(distance < min_distance){
-min_distance=distance;
-cluster_merge_candidate=i;
 
-output="distance: ";
-output.append(to_string(distance));
-output.append(" from: ");
-output.append(to_string(at.cluster_id));
-output.append(" to: ");
-output.append(to_string(iat.cluster_id));
-output.append(" cluster_count: ");
-output.append(to_string(cluster_count));
-Output(output,true);
+if(M==0){
+if(distance < at.min_distance){
+at.min_distance=distance;
+cluster_merge_candidate=i;
 } //    if(distance < min_distance){
 } // if(M==0){
 
 // complete link (max)
 if(M==1){
-if(distance > max_distance){
-max_distance=distance;
+if(distance < at.max_distance){
+at.max_distance=distance;
 cluster_merge_candidate=i;
-
-output="distance: ";
-output.append(to_string(distance));
-output.append(" from: ");
-output.append(to_string(at.cluster_id));
-output.append(" to: ");
-output.append(to_string(iat.cluster_id));
-output.append(" cluster_count: ");
-output.append(to_string(cluster_count));
-Output(output,true);
-} //    if(distance > max_distance){
+} //    if(distance < min_distance){
 } // if(M==1){
 
 // average link (mean)
 if(M==2){
-if(distance > max_distance){
-max_distance=distance;
+if(distance < at.min_distance){
+at.min_distance=distance;
 cluster_merge_candidate=i;
-} //    if(distance > max_distance){
-} // if(M==1){
-*/
+} //    if(distance < min_distance){
+} // if(M==2){
 
-} // for(int zz=0;<re_reentrant_cluster_size;zz++){
-
+} // for(int zz=0;zz<re_reentrant_cluster_size;zz++){
 
 } // if(i!=j){
 } // if(iat.is_valid){
@@ -328,7 +329,7 @@ cluster.cluster_id=last_cluster_id+1;
 init=0;
 last_cluster_id=cluster.cluster_id;
 } //     for (auto & cluster : clusters) {  
-*/
+
 
 
 
@@ -385,7 +386,7 @@ if(ati.total_distance < imin_distance){
 imin_distance=ati.total_distance;
 cluster_merge_candidate=ij;
 
-/*
+
 output="distance: ";
 output.append(to_string(ati.total_distance));
 output.append(" from: ");
@@ -394,8 +395,8 @@ output.append(" to: ");
 output.append(to_string(iati.cluster_id));
 output.append(" cluster_count: ");
 output.append(to_string(cluster_count));
-Output(output,true);
-*/
+Output(output,is_on);
+
 } //    if(distance < min_distance){
 } // if(M==0){
 
@@ -405,7 +406,7 @@ if(ati.total_distance > imax_distance){
 imax_distance=ati.total_distance;
 cluster_merge_candidate=ij;
 
-/*
+
 output="distance: ";
 output.append(to_string(ati.total_distance));
 output.append(" from: ");
@@ -414,8 +415,8 @@ output.append(" to: ");
 output.append(to_string(iat.cluster_id));
 output.append(" cluster_count: ");
 output.append(to_string(cluster_count));
-Output(output,true);
-*/
+Output(output,is_on);
+
 } //    if(distance > max_distance){
 } // if(M==1){
 
@@ -423,9 +424,9 @@ Output(output,true);
 if(M==2){
 if(ati.total_distance > imax_distance){
 imax_distance=ati.total_distance;
-
+cluster_merge_candidate=ij;
 // more logic
-/*
+
 int final_cluster_size=clusters.at(cluster_merge_candidate).cluster_points_x.size();
 float x_total=0;
 float y_total=0;
@@ -445,9 +446,9 @@ Output(output,false);
 } // for(int i=0;i<final_cluster_size;i++){
 clusters.at(cluster_merge_candidate).centroid_x=x_total/final_cluster_size;
 clusters.at(cluster_merge_candidate).centroid_y=y_total/final_cluster_size;
-*/
 
-cluster_merge_candidate=ij;
+
+
 } //    if(distance > max_distance){
 } // if(M==1){
 
@@ -467,7 +468,7 @@ cluster_merge_candidate=ij;
 } //   (inner) for(int ij=0;ij<cluster_count;ij++){
 
 
-
+*/
 
 
 
@@ -483,37 +484,43 @@ cluster_merge_candidate=ij;
 
 // merge clusters if points not already present
 //bool is_not_contained=true;
-//for(auto itr : at){
-int this_cluster_size=clusters.at(cluster_merge_candidate).cluster_points_x.size(); 
-for(int sj=0;sj<this_cluster_size;sj++){
+for(auto itr : at.cluster_points_x){
+//int this_cluster_size=clusters.at(cluster_merge_candidate).cluster_points_x.size(); 
+//for(int sj=0;sj<this_cluster_size;sj++){
+clusters.at(cluster_merge_candidate).cluster_points_x.push_back(itr);
 //is_not_contained=true;
 //for(auto itri : at.cluster_points_x){
+   /*
 if(at.cluster_points_x.at(sj) && clusters.at(cluster_merge_candidate).cluster_points_x.at(sj))
 {
 if(at.cluster_points_x.at(sj) != clusters.at(cluster_merge_candidate).cluster_points_x.at(sj)){clusters.at(cluster_merge_candidate).cluster_points_x.push_back(sj);}
 }
+*/
 //} // for(auto itri : at.cluster_points_x){
 //f(is_not_contained){clusters.at(cluster_merge_candidate).cluster_points_x.push_back(itr);}
 //} // for(auto itr : clusters){
 } // for(auto itr : at.cluster_points_x){
 
-//for(auto itr : at){
-this_cluster_size=clusters.at(cluster_merge_candidate).cluster_points_y.size(); 
-for(int sj=0;sj<this_cluster_size;sj++){
+for(auto itr : at.cluster_points_y){
+//this_cluster_size=clusters.at(cluster_merge_candidate).cluster_points_y.size(); 
+//for(int sj=0;sj<this_cluster_size;sj++){
+clusters.at(cluster_merge_candidate).cluster_points_y.push_back(itr);
 //is_not_contained=true;
 //for(auto itri : at.cluster_points_x){
+   /*
 if(at.cluster_points_y.at(sj) && clusters.at(cluster_merge_candidate).cluster_points_y.at(sj))
 {
 if(at.cluster_points_y.at(sj) != clusters.at(cluster_merge_candidate).cluster_points_y.at(sj)){clusters.at(cluster_merge_candidate).cluster_points_y.push_back(sj);}
 }
+*/
 //} // for(auto itri : at.cluster_points_x){
 //f(is_not_contained){clusters.at(cluster_merge_candidate).cluster_points_x.push_back(itr);}
 //} // for(auto itr : clusters){
 } // for(auto itr : at.cluster_points_y){
 
 
+//if(M==2){
 
-/*
 // recalculate the centroid for the growing cluster
 int final_cluster_size=clusters.at(cluster_merge_candidate).cluster_points_x.size();
 float x_total=0;
@@ -530,11 +537,11 @@ output.append(" y_total: ");
 output.append(to_string(y_total));
 output.append(" i: ");
 output.append(to_string(i));
-Output(output,false);
+Output(output,is_on);
 } // for(int i=0;i<final_cluster_size;i++){
 clusters.at(cluster_merge_candidate).centroid_x=x_total/final_cluster_size;
 clusters.at(cluster_merge_candidate).centroid_y=y_total/final_cluster_size;
-*/
+
 
 
 // if merged cluster has already iterated append a copy to clusters and invalidate the original
@@ -544,12 +551,13 @@ clusters.push_back(copy);
 clusters.at(j).is_valid=false;
 cluster_count++;
 output=" making copy ! ";
-Output(output,true);
+Output(output,is_on);
 } // if(clusters.at(cluster_merge_candidate).cluster_id <= j){
 
 
+dist.cluster_distances.push_back(float(j));
+//cluster_count++;
 
-    
 // tombstone_merged_cluster 
 clusters.at(j).is_valid=false;
 
@@ -567,7 +575,7 @@ output.append(" cluster_merge_candidate : ");
 output.append(to_string(cluster_merge_candidate));
 output.append(" j : ");
 output.append(to_string(j));
-Output(output,false);
+Output(output,is_on);
     
 
 
@@ -602,7 +610,7 @@ Output(output,is_on);
 if(loop_cluster_count <= K){            
 output="";
 output="\tbreak\t";
-Output(output,true);
+Output(output,is_on);
 break;
 } //    if(loop_cluster_count < K){                    
 } //    for(int j=0;j<cluster_count;j++){
@@ -611,7 +619,7 @@ break;
 if(loop_cluster_count <= K){            
 output="";
 output="\tbreak\t";
-Output(output,true);
+Output(output,is_on);
 break;
 } //    if(loop_cluster_count < K){ 
 
@@ -686,10 +694,12 @@ Output(output,true);
 
 
     
-    is_on=true;
+   // is_on=true;
 Output("\n\n\n\n",is_on);   
 if(is_on){Output_all_clusters(clusters);}
     
+//Output_all_distances(dist);
+
 return 0;
 } // int main(){
 
@@ -707,12 +717,26 @@ float THE_INPUT=this_lat+this_long;
 return sqrt(THE_INPUT);
 }; //   float Euclidean(float LAT1,float LAT2, float LONG1, float LONG2){
 
+
+
+float Euclidean2(float LAT1,float LAT2, float LONG1, float LONG2){
+float THE_LAT=LAT1-LONG1;
+float this_lat;
+this_lat=THE_LAT*THE_LAT;
+float THE_LONG=LAT2-LONG2;
+float this_long;
+this_long=THE_LONG*THE_LONG;
+float THE_INPUT=this_lat+this_long;
+return sqrt(THE_INPUT);
+}; //   float Euclidean(float LAT1,float LAT2, float LONG1, float LONG2){
+
+
 void Output(string the_output,bool is_on){if(is_on){cout<<the_output<<endl;}}
 
 
 void Output_all_clusters(vector<cluster> clusters){
     cout<<endl;
-    cout<< "-------------------------";
+    cout<< "-------------------------"<<endl;
 for (auto & cluster : clusters) { 
     if(cluster.is_valid){
  cout<<endl;
@@ -760,7 +784,23 @@ last_cluster_id=cluster.cluster_id;
 
 
 
+void Output_all_distances(distances tdist){
+    cout<<endl;
+    cout<< "-------------------------"<<endl;
 
+int index=0;
+for (auto & dis : tdist.cluster_distances) { 
+
+ cout<<endl;
+    cout<< "distance at " << to_string(index)<<": ";
+ cout<<to_string(dis)<<endl;        
+index++;
+    }
+      
+
+
+       cout<< "-------------------------" <<endl;
+}; //   void Output_all_clusters(vector<cluster> clusters){
 
 
 
