@@ -564,18 +564,25 @@ if(distance > max_distance){
 max_distance=distance;
 //cluster_merge_candidate=i;
 //j_index=j;
+
 at.max_distance=distance;
+/*
 bool is_there=false;
-for (auto & i : dist.distance_id) { 
-if(dist.max_cluster_distances.at(i) == distance){is_there=true;}
+for (auto & t : dist.distance_id) { 
+if(dist.max_cluster_distances.at(t) == distance){is_there=true;}
+} // for (auto & i : dist.distance_id) { 
 if(! is_there){
+*/
+output="";
+output.append(" distance: ");
+output.append(to_string(distance));
+Output(output,false);
 dist.max_cluster_distances.push_back(distance);
 dist.cluster_merge_candidate.push_back(i);
 dist.j_index.push_back(j);
 dist.distance_id.push_back(dist_iterator);
 dist_iterator++;
-} /// if(! is_there){
-} // for (auto & i : dist.distance_id) { 
+//} /// if(! is_there){
 } //    if(distance < min_distance){
 
 
@@ -585,15 +592,14 @@ dist_iterator++;
 
 
 
-
+/*
 x2=iat.centroid_x;
 y2=iat.centroid_y;
-
 // calculate the distance between at and iat clusters
 distance=Euclidean(x, x2, y, y2);
+*/
 
-
-// simple link on centroid
+// simple link 
 if(distance < min_distance){
 min_distance=distance;
 at.min_distance=distance;
@@ -603,8 +609,8 @@ dist.min_j_index.push_back(j);
 dist.min_distance_id.push_back(min_dist_iterator);
 min_dist_iterator++;
 
-//cluster_merge_candidate=i;
-//j_index=j;
+cluster_merge_candidate=i;
+j_index=j;
 
 } //    if(distance < min_distance){
 
@@ -750,7 +756,7 @@ output.append(to_string(dist.min_cluster_distances.at(j)));
 output.append("\n");
 Output(output,false);
 
-//if(dist.min_cluster_merge_candidate.at(j) == dist.cluster_merge_candidate.at(i) && dist.min_j_index.at(j) == dist.j_index.at(i))
+if(cluster_merge_candidate == dist.cluster_merge_candidate.at(i) && j_index == dist.j_index.at(i))
 //{
 
 
@@ -772,7 +778,7 @@ output.append(to_string(max_min));
 //output.append(to_string(dist.max_cluster_distances.at(i)));
 //output.append(" dist.min_cluster_distances.at(tdis): ");
 //output.append(to_string(dist.min_cluster_distances.at(j)));
-Output(output,true);
+Output(output,false);
 
 
 }
