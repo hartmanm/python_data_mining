@@ -466,6 +466,18 @@ for(int z=0;z<reentrant_cluster_size;z++){
 x=at.cluster_points_x.at(z);
 y=at.cluster_points_y.at(z);
 
+
+
+/*
+if(j_index==0){
+x=at.centroid_x;
+y=at.centroid_y;
+// calculate the distance between at and iat clusters
+
+}
+*/
+
+
 //for(int i=0;i<t_cluster_size;i++){
 for(auto i : valid_clusters){
 float x2=0;
@@ -528,7 +540,17 @@ y2=iat.centroid_y;
 distance=Euclidean(x, x2, y, y2);
 
 
+
 /*
+
+
+if(j_index==0){
+x2=iat.centroid_x;
+y2=iat.centroid_y;
+// calculate the distance between at and iat clusters
+distance=Euclidean(x, x2, y, y2);
+
+}
 if(distance <= max_distance){
 diameters.push_back(distance);
 diameters_cl1.push_back(0);
@@ -592,12 +614,7 @@ dist_iterator++;
 
 
 
-/*
-x2=iat.centroid_x;
-y2=iat.centroid_y;
-// calculate the distance between at and iat clusters
-distance=Euclidean(x, x2, y, y2);
-*/
+
 
 // simple link 
 if(distance < min_distance){
@@ -731,9 +748,17 @@ Output(output,true);
 //} // while(min_cluster_size > 0){
 } // for (auto & tdis : dist.min_distance_id) { 
 } // for (auto & dis : dist) { 
+   if(itr==0){
+if(cluster_merge_candidate == dist.cluster_merge_candidate.at(i) || j_index == dist.j_index.at(i));
+}
+if(itr!=0){
+if(cluster_merge_candidate == dist.cluster_merge_candidate.at(i) && j_index == dist.j_index.at(i));
+//{
+}
+itr++;
 */
 
-
+int itr=1;
 //} // while(! is_output){
 float max_min=9999;
 //bool found_max=false;
@@ -742,23 +767,59 @@ float max_min=9999;
 
 //for(int j=min_cluster_size;j>0;j--){
 //for(int i=max_cluster_size;i>0;i--){
+   if(itr>0){
 
 for (auto & i : dist.distance_id) { 
-for (auto & j : dist.min_distance_id) { 
+//for (auto & j : dist.min_distance_id) { 
 
 //if(!found_max){
 output="";
 output.append("\n");
 output.append(" max: ");
 output.append(to_string(dist.max_cluster_distances.at(i)));
-output.append(" min: ");
-output.append(to_string(dist.min_cluster_distances.at(j)));
+//output.append(" min: ");
+//output.append(to_string(dist.min_cluster_distances.at(j)));
 output.append("\n");
 Output(output,false);
+//max_min=dist.max_cluster_distances.at(i);
 
-if(cluster_merge_candidate == dist.cluster_merge_candidate.at(i) && j_index == dist.j_index.at(i))
-//{
+if(itr==0){
+//if(cluster_merge_candidate == dist.cluster_merge_candidate.at(i) || j_index == dist.j_index.at(i)){
+for (auto & j : dist.min_distance_id) { 
+//if(dist.min_cluster_distances.at(j) < max_min){
+if(dist.min_cluster_distances.at(j) < max_min){
+max_min=dist.min_cluster_distances.at(j);
+//max_min=dist.min_cluster_distances.at(j);
+//cluster_merge_candidate=dist.min_cluster_merge_candidate.at(j);
+//j_index=dist.min_j_index.at(j);
+cluster_merge_candidate=dist.cluster_merge_candidate.at(i);
+j_index=dist.j_index.at(i);
 
+output="";
+//output.append("max_distance: ");
+//output.append(to_string(max_distance));
+output.append(" max_min1: ");
+output.append(to_string(max_min));
+//output.append(" dist.max_cluster_distances.at(dis): ");
+//output.append(to_string(dist.max_cluster_distances.at(i)));
+//output.append(" dist.min_cluster_distances.at(tdis): ");
+//output.append(to_string(dist.min_cluster_distances.at(j)));
+Output(output,false);
+}
+}
+}
+//}
+//} // if(dist.min_cluster_merge_candidate.at(j) == dist.cluster_merge_candidate.at(i) && dist.min_j_index.at(j) == dist.j_index.at(i))
+
+//} // if(!found_max){
+// } // for(int j=min_cluster_size;j>0;j--){
+ // for(int i=max_cluster_size;i>0;i--){
+ // if(itr==0){
+
+
+if(cluster_merge_candidate == dist.cluster_merge_candidate.at(i) && j_index == dist.j_index.at(i)){
+ //  if(cluster_merge_candidate == dist.cluster_merge_candidate.at(i) && j_index == dist.j_index.at(i)){
+  //    if(j_index == dist.j_index.at(i)){
 
 //if(dist.min_cluster_distances.at(j) < max_min){
 if(dist.max_cluster_distances.at(i) < max_min){
@@ -780,22 +841,17 @@ output.append(to_string(max_min));
 //output.append(to_string(dist.min_cluster_distances.at(j)));
 Output(output,false);
 
-
+}
+}
 }
 //} // if(dist.min_cluster_merge_candidate.at(j) == dist.cluster_merge_candidate.at(i) && dist.min_j_index.at(j) == dist.j_index.at(i))
 
-
-
-
-
-
-
-
-
 //} // if(!found_max){
- } // for(int j=min_cluster_size;j>0;j--){
+// } // for(int j=min_cluster_size;j>0;j--){
+   itr++;
 } // for(int i=max_cluster_size;i>0;i--){
-
+//} // if(itr==0){
+   itr++;
 
 
 
