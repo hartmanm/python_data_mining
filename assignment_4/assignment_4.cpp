@@ -475,6 +475,27 @@ y=at.cluster_points_y.at(z);
 
 
 /*
+NOTES
+complete link
+differences require additional consideration in the case where
+the closest two clusters don't have the closest max diameter
+this is most likely the cases that are processing incorrectly
+to resolve run min+max for all NxN instead of NxN(M) results
+rather than try to do this in(process place) for now record all data
+and 100% post process.
+Iteration is now looped + linked NxN(M)
+it needs to store NxN first, then process
+
+
+
+
+
+
+
+
+
+
+
 if(j_index==0){
 x=at.centroid_x;
 y=at.centroid_y;
