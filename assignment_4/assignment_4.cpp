@@ -91,6 +91,8 @@ for(int i=0;i<N;i++){
 float x=0;
 float y=0;
 cin >> x >> y;
+x = round( x * 1000.0 ) / 1000.0;
+y = round( y * 1000.0 ) / 1000.0;
 oip.cluster_points_x.push_back(x);
 oip.cluster_points_y.push_back(y);
 cluster a;
@@ -458,6 +460,10 @@ Output(output,false);
 if(at.is_valid){
 
 
+x=at.cluster_points_x.at(0)=0;
+y=at.cluster_points_y.at(0)=0;
+
+
 
 // determine_if_multiple_points_are_assigned_to_this_inner_cluster
 reentrant_cluster_size=at.cluster_points_x.size(); 
@@ -498,42 +504,6 @@ x2=iat.centroid_x;
 y2=iat.centroid_y;
 } // if(re_reentrant_cluster_size>1 || reentrant_cluster_size>1){
 
-   max_min1: 114.497566
- max_min1: 166.010513
- max_min1: 157.852859
- max_min1: 45.084385
- max_min1: 93.668526
- max_min1: 54.812943
- max_min1: 66.719521
- max_min1: 12.826322
- max_min1: 38.594097
- max_min1: 134.834167
- max_min1: 102.434311
- max_min1: 75.236053
- max_min1: 114.444344
- max_min1: 90.562912
- max_min1: 114.307541
- max_min1: 114.029007
- max_min1: 233.682877
- max_min1: 109.490387
-  max_min1: 114.497566
- max_min1: 166.010513
- max_min1: 157.852859
- max_min1: 45.084385
- max_min1: 93.668526
- max_min1: 54.812943
- max_min1: 66.719521
- max_min1: 12.826322
- max_min1: 38.594097
- max_min1: 134.834167
- max_min1: 102.434311
- max_min1: 75.236053
- max_min1: 114.444344
- max_min1: 90.562912
- max_min1: 114.307541
- max_min1: 114.029007
- max_min1: 233.682877
- max_min1: 109.490387
 */
 
 // calculate the distance between at and iat clusters
@@ -618,16 +588,26 @@ dist_iterator++;
 
 // simple link 
 if(distance < min_distance){
+float last_distance=min_distance;
+
 min_distance=distance;
 at.min_distance=distance;
+
 dist.min_cluster_distances.push_back(distance);
 dist.min_cluster_merge_candidate.push_back(i);
 dist.min_j_index.push_back(j);
 dist.min_distance_id.push_back(min_dist_iterator);
 min_dist_iterator++;
+//bool is_there=false;
+//for (auto & t : dist.min_distance_id) { 
+//if(dist.min_cluster_distances.at(t) == distance){is_there=true;}
+//} // for (auto & i : dist.min_distance_id) { 
 
 cluster_merge_candidate=i;
 j_index=j;
+
+
+
 
 } //    if(distance < min_distance){
 
@@ -868,7 +848,25 @@ Output(output,false);
 
 
 
-run=2;
+if(jj < -1){
+// append all j's points to the growing cluster cluster_merge_candidate
+for(auto itr : clusters.at(j_index).cluster_points_x){
+clusters.at(cluster_merge_candidate).cluster_points_x.push_back(0);
+} // for(auto itr : at.cluster_points_x){
+
+for(auto itr : clusters.at(j_index).cluster_points_y){
+clusters.at(cluster_merge_candidate).cluster_points_y.push_back(0);
+} // for(auto itr : at.cluster_points_y){
+
+// tombstone_merged_cluster 
+clusters.at(j_index).is_valid=false;
+
+} // if(jj == 0){
+
+
+
+
+if(jj >= 1){run=2;}
 if(run==2){
 // append all j's points to the growing cluster cluster_merge_candidate
 for(auto itr : clusters.at(j_index).cluster_points_x){
