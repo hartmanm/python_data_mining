@@ -91,8 +91,7 @@ for(int i=0;i<N;i++){
 float x=0;
 float y=0;
 cin >> x >> y;
-x = round( x * 1000.0 ) / 1000.0;
-y = round( y * 1000.0 ) / 1000.0;
+
 oip.cluster_points_x.push_back(x);
 oip.cluster_points_y.push_back(y);
 cluster a;
@@ -573,7 +572,8 @@ j_index=j;
 
 
 // complete link (max)
-if(distance > max_distance || distance < min_distance){
+//if(distance > max_distance){
+//if(distance > max_distance || distance < min_distance){
 //max_distance=distance;
 //cluster_merge_candidate=i;
 //j_index=j;
@@ -608,7 +608,7 @@ dist_iterator++;
 
 
 // simple link 
-//if(distance < min_distance){
+if(distance < min_distance && false){
 //float last_distance=min_distance;
 
 //min_distance=distance;
@@ -770,19 +770,23 @@ itr++;
 //for(int i=max_cluster_size;i>0;i--){
    
 
-int smallest_min=9999;
+//int smallest_min=9999;
 int smallest_max=9999;
-int size=dist.min_cluster_distances.size();
+//int size=dist.max_cluster_distances.size();
 //for (auto & i : dist.distance_id) { 
-//for (auto & j : dist.min_distance_id) { 
-for(int j=0;j<size;j++){
-for(int i=0;i<size;i++){
+   int itr=0;
+for (auto & j : dist.distance_id) { 
+//for(int j=size;size>0;j--){
+//for(int i=size;size>0;j--){
 
 //if(!found_max){
+float this_distance = round( dist.max_cluster_distances.at(j) * 1000.0 ) / 1000.0;
 
 //max_min=dist.max_cluster_distances.at(i);
 
-
+output="";
+output.append(to_string(this_distance));
+Output(output,true);
 //}
 //} // if(dist.min_cluster_merge_candidate.at(j) == dist.cluster_merge_candidate.at(i) && dist.min_j_index.at(j) == dist.j_index.at(i))
 
@@ -790,25 +794,30 @@ for(int i=0;i<size;i++){
 // } // for(int j=min_cluster_size;j>0;j--){
  // for(int i=max_cluster_size;i>0;i--){
  // if(itr==0){
-
+/*
 if(smallest_min > dist.min_cluster_distances.at(j)){
 smallest_min=j;
 } // if(smallest_min > dist.min_cluster_distances.at(j)){
+*/
 
-if(smallest_max > dist.max_cluster_distances.at(i)){
-smallest_max=i;
+if(smallest_max > this_distance && this_distance != 0){
+smallest_max=this_distance;
 output="";
-output.append("\n");
 output.append(" max: ");
 output.append(to_string(smallest_max));
-output.append(" min: ");
-output.append(to_string(smallest_min));
-output.append("\n");
+output.append(" itr: ");
+output.append(to_string(itr));
+//output.append(" min: ");
+//output.append(to_string(smallest_min));
+//output.append("\n");
 Output(output,false);
+cluster_merge_candidate=dist.cluster_merge_candidate.at(j);
+j_index=dist.j_index.at(j);
+itr++;
 } // if(smallest_max > dist.max_cluster_distances.at(i)
 
 
-
+/*
 if(dist.max_cluster_distances.at(smallest_max) < dist.min_cluster_distances.at(smallest_min)){
 cluster_merge_candidate=dist.cluster_merge_candidate.at(smallest_max);
 j_index=dist.j_index.at(smallest_max);
@@ -818,7 +827,7 @@ if(dist.min_cluster_distances.at(smallest_min) < dist.max_cluster_distances.at(s
 cluster_merge_candidate=dist.cluster_merge_candidate.at(smallest_min);
 j_index=dist.j_index.at(smallest_min);
 } // if(dist.max_cluster_distances.at(smallest_max) < dist.max_cluster_distances.at(smallest_min)){
-
+*/
 
  //  if(cluster_merge_candidate == dist.cluster_merge_candidate.at(i) && j_index == dist.j_index.at(i)){
   //    if(j_index == dist.j_index.at(i)){
@@ -843,7 +852,7 @@ output.append(to_string(max_min));
 //output.append(to_string(dist.min_cluster_distances.at(j)));
 Output(output,false);
 */
-}
+//}
 }
 
 
