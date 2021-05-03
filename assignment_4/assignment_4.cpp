@@ -10,6 +10,8 @@ using namespace std;
 
 // https://www.hackerrank.com/contests/mcs-ds-cs412-sp2021/challenges/clustering-agglomerative-hierarchical-clustering/problem
 
+// [[ `pwd | tr '/' ' ' | awk '{print $NF}'` != "assignment_4" ]] && cd assignment_4; g++ assignment_4.cpp -o 4; cat complete_link_input | ./4
+
 float Euclidean(float LAT1,float LAT2, float LONG1, float LONG2);
 
 void Output(string the_output, bool is_on);
