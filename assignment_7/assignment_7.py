@@ -170,8 +170,10 @@ while iterator < line_number-1:
 #while animal_iterator < len(animal_names)-1:
 
 # iterate over each nested animal map
+print(str(line_number)+" line_number")
 iterator=0
-while iterator < line_number:
+while iterator < line_number-2:
+
     #if animal_names[iterator] == animal_names[animal_iterator]:
     print(str(animals[animal_names[iterator]]))
     print(str(iterator)+" "+item)
