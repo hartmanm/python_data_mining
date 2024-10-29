@@ -1,1 +1,0 @@
-Consider the database containing the transaction T1 : {a1, a2, a3}, T2 : {a2, a3, a4}, T3 : {a1, a3, a4}. Let mini-support (minsup) = 2. Which of the following frequent patterns is closed? -> {a1, a3}  
